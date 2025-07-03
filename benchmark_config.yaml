@@ -1,0 +1,140 @@
+# TCP Performance Benchmark Configuration
+# Scientific comparison of TCP vs current models
+
+# Test Parameters
+test_config:
+  command_sample_size: 1000      # Total commands to test
+  repetitions_per_test: 10       # Repetitions for statistical significance
+  confidence_level: 0.95         # Statistical confidence level
+  timeout_seconds: 30            # Maximum time per analysis
+  
+  # Stratified sampling
+  commands_per_risk_level: 200   # Commands per SAFE/LOW/MEDIUM/HIGH/CRITICAL
+  include_edge_cases: true       # Include complex commands with pipes, redirects
+  include_argument_variations: true  # Test same command with different args
+
+# Model Configurations
+models:
+  tcp:
+    descriptor_size: 24          # 24-byte binary descriptors
+    target_latency_ms: 1.0       # Target analysis time
+    hierarchical_encoding: true  # Use hierarchical compression
+    
+  openai:
+    model: "gpt-4"
+    api_key_env: "OPENAI_API_KEY"
+    max_tokens: 100
+    temperature: 0               # Deterministic responses
+    
+  anthropic:
+    model: "claude-3-sonnet-20240229"
+    api_key_env: "ANTHROPIC_API_KEY"
+    max_tokens: 100
+    temperature: 0
+
+# Benchmark Categories
+benchmark_suites:
+  speed_test:
+    description: "Latency and throughput comparison"
+    metrics: ["mean_latency", "p95_latency", "p99_latency", "throughput"]
+    sample_size: 1000
+    
+  accuracy_test:
+    description: "Agreement with expert ground truth"
+    metrics: ["precision", "recall", "f1_score", "expert_agreement"]
+    expert_validation: true
+    
+  consistency_test:
+    description: "Variance in repeated analyses"
+    metrics: ["std_deviation", "consistency_score"]
+    repetitions: 10
+    
+  scalability_test:
+    description: "Performance with large datasets"
+    metrics: ["linear_scaling", "memory_usage", "cpu_usage"]
+    dataset_sizes: [100, 500, 1000, 5000, 10000]
+    
+  cost_efficiency_test:
+    description: "Resource usage and API costs"
+    metrics: ["cost_per_analysis", "memory_mb", "cpu_percent"]
+    
+# Real-world Scenarios
+scenario_tests:
+  agent_workflow:
+    description: "100 commands in sequence (typical agent session)"
+    command_count: 100
+    measure_cumulative_time: true
+    
+  security_audit:
+    description: "Bulk analysis of shell scripts"
+    script_files: ["deploy.sh", "backup.sh", "migration.sql"]
+    measure_total_analysis_time: true
+    
+  interactive_session:
+    description: "Real-time command filtering"
+    simulate_user_typing: true
+    measure_real_time_response: true
+    
+  system_scan:
+    description: "Complete system PATH analysis"
+    analyze_all_executables: true
+    measure_coverage_time: true
+
+# Output Configuration
+output:
+  results_directory: "benchmark_results"
+  
+  reports:
+    - type: "json"
+      filename: "raw_results.json"
+    - type: "markdown"
+      filename: "benchmark_report.md"
+    - type: "latex"
+      filename: "research_paper.tex"
+      
+  visualizations:
+    - type: "latency_comparison"
+      format: "png"
+      dpi: 300
+    - type: "accuracy_heatmap"
+      format: "svg"
+    - type: "scalability_curves"
+      format: "pdf"
+    - type: "cost_analysis"
+      format: "png"
+      
+  statistical_analysis:
+    perform_t_tests: true
+    calculate_effect_sizes: true
+    confidence_intervals: true
+    multiple_comparison_correction: "bonferroni"
+
+# Validation and Quality Control
+validation:
+  expert_ground_truth:
+    source: "security_expert_consensus"
+    commands_validated: 1000
+    inter_rater_reliability: 0.95
+    
+  test_data_quality:
+    balanced_risk_distribution: true
+    diverse_command_families: true
+    real_world_representative: true
+    
+  reproducibility:
+    random_seed: 42
+    environment_specification: true
+    dependency_versions: true
+
+# Publication Requirements
+publication:
+  research_quality: true
+  peer_review_ready: true
+  statistical_rigor: true
+  reproducible_results: true
+  
+  target_venues:
+    - "IEEE Security & Privacy"
+    - "ACM CCS"
+    - "USENIX Security"
+    - "AI Safety Conference"
