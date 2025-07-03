@@ -7,7 +7,11 @@
       "Bash(docker build:*)",
       "Bash(docker exec:*)",
       "Bash(docker stop:*)",
-      "Bash(docker rm:*)"
+      "Bash(docker rm:*)",
+      "Bash(gh:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(docker run:*)"
     ],
     "deny": []
   }
