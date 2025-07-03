@@ -18,7 +18,12 @@
       "Bash(chmod:*)",
       "Bash(grep:*)",
       "Bash(ls:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(git ls-tree:*)",
+      "Bash(./tcp_branch_sync.sh:*)",
+      "Bash(git stash push:*)",
+      "Bash(git checkout:*)",
+      "Bash(git stash:*)"
     ],
     "deny": []
   }
