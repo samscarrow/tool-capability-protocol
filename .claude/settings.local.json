@@ -15,7 +15,8 @@
       "WebFetch(domain:g.co)",
       "Bash(git add:*)",
       "Bash(git add:*)",
-      "Bash(chmod:*)"
+      "Bash(chmod:*)",
+      "Bash(grep:*)"
     ],
     "deny": []
   }

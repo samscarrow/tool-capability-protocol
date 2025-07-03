@@ -1,0 +1,97 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TCP Hierarchical Family Analysis Response",
+  "description": "MCP response schema for TCP hierarchical family encoding with compression metrics",
+  "type": "object",
+  "required": [
+    "tool_family",
+    "command_count",
+    "encoding_type"
+  ],
+  "properties": {
+    "tool_family": {
+      "type": "string",
+      "description": "Name of the tool family analyzed",
+      "examples": ["git", "docker", "kubectl", "bcachefs"]
+    },
+    "command_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of commands in the family"
+    },
+    "encoding_type": {
+      "type": "string",
+      "enum": ["hierarchical", "single_command", "standard"],
+      "description": "Type of TCP encoding applied"
+    },
+    "compression_ratio": {
+      "type": "number",
+      "minimum": 1.0,
+      "description": "Compression ratio achieved (e.g., 3.4 for 3.4:1 compression)"
+    },
+    "space_saved_bytes": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Bytes saved through hierarchical compression"
+    },
+    "parent_descriptor_size": {
+      "type": "integer",
+      "description": "Size of parent descriptor in bytes (typically 16)"
+    },
+    "average_delta_size": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Average size of delta descriptors in bytes"
+    },
+    "risk_distribution": {
+      "type": "object",
+      "properties": {
+        "SAFE": {"type": "integer", "minimum": 0},
+        "LOW_RISK": {"type": "integer", "minimum": 0},
+        "MEDIUM_RISK": {"type": "integer", "minimum": 0},
+        "HIGH_RISK": {"type": "integer", "minimum": 0},
+        "CRITICAL": {"type": "integer", "minimum": 0}
+      },
+      "description": "Distribution of risk levels across family commands"
+    },
+    "capabilities_summary": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "REQUIRES_ROOT",
+          "DESTRUCTIVE",
+          "NETWORK_ACCESS", 
+          "FILE_MODIFICATION",
+          "SYSTEM_MODIFICATION",
+          "PRIVILEGE_ESCALATION"
+        ]
+      },
+      "description": "Common capabilities across family commands"
+    },
+    "tcp_intelligence": {
+      "type": "string",
+      "description": "TCP analysis summary for the family",
+      "example": "Hierarchical encoding: 3.4:1 compression"
+    },
+    "research_validated": {
+      "type": "boolean",
+      "description": "Whether family encoding has been validated through TCP research"
+    },
+    "family_type": {
+      "type": "string",
+      "enum": ["version_control", "container_management", "orchestration", "filesystem", "system"],
+      "description": "Category of tool family"
+    },
+    "available_families": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "List of available families (included if requested family not found)"
+    },
+    "error": {
+      "type": "string", 
+      "description": "Error message if family analysis failed"
+    }
+  },
+  "additionalProperties": false
+}

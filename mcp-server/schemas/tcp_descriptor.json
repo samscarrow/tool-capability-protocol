@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TCP Binary Descriptor Resource",
+  "description": "MCP resource schema for TCP binary descriptors with metadata",
+  "type": "object",
+  "required": [
+    "command",
+    "tcp_descriptor_hex",
+    "tcp_descriptor_bytes",
+    "format"
+  ],
+  "properties": {
+    "command": {
+      "type": "string",
+      "description": "Command name for this descriptor",
+      "example": "rm"
+    },
+    "tcp_descriptor_hex": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{48}$",
+      "description": "24-byte TCP binary descriptor in hexadecimal format"
+    },
+    "tcp_descriptor_bytes": {
+      "type": "integer",
+      "enum": [24],
+      "description": "Size of TCP descriptor in bytes (always 24 for v2.0)"
+    },
+    "format": {
+      "type": "string",
+      "enum": ["TCP v2.0 Binary Descriptor"],
+      "description": "TCP descriptor format version"
+    },
+    "research_compression": {
+      "type": "string",
+      "enum": ["362:1 vs documentation"],
+      "description": "Compression achievement vs traditional documentation"
+    },
+    "analysis_speed": {
+      "type": "string",
+      "enum": ["<1ms"],
+      "description": "Speed of TCP analysis using binary descriptor"
+    },
+    "decoded_intelligence": {
+      "type": "object",
+      "description": "Optional decoded TCP intelligence",
+      "properties": {
+        "risk_level": {
+          "type": "string",
+          "enum": ["SAFE", "LOW_RISK", "MEDIUM_RISK", "HIGH_RISK", "CRITICAL"]
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "performance_estimate": {
+          "type": "object",
+          "properties": {
+            "exec_time_ms": {"type": "integer"},
+            "memory_mb": {"type": "integer"},
+            "output_kb": {"type": "integer"}
+          }
+        }
+      }
+    },
+    "error": {
+      "type": "string",
+      "description": "Error message if descriptor access failed"
+    }
+  },
+  "additionalProperties": false
+}

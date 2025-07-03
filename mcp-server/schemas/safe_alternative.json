@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TCP Safe Alternative Response",
+  "description": "MCP response schema for TCP-guided safe command alternatives with validation",
+  "type": "object",
+  "required": [
+    "original_command",
+    "alternative",
+    "reasoning"
+  ],
+  "properties": {
+    "original_command": {
+      "type": "string",
+      "description": "The original potentially dangerous command",
+      "example": "rm important_file.txt"
+    },
+    "original_risk": {
+      "type": "string",
+      "enum": ["SAFE", "LOW_RISK", "MEDIUM_RISK", "HIGH_RISK", "CRITICAL"],
+      "description": "TCP risk level of original command"
+    },
+    "alternative": {
+      "type": "string",
+      "description": "TCP-generated safe alternative command",
+      "example": "mv important_file.txt .tcp_quarantine_20250703_141500/"
+    },
+    "alternative_risk": {
+      "type": "string",
+      "enum": ["SAFE", "LOW_RISK", "MEDIUM_RISK", "HIGH_RISK", "CRITICAL"],
+      "description": "TCP risk level of alternative command"
+    },
+    "safety_improvement": {
+      "type": "string",
+      "description": "Quantified safety improvement description",
+      "examples": ["3 risk levels safer", "same risk level", "none"]
+    },
+    "reasoning": {
+      "type": "string",
+      "description": "Explanation of why this alternative is safer",
+      "minLength": 10
+    },
+    "tcp_validated": {
+      "type": "boolean",
+      "description": "Whether alternative has been validated through TCP analysis",
+      "default": true
+    },
+    "recovery_instructions": {
+      "type": "string",
+      "description": "Instructions for recovering quarantined files if applicable"
+    },
+    "quarantine_pattern": {
+      "type": "string",
+      "enum": ["file_quarantine", "safe_inspection", "parameter_limiting", "simulation_mode"],
+      "description": "Type of TCP safety pattern applied"
+    },
+    "error": {
+      "type": "string",
+      "description": "Error message if alternative generation failed"
+    }
+  },
+  "additionalProperties": false
+}

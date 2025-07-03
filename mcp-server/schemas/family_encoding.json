@@ -1,0 +1,108 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TCP Family Encoding Resource",
+  "description": "MCP resource schema for hierarchical family encoding data with parent/delta structure",
+  "type": "object",
+  "required": [
+    "family_name",
+    "hierarchical_encoding",
+    "intelligence_summary"
+  ],
+  "properties": {
+    "family_name": {
+      "type": "string",
+      "description": "Name of the tool family",
+      "examples": ["git", "docker", "kubectl", "bcachefs"]
+    },
+    "hierarchical_encoding": {
+      "type": "object",
+      "required": [
+        "parent_descriptor_hex",
+        "parent_size_bytes",
+        "delta_descriptors",
+        "compression_achieved"
+      ],
+      "properties": {
+        "parent_descriptor_hex": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{32}$",
+          "description": "16-byte parent descriptor in hexadecimal format"
+        },
+        "parent_size_bytes": {
+          "type": "integer",
+          "enum": [16],
+          "description": "Size of parent descriptor (always 16 bytes for v3.0)"
+        },
+        "delta_descriptors": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^[0-9a-fA-F]+$"
+          },
+          "description": "Map of command names to their delta descriptor hex"
+        },
+        "compression_achieved": {
+          "type": "number",
+          "minimum": 1.0,
+          "description": "Compression ratio achieved through hierarchical encoding"
+        }
+      }
+    },
+    "intelligence_summary": {
+      "type": "object",
+      "required": [
+        "command_count",
+        "space_saved_bytes",
+        "risk_floor"
+      ],
+      "properties": {
+        "command_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of commands in family"
+        },
+        "space_saved_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Bytes saved through hierarchical compression"
+        },
+        "risk_floor": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4,
+          "description": "Minimum risk level in family (0=SAFE, 4=CRITICAL)"
+        },
+        "common_capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "REQUIRES_ROOT",
+              "DESTRUCTIVE",
+              "NETWORK_ACCESS",
+              "FILE_MODIFICATION",
+              "SYSTEM_MODIFICATION",
+              "PRIVILEGE_ESCALATION"
+            ]
+          },
+          "description": "Capabilities common to all commands in family"
+        }
+      }
+    },
+    "tcp_innovation": {
+      "type": "string",
+      "enum": ["Second-order hierarchical compression"],
+      "description": "TCP research innovation applied"
+    },
+    "available_families": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "List of available families (if requested family not found)"
+    },
+    "error": {
+      "type": "string",
+      "description": "Error message if family encoding access failed"
+    }
+  },
+  "additionalProperties": false
+}

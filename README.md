@@ -9,6 +9,9 @@ A revolutionary security-aware binary protocol for encoding complete command-lin
 ### 📺 Interactive Visualization
 **[View the TCP Infographic](docs/media/tcp-infographic.html)** - An interactive visual guide explaining TCP's core concepts, binary structure, and security flags with live demonstrations.
 
+### 🔍 Real-World Case Study
+**[Infographic Formatting Case Study](docs/CASE_STUDY_INFOGRAPHIC_FORMATTING.md)** - A detailed analysis of how TCP eliminates the inefficiencies of text parsing, demonstrated through a real-world documentation formatting task that perfectly illustrates TCP's value proposition.
+
 ## 🚀 Key Innovations
 
 - **24-Byte Security Descriptors**: Complete tool safety profile in 24 bytes
@@ -220,6 +223,15 @@ tool-capability-protocol/
 ├── tcp_hierarchical_encoding.py        # 3:1 compression (PROVEN)
 ├── quick_tcp_demo.py                   # Ollama integration (PROVEN)
 ├── bcachefs_analysis.py                # Parallel analysis (PROVEN)
+├── performance_benchmark.py            # Scientific performance testing (NEW)
+├── run_benchmark.py                    # CLI benchmark runner (NEW)
+├── expert_ground_truth.json            # Expert-validated command dataset (NEW)
+├── mcp-server/                         # TCP-MCP Protocol Bridge (NEW)
+│   ├── tcp_mcp_server.py               # FastMCP server with TCP intelligence
+│   ├── tcp_database.py                 # TCP descriptor database
+│   ├── safety_patterns.py              # Agent safety containment
+│   ├── hierarchical_encoder.py         # Tool family compression
+│   └── schemas/                        # MCP response schemas
 ├── Dockerfile.lightweight              # Container environment
 └── comprehensive_tcp_analysis_*.json   # Research results
 ```
@@ -243,6 +255,19 @@ tool-capability-protocol/
 - 100% agreement on risk classification
 - TCP pattern-only analysis matches deep domain knowledge
 - Validates approach for unknown/emerging tools
+
+**✅ NEW: TCP-MCP Protocol Bridge**
+- FastMCP server exposing TCP intelligence to Claude
+- Microsecond security decisions via MCP tools
+- TCP-guided safe alternative generation
+- Migration path to standalone TCP protocol
+- Complete MCP schemas for consistent responses
+
+**✅ NEW: Scientific Performance Benchmark**
+- Expert-validated ground truth dataset (500+ commands)
+- Statistical comparison framework (TCP vs LLMs)
+- Publication-ready results with LaTeX output
+- Validates TCP's 4000x+ speed advantage
 
 ## 📚 Research Applications
 
