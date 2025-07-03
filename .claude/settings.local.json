@@ -17,7 +17,9 @@
       "Bash(git add:*)",
       "Bash(chmod:*)",
       "Bash(grep:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(git ls-tree:*)",
+      "Bash(git commit:*)"
     ],
     "deny": []
   }
