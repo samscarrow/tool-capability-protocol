@@ -6,6 +6,9 @@ A revolutionary security-aware binary protocol for encoding complete command-lin
 
 **PROVEN**: Complete system-wide tool intelligence can be encoded into compact binary descriptors achieving **362:1 compression vs traditional documentation** while maintaining full security context for AI agent decision-making.
 
+### 📺 Interactive Visualization
+**[View the TCP Infographic](docs/media/tcp-infographic.html)** - An interactive visual guide explaining TCP's core concepts, binary structure, and security flags with live demonstrations.
+
 ## 🚀 Key Innovations
 
 - **24-Byte Security Descriptors**: Complete tool safety profile in 24 bytes
