@@ -14,7 +14,8 @@
       "Bash(docker run:*)",
       "WebFetch(domain:g.co)",
       "Bash(git add:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(chmod:*)"
     ],
     "deny": []
   }
