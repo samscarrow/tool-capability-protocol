@@ -163,6 +163,34 @@ delta_desc = bytes.fromhex('47030600550509')                    # 7 bytes
 
 ## 🔌 Agent Integration Patterns
 
+### TCP-MCP Server (Model Context Protocol)
+```bash
+# Start TCP-MCP server for Claude integration
+cd mcp-server
+python tcp_mcp_server.py
+
+# Or install as MCP server
+pip install -e .
+mcp install tcp_mcp_server --name "TCP Security Intelligence"
+```
+
+```python
+# Claude can now use TCP intelligence via MCP tools
+await session.call_tool("analyze_command_safety", {
+    "command": "rm -rf /"
+})
+# Returns: {"risk_level": "CRITICAL", "decision": "REJECT", ...}
+
+await session.call_tool("get_safe_alternative", {
+    "dangerous_cmd": "rm important_file.txt"
+})
+# Returns: {"alternative": "mv important_file.txt .quarantine/", ...}
+
+# Access TCP descriptors via MCP resources
+descriptor = await session.read_resource("tcp://command/rm")
+# Returns: 24-byte binary descriptor with security intelligence
+```
+
 ### TCP-Aware Coding Agent
 ```python
 class TCPAwareCodingAgent:
