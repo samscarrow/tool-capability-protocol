@@ -1,0 +1,18 @@
+{
+  "command": "kill",
+  "section": 1,
+  "synopsis": "",
+  "description": "",
+  "options": [],
+  "examples": [],
+  "see_also": [],
+  "security_notes": [],
+  "privilege_requirements": "PrivilegeLevel.SUDO",
+  "security_level": "SecurityLevel.HIGH_RISK",
+  "destructive_operations": [],
+  "network_operations": [],
+  "file_operations": [],
+  "system_operations": [
+    "Can manipulate processes"
+  ]
+}

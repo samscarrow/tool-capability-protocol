@@ -1,0 +1,300 @@
+{
+  "tools": {
+    "cat": {
+      "binary_hex": "d077f244000000000300000a0a00000000004405",
+      "capabilities": {
+        "tool_name": "cat",
+        "version": null,
+        "description": "cat: illegal option -- -",
+        "vendor": null,
+        "homepage": null,
+        "license": null,
+        "commands": null,
+        "global_options": null,
+        "supports_stdin": false,
+        "supports_files": false,
+        "supports_directories": false,
+        "supports_recursion": false,
+        "supports_parallel": false,
+        "supports_streaming": false,
+        "input_formats": [
+          "text",
+          "file"
+        ],
+        "output_formats": [
+          "text"
+        ],
+        "memory_usage": "low",
+        "cpu_usage": "low",
+        "disk_usage": "none",
+        "network_usage": "none",
+        "confidence_score": 0.6,
+        "extraction_method": "basic_parser"
+      },
+      "description": "Concatenate and display file contents",
+      "confidence": 0.6
+    },
+    "tee": {
+      "binary_hex": "a04ce4f2000000000300000a0a0000000000bac4",
+      "capabilities": {
+        "tool_name": "tee",
+        "version": null,
+        "description": "tee: illegal option -- -",
+        "vendor": null,
+        "homepage": null,
+        "license": null,
+        "commands": null,
+        "global_options": null,
+        "supports_stdin": false,
+        "supports_files": false,
+        "supports_directories": false,
+        "supports_recursion": false,
+        "supports_parallel": false,
+        "supports_streaming": false,
+        "input_formats": null,
+        "output_formats": null,
+        "memory_usage": "low",
+        "cpu_usage": "low",
+        "disk_usage": "none",
+        "network_usage": "none",
+        "confidence_score": 0.6,
+        "extraction_method": "basic_parser"
+      },
+      "description": "Write output to both file and stdout",
+      "confidence": 0.6
+    },
+    "wc": {
+      "binary_hex": "8399d88e000000000300000a0a0000000000ac1c",
+      "capabilities": {
+        "tool_name": "wc",
+        "version": null,
+        "description": "wc: illegal option -- -",
+        "vendor": null,
+        "homepage": null,
+        "license": null,
+        "commands": null,
+        "global_options": null,
+        "supports_stdin": false,
+        "supports_files": false,
+        "supports_directories": false,
+        "supports_recursion": false,
+        "supports_parallel": false,
+        "supports_streaming": false,
+        "input_formats": null,
+        "output_formats": null,
+        "memory_usage": "low",
+        "cpu_usage": "low",
+        "disk_usage": "none",
+        "network_usage": "none",
+        "confidence_score": 0.6,
+        "extraction_method": "basic_parser"
+      },
+      "description": "Count words, lines, and characters",
+      "confidence": 0.6
+    },
+    "cut": {
+      "binary_hex": "fe47aa7c000000000300000a0a0000000000827b",
+      "capabilities": {
+        "tool_name": "cut",
+        "version": null,
+        "description": "cut: illegal option -- -",
+        "vendor": null,
+        "homepage": null,
+        "license": null,
+        "commands": null,
+        "global_options": null,
+        "supports_stdin": false,
+        "supports_files": false,
+        "supports_directories": false,
+        "supports_recursion": false,
+        "supports_parallel": false,
+        "supports_streaming": false,
+        "input_formats": null,
+        "output_formats": null,
+        "memory_usage": "low",
+        "cpu_usage": "low",
+        "disk_usage": "none",
+        "network_usage": "none",
+        "confidence_score": 0.6,
+        "extraction_method": "basic_parser"
+      },
+      "description": "Extract columns or fields from text",
+      "confidence": 0.6
+    },
+    "uniq": {
+      "binary_hex": "ceb6b355000000000300000a0a0000000000aa43",
+      "capabilities": {
+        "tool_name": "uniq",
+        "version": null,
+        "description": "uniq: unrecognized option `--help'",
+        "vendor": null,
+        "homepage": null,
+        "license": null,
+        "commands": null,
+        "global_options": null,
+        "supports_stdin": false,
+        "supports_files": false,
+        "supports_directories": false,
+        "supports_recursion": false,
+        "supports_parallel": false,
+        "supports_streaming": false,
+        "input_formats": [
+          "text",
+          "file"
+        ],
+        "output_formats": [
+          "text"
+        ],
+        "memory_usage": "low",
+        "cpu_usage": "low",
+        "disk_usage": "none",
+        "network_usage": "none",
+        "confidence_score": 0.6,
+        "extraction_method": "basic_parser"
+      },
+      "description": "Remove or report duplicate lines",
+      "confidence": 0.6
+    },
+    "grep": {
+      "binary_hex": "4a037fba00ce00000000006432000000000022db",
+      "capabilities": {
+        "tool_name": "grep",
+        "version": "2.6.0",
+        "description": "usage: grep [-abcdDEFGHhIiJLlMmnOopqRSsUVvwXxZz] [-A num] [-B num] [-C[num]]",
+        "vendor": null,
+        "homepage": null,
+        "license": null,
+        "commands": null,
+        "global_options": null,
+        "supports_stdin": false,
+        "supports_files": false,
+        "supports_directories": false,
+        "supports_recursion": false,
+        "supports_parallel": false,
+        "supports_streaming": false,
+        "input_formats": [
+          "text",
+          "file"
+        ],
+        "output_formats": [
+          "text"
+        ],
+        "memory_usage": "medium",
+        "cpu_usage": "medium",
+        "disk_usage": "none",
+        "network_usage": "none",
+        "confidence_score": 0.6,
+        "extraction_method": "basic_parser"
+      },
+      "description": "Search text patterns",
+      "confidence": 0.6
+    },
+    "find": {
+      "binary_hex": "ea170e2c00000000000000643200000000009153",
+      "capabilities": {
+        "tool_name": "find",
+        "version": null,
+        "description": "find: illegal option -- -",
+        "vendor": null,
+        "homepage": null,
+        "license": null,
+        "commands": null,
+        "global_options": null,
+        "supports_stdin": false,
+        "supports_files": false,
+        "supports_directories": false,
+        "supports_recursion": false,
+        "supports_parallel": false,
+        "supports_streaming": false,
+        "input_formats": null,
+        "output_formats": null,
+        "memory_usage": "medium",
+        "cpu_usage": "medium",
+        "disk_usage": "none",
+        "network_usage": "none",
+        "confidence_score": 0.6,
+        "extraction_method": "basic_parser"
+      },
+      "description": "Search for files and directories",
+      "confidence": 0.6
+    },
+    "sort": {
+      "binary_hex": "cadc8c8d00cb00000300000a0a0000000000179e",
+      "capabilities": {
+        "tool_name": "sort",
+        "version": "2.3",
+        "description": "",
+        "vendor": null,
+        "homepage": null,
+        "license": null,
+        "commands": null,
+        "global_options": null,
+        "supports_stdin": false,
+        "supports_files": false,
+        "supports_directories": false,
+        "supports_recursion": false,
+        "supports_parallel": false,
+        "supports_streaming": false,
+        "input_formats": [
+          "text",
+          "file"
+        ],
+        "output_formats": [
+          "text"
+        ],
+        "memory_usage": "low",
+        "cpu_usage": "low",
+        "disk_usage": "none",
+        "network_usage": "none",
+        "confidence_score": 0.4,
+        "extraction_method": "basic_parser"
+      },
+      "description": "Sort lines of text",
+      "confidence": 0.4
+    },
+    "curl": {
+      "binary_hex": "f6e57c9d032d00000300000a0a0000000000fab0",
+      "capabilities": {
+        "tool_name": "curl",
+        "version": "8.13.0",
+        "description": "Usage: curl [options...] <url>",
+        "vendor": null,
+        "homepage": null,
+        "license": null,
+        "commands": null,
+        "global_options": null,
+        "supports_stdin": false,
+        "supports_files": false,
+        "supports_directories": false,
+        "supports_recursion": false,
+        "supports_parallel": false,
+        "supports_streaming": false,
+        "input_formats": null,
+        "output_formats": null,
+        "memory_usage": "low",
+        "cpu_usage": "low",
+        "disk_usage": "none",
+        "network_usage": "none",
+        "confidence_score": 0.6,
+        "extraction_method": "basic_parser"
+      },
+      "description": "Transfer data from servers",
+      "confidence": 0.6
+    }
+  },
+  "binary_lookup": {
+    "d077f244000000000300000a0a00000000004405": "cat",
+    "a04ce4f2000000000300000a0a0000000000bac4": "tee",
+    "8399d88e000000000300000a0a0000000000ac1c": "wc",
+    "fe47aa7c000000000300000a0a0000000000827b": "cut",
+    "ceb6b355000000000300000a0a0000000000aa43": "uniq",
+    "4a037fba00ce00000000006432000000000022db": "grep",
+    "ea170e2c00000000000000643200000000009153": "find",
+    "cadc8c8d00cb00000300000a0a0000000000179e": "sort",
+    "f6e57c9d032d00000300000a0a0000000000fab0": "curl"
+  },
+  "metadata": {
+    "total_tools": 9,
+    "generation_method": "TCP Basic Pipeline"
+  }
+}

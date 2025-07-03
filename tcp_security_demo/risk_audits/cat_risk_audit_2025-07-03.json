@@ -1,0 +1,146 @@
+{
+  "command": "cat",
+  "final_security_level": "SecurityLevel.CRITICAL",
+  "final_privilege_level": "PrivilegeLevel.USER",
+  "classification_timestamp": "2025-07-03T01:27:54.678616",
+  "classifier_version": "1.0.0",
+  "risk_evidence": [
+    {
+      "factor_type": "RiskFactor.COMMAND_NAME",
+      "evidence_text": "Command 'cat' not in known risk pattern databases",
+      "risk_contribution": 0.1,
+      "confidence": 0.5,
+      "source": "default_classification",
+      "rationale": "No specific risk patterns identified for this command name"
+    },
+    {
+      "factor_type": "RiskFactor.DESTRUCTIVE_CAPABILITY",
+      "evidence_text": "Contains permanent loss indicator: 'destroy'",
+      "risk_contribution": 0.95,
+      "confidence": 0.9,
+      "source": "destructive_capability_analysis",
+      "rationale": "Command can cause permanent, irreversible data loss"
+    },
+    {
+      "factor_type": "RiskFactor.DESTRUCTIVE_CAPABILITY",
+      "evidence_text": "Documented destructive operation: Can destroy data",
+      "risk_contribution": 0.8,
+      "confidence": 0.85,
+      "source": "man_page_destructive_operations",
+      "rationale": "Man page explicitly documents destructive capability: Can destroy data"
+    },
+    {
+      "factor_type": "RiskFactor.DESTRUCTIVE_CAPABILITY",
+      "evidence_text": "Documented destructive operation: Can delete data",
+      "risk_contribution": 0.8,
+      "confidence": 0.85,
+      "source": "man_page_destructive_operations",
+      "rationale": "Man page explicitly documents destructive capability: Can delete data"
+    },
+    {
+      "factor_type": "RiskFactor.DESTRUCTIVE_CAPABILITY",
+      "evidence_text": "Documented destructive operation: Disk formatting operation",
+      "risk_contribution": 0.8,
+      "confidence": 0.85,
+      "source": "man_page_destructive_operations",
+      "rationale": "Man page explicitly documents destructive capability: Disk formatting operation"
+    },
+    {
+      "factor_type": "RiskFactor.DESTRUCTIVE_CAPABILITY",
+      "evidence_text": "Documented destructive operation: Can format data",
+      "risk_contribution": 0.8,
+      "confidence": 0.85,
+      "source": "man_page_destructive_operations",
+      "rationale": "Man page explicitly documents destructive capability: Can format data"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Supports bind",
+      "risk_contribution": 0.4,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Supports bind"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Supports connect",
+      "risk_contribution": 0.4,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Supports connect"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Supports socket",
+      "risk_contribution": 0.4,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Supports socket"
+    },
+    {
+      "factor_type": "RiskFactor.FILE_OPERATIONS",
+      "evidence_text": "File operation capability: Can read files",
+      "risk_contribution": 0.1,
+      "confidence": 0.85,
+      "source": "man_page_file_analysis",
+      "rationale": "Command can read files with risk level 0.1"
+    },
+    {
+      "factor_type": "RiskFactor.SYSTEM_OPERATIONS",
+      "evidence_text": "System operation: Can manipulate processes",
+      "risk_contribution": 0.7,
+      "confidence": 0.9,
+      "source": "man_page_system_analysis",
+      "rationale": "Command performs system-level operation involving process"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: B\bBU\bUG\bGS\bS\n     Because of the shell language mechanism used to perform output\n     redirection, t...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: Control\n             characters print as \u2018^X\u2019 for control-X; the delete character\n             (octa...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    }
+  ],
+  "security_score": 0.5410138248847928,
+  "privilege_score": 0.1,
+  "destructive_score": 0.95,
+  "security_flags": 37680,
+  "operation_flags": 0,
+  "classification_summary": "Command 'cat' classified as critical requiring user privileges. Assessment based on 13 pieces of evidence, including 6 high-risk indicators. Final security score: 0.54",
+  "security_rationale": "Critical risk (score: 0.54) due to high potential for irreversible system damage",
+  "privilege_rationale": "User-level privileges sufficient (score: 0.10)",
+  "man_page_checksum": "77af778b51abd4a3",
+  "data_sources": [
+    "Man Page Destructive Operations Analysis",
+    "Man Page Destructive Operations Analysis",
+    "Man Page Destructive Operations Analysis",
+    "Man Page Destructive Operations Analysis",
+    "Man Page Network Operations Analysis",
+    "Man Page File Operations Analysis",
+    "Man Page System Operations Analysis",
+    "Man Page Security Notes",
+    "Man Page Keyword Analysis"
+  ],
+  "audit_metadata": {
+    "total_evidence_pieces": 13,
+    "high_risk_evidence_count": 6,
+    "evidence_sources": [
+      "Man Page Keyword Analysis",
+      "Man Page Destructive Operations Analysis",
+      "Man Page Network Operations Analysis",
+      "Man Page System Operations Analysis",
+      "Man Page Security Notes",
+      "Man Page File Operations Analysis"
+    ],
+    "classifier_confidence": 0.8346153846153845
+  }
+}

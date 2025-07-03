@@ -1,0 +1,16 @@
+{
+  "tool_name": "grep",
+  "binary_path": "/usr/bin/grep",
+  "tcp_descriptor": "4a037fba00000000400000003330003c0a01f40052ba",
+  "requested_permission": "execute_safe",
+  "allowed_args": [],
+  "forbidden_args": [
+    "-f",
+    "--force",
+    "-r",
+    "-R"
+  ],
+  "request_timestamp": "2025-07-03T01:27:54.679137",
+  "session_id": "08d2d0ce",
+  "status": "pending_human_approval"
+}

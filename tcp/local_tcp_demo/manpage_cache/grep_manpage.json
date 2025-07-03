@@ -1,0 +1,31 @@
+{
+  "command": "grep",
+  "section": 1,
+  "synopsis": "",
+  "description": "",
+  "options": [],
+  "examples": [],
+  "see_also": [
+    "mmap",
+    "read",
+    "xz"
+  ],
+  "security_notes": [],
+  "privilege_requirements": "PrivilegeLevel.USER",
+  "security_level": "SecurityLevel.CRITICAL",
+  "destructive_operations": [
+    "Disk formatting operation",
+    "Can format data"
+  ],
+  "network_operations": [
+    "Supports port",
+    "Supports socket"
+  ],
+  "file_operations": [
+    "Can read files"
+  ],
+  "system_operations": [
+    "Can access devices",
+    "Can manipulate processes"
+  ]
+}

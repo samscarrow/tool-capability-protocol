@@ -1,0 +1,94 @@
+SECURITY RISK ASSESSMENT AUDIT REPORT
+============================================================
+Command: dd
+Assessment Date: 2025-07-03T01:27:54.686328
+Classifier Version: 1.0.0
+
+FINAL CLASSIFICATION:
+------------------------------
+Security Level: medium_risk
+Privilege Level: user
+Security Score: 0.643
+Destructive Score: 0.800
+
+CLASSIFICATION RATIONALE:
+------------------------------
+Security: Medium risk (score: 0.64) due to potential for data modification
+Privilege: User-level privileges sufficient (score: 0.10)
+
+EVIDENCE ANALYSIS (14 pieces):
+------------------------------
+
+Command Name:
+  [HIGH] Command 'dd' matches critical risk pattern
+       Risk: 0.95, Confidence: 0.95
+       Rationale: Direct disk operations can overwrite any data
+
+Destructive Capability:
+  [HIGH] Documented destructive operation: Can truncate data
+       Risk: 0.80, Confidence: 0.85
+       Rationale: Man page explicitly documents destructive capability: Can truncate data
+  [HIGH] Documented destructive operation: Can format data
+       Risk: 0.80, Confidence: 0.85
+       Rationale: Man page explicitly documents destructive capability: Can format data
+  [HIGH] Documented destructive operation: Can remove data
+       Risk: 0.80, Confidence: 0.85
+       Rationale: Man page explicitly documents destructive capability: Can remove data
+  [HIGH] Documented destructive operation: Direct disk write operation
+       Risk: 0.80, Confidence: 0.85
+       Rationale: Man page explicitly documents destructive capability: Direct disk write operation
+  [HIGH] Documented destructive operation: Disk formatting operation
+       Risk: 0.80, Confidence: 0.85
+       Rationale: Man page explicitly documents destructive capability: Disk formatting operation
+
+Network Access:
+  [MED] Network operation capability: Can transfer data
+       Risk: 0.40, Confidence: 0.80
+       Rationale: Command can perform network operations: Can transfer data
+  [MED] Network operation capability: Supports port
+       Risk: 0.40, Confidence: 0.80
+       Rationale: Command can perform network operations: Supports port
+
+File Operations:
+  [MED] File operation capability: Can write files
+       Risk: 0.50, Confidence: 0.85
+       Rationale: Command can write files with risk level 0.5
+  [LOW] File operation capability: Can read files
+       Risk: 0.10, Confidence: 0.85
+       Rationale: Command can read files with risk level 0.1
+
+System Operations:
+  [HIGH] System operation: Can access devices
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Command performs system-level operation involving device
+  [HIGH] System operation: Can manipulate processes
+       Risk: 0.70, Confidence: 0.90
+       Rationale: Command performs system-level operation involving process
+
+Security Notes:
+  [HIGH] Security note: Partial output blocks to character devices will
+     produce a warning message...
+       Risk: 0.80, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [LOW] Security note: EEXXAAMMPPLLEESS
+     Check that a disk drive contains no bad blocks:
+
+           dd if=/dev...
+       Risk: 0.30, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+
+DATA SOURCES:
+------------------------------
+• Critical Risk Patterns Database
+• Man Page Destructive Operations Analysis
+• Man Page File Operations Analysis
+• Man Page Keyword Analysis
+• Man Page Network Operations Analysis
+• Man Page Security Notes
+• Man Page System Operations Analysis
+
+SECURITY FLAGS: 0x00001724
+MAN PAGE CHECKSUM: 9b7ecc6eeb83abf9
+
+This assessment provides complete transparency into all factors
+considered in the security classification decision.

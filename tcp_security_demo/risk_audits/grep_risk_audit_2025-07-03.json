@@ -1,0 +1,102 @@
+{
+  "command": "grep",
+  "final_security_level": "SecurityLevel.MEDIUM_RISK",
+  "final_privilege_level": "PrivilegeLevel.USER",
+  "classification_timestamp": "2025-07-03T01:27:54.678951",
+  "classifier_version": "1.0.0",
+  "risk_evidence": [
+    {
+      "factor_type": "RiskFactor.COMMAND_NAME",
+      "evidence_text": "Command 'grep' not in known risk pattern databases",
+      "risk_contribution": 0.1,
+      "confidence": 0.5,
+      "source": "default_classification",
+      "rationale": "No specific risk patterns identified for this command name"
+    },
+    {
+      "factor_type": "RiskFactor.DESTRUCTIVE_CAPABILITY",
+      "evidence_text": "Documented destructive operation: Can format data",
+      "risk_contribution": 0.8,
+      "confidence": 0.85,
+      "source": "man_page_destructive_operations",
+      "rationale": "Man page explicitly documents destructive capability: Can format data"
+    },
+    {
+      "factor_type": "RiskFactor.DESTRUCTIVE_CAPABILITY",
+      "evidence_text": "Documented destructive operation: Disk formatting operation",
+      "risk_contribution": 0.8,
+      "confidence": 0.85,
+      "source": "man_page_destructive_operations",
+      "rationale": "Man page explicitly documents destructive capability: Disk formatting operation"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Supports socket",
+      "risk_contribution": 0.4,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Supports socket"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Supports port",
+      "risk_contribution": 0.4,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Supports port"
+    },
+    {
+      "factor_type": "RiskFactor.FILE_OPERATIONS",
+      "evidence_text": "File operation capability: Can read files",
+      "risk_contribution": 0.1,
+      "confidence": 0.85,
+      "source": "man_page_file_analysis",
+      "rationale": "Command can read files with risk level 0.1"
+    },
+    {
+      "factor_type": "RiskFactor.SYSTEM_OPERATIONS",
+      "evidence_text": "System operation: Can access devices",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "man_page_system_analysis",
+      "rationale": "Command performs system-level operation involving device"
+    },
+    {
+      "factor_type": "RiskFactor.SYSTEM_OPERATIONS",
+      "evidence_text": "System operation: Can manipulate processes",
+      "risk_contribution": 0.7,
+      "confidence": 0.9,
+      "source": "man_page_system_analysis",
+      "rationale": "Command performs system-level operation involving process"
+    }
+  ],
+  "security_score": 0.5403100775193799,
+  "privilege_score": 0.1,
+  "destructive_score": 0.8,
+  "security_flags": 4900,
+  "operation_flags": 0,
+  "classification_summary": "Command 'grep' classified as medium_risk requiring user privileges. Assessment based on 8 pieces of evidence, including 4 high-risk indicators. Final security score: 0.54",
+  "security_rationale": "Medium risk (score: 0.54) due to potential for data modification",
+  "privilege_rationale": "User-level privileges sufficient (score: 0.10)",
+  "man_page_checksum": "faefbbbf05cb9cfb",
+  "data_sources": [
+    "Man Page Destructive Operations Analysis",
+    "Man Page Destructive Operations Analysis",
+    "Man Page Network Operations Analysis",
+    "Man Page File Operations Analysis",
+    "Man Page System Operations Analysis",
+    "Man Page Keyword Analysis"
+  ],
+  "audit_metadata": {
+    "total_evidence_pieces": 8,
+    "high_risk_evidence_count": 4,
+    "evidence_sources": [
+      "Man Page Keyword Analysis",
+      "Man Page Destructive Operations Analysis",
+      "Man Page Network Operations Analysis",
+      "Man Page System Operations Analysis",
+      "Man Page File Operations Analysis"
+    ],
+    "classifier_confidence": 0.80625
+  }
+}

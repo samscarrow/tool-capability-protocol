@@ -1,0 +1,74 @@
+{
+  "cat": {
+    "version": 0,
+    "operation_flags": "0x00004000",
+    "security_flags": "0x0000b330",
+    "security_level": "critical",
+    "privilege_requirements": "user",
+    "binary_hex": "d077f2440000000040000000b330003c0a01f40038c7",
+    "binary_size": 22
+  },
+  "grep": {
+    "version": 0,
+    "operation_flags": "0x00004000",
+    "security_flags": "0x00003330",
+    "security_level": "critical",
+    "privilege_requirements": "user",
+    "binary_hex": "4a037fba00000000400000003330003c0a01f40052ba",
+    "binary_size": 22
+  },
+  "curl": {
+    "version": 0,
+    "operation_flags": "0x00004001",
+    "security_flags": "0x00003784",
+    "security_level": "medium_risk",
+    "privilege_requirements": "root",
+    "binary_hex": "f6e57c9d00000000400100003784001e0a01f400579d",
+    "binary_size": 22
+  },
+  "tar": {
+    "version": 0,
+    "operation_flags": "0x00004000",
+    "security_flags": "0x00001f24",
+    "security_level": "medium_risk",
+    "privilege_requirements": "user",
+    "binary_hex": "db5570bf00000000400000001f24001e0a01f400478d",
+    "binary_size": 22
+  },
+  "chmod": {
+    "version": 0,
+    "operation_flags": "0x00004000",
+    "security_flags": "0x00003f48",
+    "security_level": "high_risk",
+    "privilege_requirements": "sudo",
+    "binary_hex": "417e248f00000000400000003f48003c0a01f40075f7",
+    "binary_size": 22
+  },
+  "kill": {
+    "version": 0,
+    "operation_flags": "0x00000000",
+    "security_flags": "0x00003048",
+    "security_level": "high_risk",
+    "privilege_requirements": "sudo",
+    "binary_hex": "534735880000000000000000304800280a03e800e9e3",
+    "binary_size": 22
+  },
+  "rm": {
+    "version": 0,
+    "operation_flags": "0x00000000",
+    "security_flags": "0x00003930",
+    "security_level": "critical",
+    "privilege_requirements": "user",
+    "binary_hex": "d67f249b0000000000000000393000280a006400a699",
+    "binary_size": 22
+  },
+  "dd": {
+    "version": 0,
+    "operation_flags": "0x00004000",
+    "security_flags": "0x00003730",
+    "security_level": "critical",
+    "privilege_requirements": "user",
+    "binary_hex": "1aabac6d00000000400000003730003c0a01f400f010",
+    "binary_size": 22
+  }
+}

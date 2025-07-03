@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python:*)",
+      "Bash(mkdir:*)",
+      "mcp__sequential-thinking__sequentialthinking",
+      "Bash(docker build:*)",
+      "Bash(docker exec:*)",
+      "Bash(docker stop:*)",
+      "Bash(docker rm:*)"
+    ],
+    "deny": []
+  }
+}

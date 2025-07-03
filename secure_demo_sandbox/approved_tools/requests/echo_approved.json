@@ -1,0 +1,11 @@
+{
+  "tool_name": "echo",
+  "binary_path": "/bin/echo",
+  "tcp_descriptor": "0000000000000000000000000000000000000000",
+  "requested_permission": "execute_safe",
+  "allowed_args": [],
+  "forbidden_args": [],
+  "request_timestamp": "2025-07-03T01:12:19.550831",
+  "session_id": "f06b06d6",
+  "status": "pending_human_approval"
+}

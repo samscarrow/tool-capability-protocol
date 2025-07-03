@@ -1,0 +1,10 @@
+{
+  "sandbox_session": "08d2d0ce",
+  "security_level": "strict",
+  "total_approved_tools": 0,
+  "pending_approvals": 7,
+  "quarantined_tools": 0,
+  "human_control_active": true,
+  "audit_log_entries": 0,
+  "sandbox_directory": "/Users/sam/dev/ai-ml/experiments/tool-capability-protocol/tcp_security_demo/sandbox"
+}

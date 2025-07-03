@@ -1,0 +1,11 @@
+{
+  "tool_name": "kill",
+  "binary_path": "/usr/bin/kill",
+  "tcp_descriptor": "534735880000000000000000304800280a03e800e9e3",
+  "requested_permission": "execute_safe",
+  "allowed_args": [],
+  "forbidden_args": [],
+  "request_timestamp": "2025-07-03T01:27:54.685637",
+  "session_id": "08d2d0ce",
+  "status": "pending_human_approval"
+}

@@ -1,0 +1,16 @@
+{
+  "tool_name": "rm",
+  "binary_path": "/usr/bin/rm",
+  "tcp_descriptor": "d67f249b0000000000000000393000280a006400a699",
+  "requested_permission": "execute_safe",
+  "allowed_args": [],
+  "forbidden_args": [
+    "-f",
+    "--force",
+    "-r",
+    "-R"
+  ],
+  "request_timestamp": "2025-07-03T01:27:54.685940",
+  "session_id": "08d2d0ce",
+  "status": "pending_human_approval"
+}

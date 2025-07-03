@@ -1,0 +1,11 @@
+{
+  "tool_name": "curl",
+  "binary_path": "/usr/bin/curl",
+  "tcp_descriptor": "f6e57c9d00000000400100003784001e0a01f400579d",
+  "requested_permission": "execute_safe",
+  "allowed_args": [],
+  "forbidden_args": [],
+  "request_timestamp": "2025-07-03T01:34:25.786163",
+  "session_id": "989bf7b6",
+  "status": "pending_human_approval"
+}

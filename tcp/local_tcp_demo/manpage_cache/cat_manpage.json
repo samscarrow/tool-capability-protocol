@@ -1,0 +1,32 @@
+{
+  "command": "cat",
+  "section": 1,
+  "synopsis": "",
+  "description": "",
+  "options": [],
+  "examples": [],
+  "see_also": [],
+  "security_notes": [
+    "Control\n             characters print as \u2018^X\u2019 for control-X; the delete character\n             (octal 0177) prints as \u2018^",
+    "B\bBU\bUG\bGS\bS\n     Because of the shell language mechanism used to perform output\n     redirection, the command \u201ccat file1 file2 > file1\u201d will cause the\n     original data in _\bf_\bi_\bl_\be_\b1 to be destroyed"
+  ],
+  "privilege_requirements": "PrivilegeLevel.USER",
+  "security_level": "SecurityLevel.CRITICAL",
+  "destructive_operations": [
+    "Can destroy data",
+    "Can delete data",
+    "Disk formatting operation",
+    "Can format data"
+  ],
+  "network_operations": [
+    "Supports connect",
+    "Supports bind",
+    "Supports socket"
+  ],
+  "file_operations": [
+    "Can read files"
+  ],
+  "system_operations": [
+    "Can manipulate processes"
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "command": "kill",
+  "final_security_level": "SecurityLevel.MEDIUM_RISK",
+  "final_privilege_level": "PrivilegeLevel.USER",
+  "classification_timestamp": "2025-07-03T01:27:54.685536",
+  "classifier_version": "1.0.0",
+  "risk_evidence": [
+    {
+      "factor_type": "RiskFactor.COMMAND_NAME",
+      "evidence_text": "Command 'kill' not in known risk pattern databases",
+      "risk_contribution": 0.1,
+      "confidence": 0.5,
+      "source": "default_classification",
+      "rationale": "No specific risk patterns identified for this command name"
+    },
+    {
+      "factor_type": "RiskFactor.SYSTEM_OPERATIONS",
+      "evidence_text": "System operation: Can manipulate processes",
+      "risk_contribution": 0.7,
+      "confidence": 0.9,
+      "source": "man_page_system_analysis",
+      "rationale": "Command performs system-level operation involving process"
+    }
+  ],
+  "security_score": 0.48571428571428577,
+  "privilege_score": 0.1,
+  "destructive_score": 0.0,
+  "security_flags": 4132,
+  "operation_flags": 0,
+  "classification_summary": "Command 'kill' classified as medium_risk requiring user privileges. Assessment based on 2 pieces of evidence, including 1 high-risk indicators. Final security score: 0.49",
+  "security_rationale": "Medium risk (score: 0.49) due to potential for data modification",
+  "privilege_rationale": "User-level privileges sufficient (score: 0.10)",
+  "man_page_checksum": "2bda9b4dfbabfdb1",
+  "data_sources": [
+    "Man Page System Operations Analysis",
+    "Man Page Keyword Analysis"
+  ],
+  "audit_metadata": {
+    "total_evidence_pieces": 2,
+    "high_risk_evidence_count": 1,
+    "evidence_sources": [
+      "Man Page System Operations Analysis",
+      "Man Page Keyword Analysis"
+    ],
+    "classifier_confidence": 0.7
+  }
+}

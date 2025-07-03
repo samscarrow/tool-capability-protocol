@@ -1,0 +1,90 @@
+services:
+  tcp-security:
+    build: .
+    container_name: tcp-security-system
+    hostname: tcp-ubuntu
+    
+    # Resource limits (adjust based on your system)
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+    
+    # Environment variables
+    environment:
+      - OLLAMA_HOST=0.0.0.0:11434
+      - PYTHONUNBUFFERED=1
+    
+    # Port mapping (optional - for external Ollama access)
+    ports:
+      - "11434:11434"
+    
+    # Volume mounts for persistence
+    volumes:
+      - tcp_data:/tcp-security/data
+      - tcp_cache:/tcp-security/tcp_cache
+      - tcp_logs:/tcp-security/logs
+      - ollama_models:/home/tcpuser/.ollama
+    
+    # Interactive terminal
+    stdin_open: true
+    tty: true
+    
+    # Restart policy
+    restart: unless-stopped
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # Optional: TCP Security Demo Runner (separate container for demos)
+  tcp-demo:
+    build: .
+    container_name: tcp-demo-runner
+    hostname: tcp-demo
+    
+    # Override the default command to run demo runner
+    command: ["/tcp-security/run-demo.sh"]
+    
+    # Depends on main service
+    depends_on:
+      - tcp-security
+    
+    # Use same network as main service
+    network_mode: "service:tcp-security"
+    
+    # Interactive terminal
+    stdin_open: true
+    tty: true
+    
+    # Mount same volumes
+    volumes:
+      - tcp_data:/tcp-security/data
+      - tcp_cache:/tcp-security/tcp_cache
+      - tcp_logs:/tcp-security/logs
+    
+    # Only start when explicitly requested
+    profiles:
+      - demo
+
+volumes:
+  tcp_data:
+    driver: local
+  tcp_cache:
+    driver: local
+  tcp_logs:
+    driver: local
+  ollama_models:
+    driver: local
+
+networks:
+  default:
+    name: tcp-security-network

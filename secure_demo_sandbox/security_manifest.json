@@ -1,0 +1,8 @@
+{
+  "sandbox_version": "1.0",
+  "security_level": "strict",
+  "created_timestamp": "2025-07-03T01:12:19.549990",
+  "session_id": "f06b06d6",
+  "human_control_required": true,
+  "default_permission": "denied"
+}

@@ -1,0 +1,49 @@
+{
+  "cat": {
+    "name": "cat",
+    "binary_path": "/bin/cat",
+    "permission_level": "read_only",
+    "allowed_args": [
+      "-n",
+      "-b",
+      "-A"
+    ],
+    "forbidden_args": [
+      "-e",
+      "-T"
+    ],
+    "tcp_descriptor": "0000000000000000000000000000000000000000",
+    "human_approved": true,
+    "approval_timestamp": "2025-07-03T01:12:19.550961",
+    "approved_by": "security_admin_demo",
+    "security_hash": "308d8c089355c4750a6ad15231014c871e279bb6c9419c3b912f25b17e53c4b3"
+  },
+  "wc": {
+    "name": "wc",
+    "binary_path": "/usr/bin/wc",
+    "permission_level": "execute_safe",
+    "allowed_args": [
+      "-l",
+      "-w",
+      "-c"
+    ],
+    "forbidden_args": [],
+    "tcp_descriptor": "0000000000000000000000000000000000000000",
+    "human_approved": true,
+    "approval_timestamp": "2025-07-03T01:12:19.551231",
+    "approved_by": "security_admin_demo",
+    "security_hash": "b601098fe8595b536e4108fad45773021c11aa453b19335fa62635812736244f"
+  },
+  "echo": {
+    "name": "echo",
+    "binary_path": "/bin/echo",
+    "permission_level": "execute_safe",
+    "allowed_args": [],
+    "forbidden_args": [],
+    "tcp_descriptor": "0000000000000000000000000000000000000000",
+    "human_approved": true,
+    "approval_timestamp": "2025-07-03T01:12:19.551483",
+    "approved_by": "security_admin_demo",
+    "security_hash": "f9e88f7cde3f9f417cfb55ec26afef8d11ec5876de57cdf32897921d31f02767"
+  }
+}

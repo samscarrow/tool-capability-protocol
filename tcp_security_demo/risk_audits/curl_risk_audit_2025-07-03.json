@@ -1,0 +1,992 @@
+{
+  "command": "curl",
+  "final_security_level": "SecurityLevel.MEDIUM_RISK",
+  "final_privilege_level": "PrivilegeLevel.USER",
+  "classification_timestamp": "2025-07-03T01:27:54.680154",
+  "classifier_version": "1.0.0",
+  "risk_evidence": [
+    {
+      "factor_type": "RiskFactor.COMMAND_NAME",
+      "evidence_text": "Command 'curl' not in known risk pattern databases",
+      "risk_contribution": 0.1,
+      "confidence": 0.5,
+      "source": "default_classification",
+      "rationale": "No specific risk patterns identified for this command name"
+    },
+    {
+      "factor_type": "RiskFactor.DESTRUCTIVE_CAPABILITY",
+      "evidence_text": "Contains data modification indicator: 'overwrite'",
+      "risk_contribution": 0.6,
+      "confidence": 0.8,
+      "source": "destructive_capability_analysis",
+      "rationale": "Command can modify or overwrite existing data"
+    },
+    {
+      "factor_type": "RiskFactor.DESTRUCTIVE_CAPABILITY",
+      "evidence_text": "Documented destructive operation: Recursive/force file removal",
+      "risk_contribution": 0.8,
+      "confidence": 0.85,
+      "source": "man_page_destructive_operations",
+      "rationale": "Man page explicitly documents destructive capability: Recursive/force file removal"
+    },
+    {
+      "factor_type": "RiskFactor.DESTRUCTIVE_CAPABILITY",
+      "evidence_text": "Documented destructive operation: Can format data",
+      "risk_contribution": 0.8,
+      "confidence": 0.85,
+      "source": "man_page_destructive_operations",
+      "rationale": "Man page explicitly documents destructive capability: Can format data"
+    },
+    {
+      "factor_type": "RiskFactor.DESTRUCTIVE_CAPABILITY",
+      "evidence_text": "Documented destructive operation: Can remove data",
+      "risk_contribution": 0.8,
+      "confidence": 0.85,
+      "source": "man_page_destructive_operations",
+      "rationale": "Man page explicitly documents destructive capability: Can remove data"
+    },
+    {
+      "factor_type": "RiskFactor.DESTRUCTIVE_CAPABILITY",
+      "evidence_text": "Documented destructive operation: Can delete data",
+      "risk_contribution": 0.8,
+      "confidence": 0.85,
+      "source": "man_page_destructive_operations",
+      "rationale": "Man page explicitly documents destructive capability: Can delete data"
+    },
+    {
+      "factor_type": "RiskFactor.DESTRUCTIVE_CAPABILITY",
+      "evidence_text": "Documented destructive operation: Can purge data",
+      "risk_contribution": 0.8,
+      "confidence": 0.85,
+      "source": "man_page_destructive_operations",
+      "rationale": "Man page explicitly documents destructive capability: Can purge data"
+    },
+    {
+      "factor_type": "RiskFactor.DESTRUCTIVE_CAPABILITY",
+      "evidence_text": "Documented destructive operation: Can overwrite data",
+      "risk_contribution": 0.8,
+      "confidence": 0.85,
+      "source": "man_page_destructive_operations",
+      "rationale": "Man page explicitly documents destructive capability: Can overwrite data"
+    },
+    {
+      "factor_type": "RiskFactor.DESTRUCTIVE_CAPABILITY",
+      "evidence_text": "Documented destructive operation: Can clear data",
+      "risk_contribution": 0.8,
+      "confidence": 0.85,
+      "source": "man_page_destructive_operations",
+      "rationale": "Man page explicitly documents destructive capability: Can clear data"
+    },
+    {
+      "factor_type": "RiskFactor.DESTRUCTIVE_CAPABILITY",
+      "evidence_text": "Documented destructive operation: Disk formatting operation",
+      "risk_contribution": 0.8,
+      "confidence": 0.85,
+      "source": "man_page_destructive_operations",
+      "rationale": "Man page explicitly documents destructive capability: Disk formatting operation"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Can upload files",
+      "risk_contribution": 0.6,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Can upload files"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Supports udp",
+      "risk_contribution": 0.4,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Supports udp"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Supports bind",
+      "risk_contribution": 0.4,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Supports bind"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Supports connect",
+      "risk_contribution": 0.4,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Supports connect"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Can access remote systems",
+      "risk_contribution": 0.4,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Can access remote systems"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Can download files",
+      "risk_contribution": 0.4,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Can download files"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Supports socket",
+      "risk_contribution": 0.4,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Supports socket"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Supports listen",
+      "risk_contribution": 0.4,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Supports listen"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Supports ftp",
+      "risk_contribution": 0.4,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Supports ftp"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Supports smtp",
+      "risk_contribution": 0.4,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Supports smtp"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Can establish connections",
+      "risk_contribution": 0.4,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Can establish connections"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Supports host",
+      "risk_contribution": 0.4,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Supports host"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Supports url",
+      "risk_contribution": 0.4,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Supports url"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Supports ssh",
+      "risk_contribution": 0.4,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Supports ssh"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Supports http",
+      "risk_contribution": 0.4,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Supports http"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Can transfer data",
+      "risk_contribution": 0.4,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Can transfer data"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Supports tcp",
+      "risk_contribution": 0.4,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Supports tcp"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Supports https",
+      "risk_contribution": 0.4,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Supports https"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Supports port",
+      "risk_contribution": 0.4,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Supports port"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Supports telnet",
+      "risk_contribution": 0.4,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Supports telnet"
+    },
+    {
+      "factor_type": "RiskFactor.FILE_OPERATIONS",
+      "evidence_text": "File operation capability: Can write files",
+      "risk_contribution": 0.5,
+      "confidence": 0.85,
+      "source": "man_page_file_analysis",
+      "rationale": "Command can write files with risk level 0.5"
+    },
+    {
+      "factor_type": "RiskFactor.FILE_OPERATIONS",
+      "evidence_text": "File operation capability: Can create files",
+      "risk_contribution": 0.3,
+      "confidence": 0.85,
+      "source": "man_page_file_analysis",
+      "rationale": "Command can create files with risk level 0.3"
+    },
+    {
+      "factor_type": "RiskFactor.FILE_OPERATIONS",
+      "evidence_text": "File operation capability: Can read files",
+      "risk_contribution": 0.1,
+      "confidence": 0.85,
+      "source": "man_page_file_analysis",
+      "rationale": "Command can read files with risk level 0.1"
+    },
+    {
+      "factor_type": "RiskFactor.SYSTEM_OPERATIONS",
+      "evidence_text": "System operation: Can mount filesystems",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "man_page_system_analysis",
+      "rationale": "Command performs system-level operation involving mount"
+    },
+    {
+      "factor_type": "RiskFactor.SYSTEM_OPERATIONS",
+      "evidence_text": "System operation: Can access devices",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "man_page_system_analysis",
+      "rationale": "Command performs system-level operation involving device"
+    },
+    {
+      "factor_type": "RiskFactor.SYSTEM_OPERATIONS",
+      "evidence_text": "System operation: Can control services",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "man_page_system_analysis",
+      "rationale": "Command performs system-level operation involving service"
+    },
+    {
+      "factor_type": "RiskFactor.SYSTEM_OPERATIONS",
+      "evidence_text": "System operation: Can manipulate processes",
+      "risk_contribution": 0.7,
+      "confidence": 0.9,
+      "source": "man_page_system_analysis",
+      "rationale": "Command performs system-level operation involving process"
+    },
+    {
+      "factor_type": "RiskFactor.SYSTEM_OPERATIONS",
+      "evidence_text": "System operation: Can interact with kernel",
+      "risk_contribution": 0.9,
+      "confidence": 0.9,
+      "source": "man_page_system_analysis",
+      "rationale": "Command performs system-level operation involving kernel"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: This allows\n              scripts to safely rely on being able to disable potentially\n              ...",
+      "risk_contribution": 0.8,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: --ssl  (FTP IMAP POP3 SMTP LDAP) Warning: this is considered an\n              insecure option...",
+      "risk_contribution": 0.8,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: implications of your requests actually are and make this\n              decision for you.\n\n          ...",
+      "risk_contribution": 0.8,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: rm file\n                     The rm command removes the file specified by the file\n                 ...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: This may or may not introduce a security breach if the site\n              redirects you to a site to...",
+      "risk_contribution": 0.6,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: rmdir directory\n                     The rmdir command removes the directory entry specified\n       ...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: It\n              keeps the number of connections low at the expense of risking a\n              sligh...",
+      "risk_contribution": 0.6,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: Remove an internal header by giving a\n              replacement without content on the right side of...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: This option can be used multiple times to add/replace/remove\n              multiple headers...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: WARNING:\n              this option loosens the SSL security, and by using this flag you\n            ...",
+      "risk_contribution": 0.8,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: W\bWA\bAR\bRN\bNI\bIN\bNG\bG: this option loosens the TLS security, and by using this\n              flag yo...",
+      "risk_contribution": 0.6,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: This\n                     feature was removed from curl in 8...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: Metalink support is disabled in curl for security reasons (added\n              in 7...",
+      "risk_contribution": 0.6,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: If the file system does not support\n              extended attributes, a warning is issued...",
+      "risk_contribution": 0.8,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: Currently the\n              following flag values are accepted: answered, deleted, draft,\n          ...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: Example:\n              curl --remove-on-error -o output https://example...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: Specifying _\ba_\bl_\bl or _\b+_\ba_\bl_\bl enables all\n              protocols on redirects, which is not ...",
+      "risk_contribution": 0.6,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: This option is supported for\n              backward compatibility with other SSL engines; instead it...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: For example: _\b-_\b-_\bp_\br_\bo_\bt_\bo -ftps uses the default protocols, but\n              disables ftps...",
+      "risk_contribution": 0.8,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: This can lead to the header being sent to\n              other hosts than the original host, so sensi...",
+      "risk_contribution": 0.8,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: curl cannot deduce what the security\n              implications of your requests actually are and ma...",
+      "risk_contribution": 0.6,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: Be aware and be careful when sharing\n              trace logs with others...",
+      "risk_contribution": 0.6,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: --no-progress-meter\n              Option to switch off the progress meter output without muting or\n ...",
+      "risk_contribution": 0.8,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: --remove-on-error\n              Remove output file if an error occurs...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: W\bWA\bAR\bRN\bNI\bIN\bNG\bG: this option has security implications...",
+      "risk_contribution": 0.6,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: Just be careful\n                     so that the content does not contain any \"=\" or \"@\"\n           ...",
+      "risk_contribution": 0.6,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: A single\n              number works as well, but do note that it increases the risk of\n             ...",
+      "risk_contribution": 0.6,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: Even if no cookies are known, a file is created so\n              that it removes any formerly existi...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: For\n              example, before retrying it removes output data from a failed\n              partia...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: Examples:\n              curl -X \"DELETE\" https://example...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: If provided a non-existing file, curl outputs a warning about\n              that fact and proceeds t...",
+      "risk_contribution": 0.8,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: That option name\n              can still be used but might be removed in a future version...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: Providing --remove-on-error multiple times has no extra effect...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: If you give an empty argument to _\b-_\bA_\b, _\b-_\b-_\bu_\bs_\be_\br_\b-_\ba_\bg_\be_\bn_\bt (\"\"), it\n           ...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: --proxy-ssl-allow-beast\n              Do not work around a security flaw in the TLS1...",
+      "risk_contribution": 0.6,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: On Linux this option can be used to specify a V\bVR\bRF\bF (Virtual\n              Routing and Forwardin...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: This has security implications for the requests\n              sent that way...",
+      "risk_contribution": 0.6,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: Available functions:\n\n              trim   removes all leading and trailing white space...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: Disable it again with --no-remove-on-error...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: Using _\b-_\bv_\b, _\b-_\b-_\bv_\be_\br_\bb_\bo_\bs_\be gets a warning displayed, but that is the\n              ...",
+      "risk_contribution": 0.8,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: To make curl continue\n              even if the command fails, prefix the command with an asterisk\n ...",
+      "risk_contribution": 0.6,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: --ssl-allow-beast\n              (TLS) Do not work around a security flaw in the TLS1...",
+      "risk_contribution": 0.6,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: If set\n              to an asterisk '*' only, it matches all hosts...",
+      "risk_contribution": 0.6,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: consisting in an inline part in two alternative fo...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: (HTTP IMAP SMTP) Extra header to include in inform...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: for example HSTS and Alt-Svc information to be sto...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: such information from malicious servers....",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: directory view does not use a standard look or for...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: normal directory view provides more information th...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: POP3 and SMTP support login options. For more info...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: _\bn_\be_\bt_\br_\bc_\b(_\b5_\b) and _\bf_\bt_\bp_\b(_\b1_\b) fo...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: otherwise affecting warning and informational mess...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: The Bearer Token and username are formatted accord...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: /dev/null:...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: curl example.com -o /dev/null...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "System file operation example: curl --path-as-is https://example.com/../../etc/pa...",
+      "risk_contribution": 0.6,
+      "confidence": 0.8,
+      "source": "example_analysis",
+      "rationale": "Usage example shows operation on system directories"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: public key in PEM or DER format, or any number of ...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: instead of the standard, more informational, meter...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: certificate(s) must be in PEM format....",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: format, and if curl is built against OpenSSL, the ...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: with an HTTPS proxy. The certificate must be in PK...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: if using Secure Transport, or PEM format if using ...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: Provide filename for a PEM formatted file with a C...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: public key in PEM or DER format, or any number of ...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: curl returns as-is. It contains meta information i...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "System file operation example: be used. Consider it a sort of /etc/hosts alternat...",
+      "risk_contribution": 0.6,
+      "confidence": 0.8,
+      "source": "example_analysis",
+      "rationale": "Usage example shows operation on system directories"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: including descriptive information, in the given ou...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: including descriptive information, in the given ou...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: to be RFC 5322 formatted. It has to feature the ne...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: headers and mail body formatted correctly by the u...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: UPN (User Principal Name) formats. For example, EX...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: Make curl output verbose information during the op...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: Display information about curl and the libcurl ver...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: -w, --write-out <format>...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: Make curl display information on stdout after a co...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: transfer. The format is a string that may contain ...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: mixed with any number of variables.  The format ca...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: as a literal \"string\", or you can have curl read t...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: a file with \"@filename\" and to tell curl to read t...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    },
+    {
+      "factor_type": "RiskFactor.EXAMPLE_ANALYSIS",
+      "evidence_text": "Dangerous usage example: The variables present in the output format are sub...",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "example_analysis",
+      "rationale": "Usage example demonstrates potentially dangerous operation"
+    }
+  ],
+  "security_score": 0.6121313035204544,
+  "privilege_score": 0.1,
+  "destructive_score": 0.8,
+  "security_flags": 5924,
+  "operation_flags": 0,
+  "classification_summary": "Command 'curl' classified as medium_risk requiring user privileges. Assessment based on 118 pieces of evidence, including 58 high-risk indicators. Final security score: 0.61",
+  "security_rationale": "Medium risk (score: 0.61) due to potential for data modification",
+  "privilege_rationale": "User-level privileges sufficient (score: 0.10)",
+  "man_page_checksum": "036ff0b3e446a410",
+  "data_sources": [
+    "Man Page Destructive Operations Analysis",
+    "Man Page Destructive Operations Analysis",
+    "Man Page Destructive Operations Analysis",
+    "Man Page Destructive Operations Analysis",
+    "Man Page Destructive Operations Analysis",
+    "Man Page Destructive Operations Analysis",
+    "Man Page Destructive Operations Analysis",
+    "Man Page Destructive Operations Analysis",
+    "Man Page Network Operations Analysis",
+    "Man Page File Operations Analysis",
+    "Man Page System Operations Analysis",
+    "Man Page Security Notes",
+    "Man Page Keyword Analysis",
+    "Usage Examples Analysis"
+  ],
+  "audit_metadata": {
+    "total_evidence_pieces": 118,
+    "high_risk_evidence_count": 58,
+    "evidence_sources": [
+      "Man Page Keyword Analysis",
+      "Usage Examples Analysis",
+      "Man Page Destructive Operations Analysis",
+      "Man Page Network Operations Analysis",
+      "Man Page System Operations Analysis",
+      "Man Page Security Notes",
+      "Man Page File Operations Analysis"
+    ],
+    "classifier_confidence": 0.8906779661016949
+  }
+}

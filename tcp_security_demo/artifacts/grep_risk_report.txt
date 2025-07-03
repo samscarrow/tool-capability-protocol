@@ -1,0 +1,68 @@
+SECURITY RISK ASSESSMENT AUDIT REPORT
+============================================================
+Command: grep
+Assessment Date: 2025-07-03T01:27:54.678951
+Classifier Version: 1.0.0
+
+FINAL CLASSIFICATION:
+------------------------------
+Security Level: medium_risk
+Privilege Level: user
+Security Score: 0.540
+Destructive Score: 0.800
+
+CLASSIFICATION RATIONALE:
+------------------------------
+Security: Medium risk (score: 0.54) due to potential for data modification
+Privilege: User-level privileges sufficient (score: 0.10)
+
+EVIDENCE ANALYSIS (8 pieces):
+------------------------------
+
+Command Name:
+  [LOW] Command 'grep' not in known risk pattern databases
+       Risk: 0.10, Confidence: 0.50
+       Rationale: No specific risk patterns identified for this command name
+
+Destructive Capability:
+  [HIGH] Documented destructive operation: Can format data
+       Risk: 0.80, Confidence: 0.85
+       Rationale: Man page explicitly documents destructive capability: Can format data
+  [HIGH] Documented destructive operation: Disk formatting operation
+       Risk: 0.80, Confidence: 0.85
+       Rationale: Man page explicitly documents destructive capability: Disk formatting operation
+
+Network Access:
+  [MED] Network operation capability: Supports socket
+       Risk: 0.40, Confidence: 0.80
+       Rationale: Command can perform network operations: Supports socket
+  [MED] Network operation capability: Supports port
+       Risk: 0.40, Confidence: 0.80
+       Rationale: Command can perform network operations: Supports port
+
+File Operations:
+  [LOW] File operation capability: Can read files
+       Risk: 0.10, Confidence: 0.85
+       Rationale: Command can read files with risk level 0.1
+
+System Operations:
+  [HIGH] System operation: Can access devices
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Command performs system-level operation involving device
+  [HIGH] System operation: Can manipulate processes
+       Risk: 0.70, Confidence: 0.90
+       Rationale: Command performs system-level operation involving process
+
+DATA SOURCES:
+------------------------------
+• Man Page Destructive Operations Analysis
+• Man Page File Operations Analysis
+• Man Page Keyword Analysis
+• Man Page Network Operations Analysis
+• Man Page System Operations Analysis
+
+SECURITY FLAGS: 0x00001324
+MAN PAGE CHECKSUM: faefbbbf05cb9cfb
+
+This assessment provides complete transparency into all factors
+considered in the security classification decision.

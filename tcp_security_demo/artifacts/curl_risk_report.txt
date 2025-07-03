@@ -1,0 +1,458 @@
+SECURITY RISK ASSESSMENT AUDIT REPORT
+============================================================
+Command: curl
+Assessment Date: 2025-07-03T01:27:54.680154
+Classifier Version: 1.0.0
+
+FINAL CLASSIFICATION:
+------------------------------
+Security Level: medium_risk
+Privilege Level: user
+Security Score: 0.612
+Destructive Score: 0.800
+
+CLASSIFICATION RATIONALE:
+------------------------------
+Security: Medium risk (score: 0.61) due to potential for data modification
+Privilege: User-level privileges sufficient (score: 0.10)
+
+EVIDENCE ANALYSIS (118 pieces):
+------------------------------
+
+Command Name:
+  [LOW] Command 'curl' not in known risk pattern databases
+       Risk: 0.10, Confidence: 0.50
+       Rationale: No specific risk patterns identified for this command name
+
+Destructive Capability:
+  [HIGH] Documented destructive operation: Recursive/force file removal
+       Risk: 0.80, Confidence: 0.85
+       Rationale: Man page explicitly documents destructive capability: Recursive/force file removal
+  [HIGH] Documented destructive operation: Can format data
+       Risk: 0.80, Confidence: 0.85
+       Rationale: Man page explicitly documents destructive capability: Can format data
+  [HIGH] Documented destructive operation: Can remove data
+       Risk: 0.80, Confidence: 0.85
+       Rationale: Man page explicitly documents destructive capability: Can remove data
+  [HIGH] Documented destructive operation: Can delete data
+       Risk: 0.80, Confidence: 0.85
+       Rationale: Man page explicitly documents destructive capability: Can delete data
+  [HIGH] Documented destructive operation: Can purge data
+       Risk: 0.80, Confidence: 0.85
+       Rationale: Man page explicitly documents destructive capability: Can purge data
+  [HIGH] Documented destructive operation: Can overwrite data
+       Risk: 0.80, Confidence: 0.85
+       Rationale: Man page explicitly documents destructive capability: Can overwrite data
+  [HIGH] Documented destructive operation: Can clear data
+       Risk: 0.80, Confidence: 0.85
+       Rationale: Man page explicitly documents destructive capability: Can clear data
+  [HIGH] Documented destructive operation: Disk formatting operation
+       Risk: 0.80, Confidence: 0.85
+       Rationale: Man page explicitly documents destructive capability: Disk formatting operation
+  [MED] Contains data modification indicator: 'overwrite'
+       Risk: 0.60, Confidence: 0.80
+       Rationale: Command can modify or overwrite existing data
+
+Network Access:
+  [MED] Network operation capability: Can upload files
+       Risk: 0.60, Confidence: 0.80
+       Rationale: Command can perform network operations: Can upload files
+  [MED] Network operation capability: Supports udp
+       Risk: 0.40, Confidence: 0.80
+       Rationale: Command can perform network operations: Supports udp
+  [MED] Network operation capability: Supports bind
+       Risk: 0.40, Confidence: 0.80
+       Rationale: Command can perform network operations: Supports bind
+  [MED] Network operation capability: Supports connect
+       Risk: 0.40, Confidence: 0.80
+       Rationale: Command can perform network operations: Supports connect
+  [MED] Network operation capability: Can access remote systems
+       Risk: 0.40, Confidence: 0.80
+       Rationale: Command can perform network operations: Can access remote systems
+  [MED] Network operation capability: Can download files
+       Risk: 0.40, Confidence: 0.80
+       Rationale: Command can perform network operations: Can download files
+  [MED] Network operation capability: Supports socket
+       Risk: 0.40, Confidence: 0.80
+       Rationale: Command can perform network operations: Supports socket
+  [MED] Network operation capability: Supports listen
+       Risk: 0.40, Confidence: 0.80
+       Rationale: Command can perform network operations: Supports listen
+  [MED] Network operation capability: Supports ftp
+       Risk: 0.40, Confidence: 0.80
+       Rationale: Command can perform network operations: Supports ftp
+  [MED] Network operation capability: Supports smtp
+       Risk: 0.40, Confidence: 0.80
+       Rationale: Command can perform network operations: Supports smtp
+  [MED] Network operation capability: Can establish connections
+       Risk: 0.40, Confidence: 0.80
+       Rationale: Command can perform network operations: Can establish connections
+  [MED] Network operation capability: Supports host
+       Risk: 0.40, Confidence: 0.80
+       Rationale: Command can perform network operations: Supports host
+  [MED] Network operation capability: Supports url
+       Risk: 0.40, Confidence: 0.80
+       Rationale: Command can perform network operations: Supports url
+  [MED] Network operation capability: Supports ssh
+       Risk: 0.40, Confidence: 0.80
+       Rationale: Command can perform network operations: Supports ssh
+  [MED] Network operation capability: Supports http
+       Risk: 0.40, Confidence: 0.80
+       Rationale: Command can perform network operations: Supports http
+  [MED] Network operation capability: Can transfer data
+       Risk: 0.40, Confidence: 0.80
+       Rationale: Command can perform network operations: Can transfer data
+  [MED] Network operation capability: Supports tcp
+       Risk: 0.40, Confidence: 0.80
+       Rationale: Command can perform network operations: Supports tcp
+  [MED] Network operation capability: Supports https
+       Risk: 0.40, Confidence: 0.80
+       Rationale: Command can perform network operations: Supports https
+  [MED] Network operation capability: Supports port
+       Risk: 0.40, Confidence: 0.80
+       Rationale: Command can perform network operations: Supports port
+  [MED] Network operation capability: Supports telnet
+       Risk: 0.40, Confidence: 0.80
+       Rationale: Command can perform network operations: Supports telnet
+
+File Operations:
+  [MED] File operation capability: Can write files
+       Risk: 0.50, Confidence: 0.85
+       Rationale: Command can write files with risk level 0.5
+  [LOW] File operation capability: Can create files
+       Risk: 0.30, Confidence: 0.85
+       Rationale: Command can create files with risk level 0.3
+  [LOW] File operation capability: Can read files
+       Risk: 0.10, Confidence: 0.85
+       Rationale: Command can read files with risk level 0.1
+
+System Operations:
+  [HIGH] System operation: Can interact with kernel
+       Risk: 0.90, Confidence: 0.90
+       Rationale: Command performs system-level operation involving kernel
+  [HIGH] System operation: Can mount filesystems
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Command performs system-level operation involving mount
+  [HIGH] System operation: Can access devices
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Command performs system-level operation involving device
+  [HIGH] System operation: Can control services
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Command performs system-level operation involving service
+  [HIGH] System operation: Can manipulate processes
+       Risk: 0.70, Confidence: 0.90
+       Rationale: Command performs system-level operation involving process
+
+Security Notes:
+  [HIGH] Security note: This allows
+              scripts to safely rely on being able to disable potentially
+              ...
+       Risk: 0.80, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [HIGH] Security note: --ssl  (FTP IMAP POP3 SMTP LDAP) Warning: this is considered an
+              insecure option...
+       Risk: 0.80, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [HIGH] Security note: implications of your requests actually are and make this
+              decision for you.
+
+          ...
+       Risk: 0.80, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [HIGH] Security note: WARNING:
+              this option loosens the SSL security, and by using this flag you
+            ...
+       Risk: 0.80, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [HIGH] Security note: If the file system does not support
+              extended attributes, a warning is issued...
+       Risk: 0.80, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [HIGH] Security note: For example: _-_-_p_r_o_t_o -ftps uses the default protocols, but
+              disables ftps...
+       Risk: 0.80, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [HIGH] Security note: This can lead to the header being sent to
+              other hosts than the original host, so sensi...
+       Risk: 0.80, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [HIGH] Security note: --no-progress-meter
+              Option to switch off the progress meter output without muting or
+ ...
+       Risk: 0.80, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [HIGH] Security note: If provided a non-existing file, curl outputs a warning about
+              that fact and proceeds t...
+       Risk: 0.80, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [HIGH] Security note: Using _-_v_, _-_-_v_e_r_b_o_s_e gets a warning displayed, but that is the
+              ...
+       Risk: 0.80, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [MED] Security note: This may or may not introduce a security breach if the site
+              redirects you to a site to...
+       Risk: 0.60, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [MED] Security note: It
+              keeps the number of connections low at the expense of risking a
+              sligh...
+       Risk: 0.60, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [MED] Security note: WWAARRNNIINNGG: this option loosens the TLS security, and by using this
+              flag yo...
+       Risk: 0.60, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [MED] Security note: Metalink support is disabled in curl for security reasons (added
+              in 7...
+       Risk: 0.60, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [MED] Security note: Specifying _a_l_l or _+_a_l_l enables all
+              protocols on redirects, which is not ...
+       Risk: 0.60, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [MED] Security note: curl cannot deduce what the security
+              implications of your requests actually are and ma...
+       Risk: 0.60, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [MED] Security note: Be aware and be careful when sharing
+              trace logs with others...
+       Risk: 0.60, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [MED] Security note: WWAARRNNIINNGG: this option has security implications...
+       Risk: 0.60, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [MED] Security note: Just be careful
+                     so that the content does not contain any "=" or "@"
+           ...
+       Risk: 0.60, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [MED] Security note: A single
+              number works as well, but do note that it increases the risk of
+             ...
+       Risk: 0.60, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [MED] Security note: --proxy-ssl-allow-beast
+              Do not work around a security flaw in the TLS1...
+       Risk: 0.60, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [MED] Security note: This has security implications for the requests
+              sent that way...
+       Risk: 0.60, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [MED] Security note: To make curl continue
+              even if the command fails, prefix the command with an asterisk
+ ...
+       Risk: 0.60, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [MED] Security note: --ssl-allow-beast
+              (TLS) Do not work around a security flaw in the TLS1...
+       Risk: 0.60, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [MED] Security note: If set
+              to an asterisk '*' only, it matches all hosts...
+       Risk: 0.60, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [LOW] Security note: rm file
+                     The rm command removes the file specified by the file
+                 ...
+       Risk: 0.30, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [LOW] Security note: rmdir directory
+                     The rmdir command removes the directory entry specified
+       ...
+       Risk: 0.30, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [LOW] Security note: Remove an internal header by giving a
+              replacement without content on the right side of...
+       Risk: 0.30, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [LOW] Security note: This option can be used multiple times to add/replace/remove
+              multiple headers...
+       Risk: 0.30, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [LOW] Security note: This
+                     feature was removed from curl in 8...
+       Risk: 0.30, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [LOW] Security note: Currently the
+              following flag values are accepted: answered, deleted, draft,
+          ...
+       Risk: 0.30, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [LOW] Security note: Example:
+              curl --remove-on-error -o output https://example...
+       Risk: 0.30, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [LOW] Security note: This option is supported for
+              backward compatibility with other SSL engines; instead it...
+       Risk: 0.30, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [LOW] Security note: --remove-on-error
+              Remove output file if an error occurs...
+       Risk: 0.30, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [LOW] Security note: Even if no cookies are known, a file is created so
+              that it removes any formerly existi...
+       Risk: 0.30, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [LOW] Security note: For
+              example, before retrying it removes output data from a failed
+              partia...
+       Risk: 0.30, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [LOW] Security note: Examples:
+              curl -X "DELETE" https://example...
+       Risk: 0.30, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [LOW] Security note: That option name
+              can still be used but might be removed in a future version...
+       Risk: 0.30, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [LOW] Security note: Providing --remove-on-error multiple times has no extra effect...
+       Risk: 0.30, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [LOW] Security note: If you give an empty argument to _-_A_, _-_-_u_s_e_r_-_a_g_e_n_t (""), it
+           ...
+       Risk: 0.30, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [LOW] Security note: On Linux this option can be used to specify a VVRRFF (Virtual
+              Routing and Forwardin...
+       Risk: 0.30, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [LOW] Security note: Available functions:
+
+              trim   removes all leading and trailing white space...
+       Risk: 0.30, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+  [LOW] Security note: Disable it again with --no-remove-on-error...
+       Risk: 0.30, Confidence: 0.95
+       Rationale: Explicit security warning in man page documentation
+
+Example Analysis:
+  [HIGH] Dangerous usage example: consisting in an inline part in two alternative fo...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: (HTTP IMAP SMTP) Extra header to include in inform...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: for example HSTS and Alt-Svc information to be sto...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: such information from malicious servers....
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: directory view does not use a standard look or for...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: normal directory view provides more information th...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: POP3 and SMTP support login options. For more info...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: _n_e_t_r_c_(_5_) and _f_t_p_(_1_) fo...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: otherwise affecting warning and informational mess...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: The Bearer Token and username are formatted accord...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: /dev/null:...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: curl example.com -o /dev/null...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: public key in PEM or DER format, or any number of ...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: instead of the standard, more informational, meter...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: certificate(s) must be in PEM format....
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: format, and if curl is built against OpenSSL, the ...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: with an HTTPS proxy. The certificate must be in PK...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: if using Secure Transport, or PEM format if using ...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: Provide filename for a PEM formatted file with a C...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: public key in PEM or DER format, or any number of ...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: curl returns as-is. It contains meta information i...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: including descriptive information, in the given ou...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: including descriptive information, in the given ou...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: to be RFC 5322 formatted. It has to feature the ne...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: headers and mail body formatted correctly by the u...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: UPN (User Principal Name) formats. For example, EX...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: Make curl output verbose information during the op...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: Display information about curl and the libcurl ver...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: -w, --write-out <format>...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: Make curl display information on stdout after a co...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: transfer. The format is a string that may contain ...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: mixed with any number of variables.  The format ca...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: as a literal "string", or you can have curl read t...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: a file with "@filename" and to tell curl to read t...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [HIGH] Dangerous usage example: The variables present in the output format are sub...
+       Risk: 0.80, Confidence: 0.90
+       Rationale: Usage example demonstrates potentially dangerous operation
+  [MED] System file operation example: curl --path-as-is https://example.com/../../etc/pa...
+       Risk: 0.60, Confidence: 0.80
+       Rationale: Usage example shows operation on system directories
+  [MED] System file operation example: be used. Consider it a sort of /etc/hosts alternat...
+       Risk: 0.60, Confidence: 0.80
+       Rationale: Usage example shows operation on system directories
+
+DATA SOURCES:
+------------------------------
+• Man Page Destructive Operations Analysis
+• Man Page File Operations Analysis
+• Man Page Keyword Analysis
+• Man Page Network Operations Analysis
+• Man Page Security Notes
+• Man Page System Operations Analysis
+• Usage Examples Analysis
+
+SECURITY FLAGS: 0x00001724
+MAN PAGE CHECKSUM: 036ff0b3e446a410
+
+This assessment provides complete transparency into all factors
+considered in the security classification decision.

@@ -1,0 +1,36 @@
+{
+  "command": "dd",
+  "section": 1,
+  "synopsis": "",
+  "description": "",
+  "options": [],
+  "examples": [],
+  "see_also": [],
+  "security_notes": [
+    "Partial output blocks to character devices will\n     produce a warning message",
+    "E\bEX\bXA\bAM\bMP\bPL\bLE\bES\bS\n     Check that a disk drive contains no bad blocks:\n\n           dd if=/dev/ada0 of=/dev/null bs=1m\n\n     Do a refresh of a disk drive, in order to prevent presently recoverable\n     read errors from progressing into unrecoverable read errors:\n\n           dd if=/dev/ada0 of=/dev/ada0 bs=1m\n\n     Remove parity bit from a file:\n\n           dd if=file conv=parnone of=file"
+  ],
+  "privilege_requirements": "PrivilegeLevel.USER",
+  "security_level": "SecurityLevel.CRITICAL",
+  "destructive_operations": [
+    "Can truncate data",
+    "Can format data",
+    "Can remove data",
+    "Direct disk write operation",
+    "Disk formatting operation"
+  ],
+  "network_operations": [
+    "Can transfer data",
+    "Supports port"
+  ],
+  "file_operations": [
+    "Can move files",
+    "Can write files",
+    "Can copy files",
+    "Can read files"
+  ],
+  "system_operations": [
+    "Can access devices",
+    "Can manipulate processes"
+  ]
+}

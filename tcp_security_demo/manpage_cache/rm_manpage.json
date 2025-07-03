@@ -1,0 +1,47 @@
+{
+  "command": "rm",
+  "section": 1,
+  "synopsis": "",
+  "description": "",
+  "options": [],
+  "examples": [],
+  "see_also": [],
+  "security_notes": [
+    "The options are as follows:\n\n     -\b-d\bd      Attempt to remove directories as well as other types of files",
+    "/-f\n           $ unlink -f\n\nC\bCO\bOM\bMP\bPA\bAT\bTI\bIB\bBI\bIL\bLI\bIT\bTY\bY\n     The r\brm\bm utility differs from historical implementations in that the -\b-f\bf\n     option only masks attempts to remove non-existent files instead of\n     masking a large variety of errors",
+    "Currently, this option can\n             only be used to recover files covered by whiteouts in a union\n             file system (see undelete(2))",
+    "-\b-I\bI      Request confirmation once if more than three files are being\n             removed or if a directory is being recursively removed",
+    "u\bun\bnl\bli\bin\bnk\bk [-\b--\b-] _\bf_\bi_\bl_\be\n\nD\bDE\bES\bSC\bCR\bRI\bIP\bPT\bTI\bIO\bON\bN\n     The r\brm\bm utility attempts to remove the non-directory type files specified\n     on the command line",
+    "If the user does not respond\n             affirmatively, the file hierarchy rooted in that directory is\n             skipped",
+    "E\bEX\bXI\bIT\bT S\bST\bTA\bAT\bTU\bUS\bS\n     The r\brm\bm utility exits 0 if all of the named files or file hierarchies were\n     removed, or if the -\b-f\bf option was specified and all of the existing files\n     or file hierarchies were removed",
+    "-\b-v\bv      Be verbose when deleting files, showing them as they are removed",
+    "If the -\b-i\bi option\n             is specified, the user is prompted for confirmation before each\n             directory's contents are processed (as well as before the attempt\n             is made to remove the directory)",
+    "/-filename\n\nE\bEX\bXA\bAM\bMP\bPL\bLE\bES\bS\n     Recursively remove all files contained within the _\bf_\bo_\bo_\bb_\ba_\br directory\n     hierarchy:\n\n           $ rm -rf foobar\n\n     Any of these commands will remove the file _\b-_\bf:\n\n           $ rm -- -f\n           $ rm",
+    "It is an error to attempt to remove the files _\b/, _\b",
+    "-\b-W\bW      Attempt to undelete the named files",
+    "The r\brm\bm utility removes symbolic links, not the files referenced by the\n     links",
+    "-\b-R\bR      Attempt to remove the file hierarchy rooted in each _\bf_\bi_\bl_\be\n             argument",
+    "RM(1)                       General Commands Manual                      RM(1)\n\nN\bNA\bAM\bME\bE\n     r\brm\bm, u\bun\bnl\bli\bin\bnk\bk \u2013 remove directory entries\n\nS\bSY\bYN\bNO\bOP\bPS\bSI\bIS\bS\n     r\brm\bm [-\b-f\bf | -\b-i\bi] [-\b-d\bdI\bIR\bRr\brv\bvW\bWx\bx] _\bf_\bi_\bl_\be _\b",
+    "S\bSE\bEE\bE A\bAL\bLS\bSO\bO\n     chflags(1), rmdir(1), undelete(2), unlink(2), fts(3), getopt(3),\n     symlink(7)\n\nS\bST\bTA\bAN\bND\bDA\bAR\bRD\bDS\bS\n     The r\brm\bm command conforms to",
+    "-\b-i\bi      Request confirmation before attempting to remove each file,\n             regardless of the file's permissions, or whether or not the\n             standard input device is a terminal",
+    "-\b-f\bf      Attempt to remove the files without prompting for confirmation,\n             regardless of the file's permissions",
+    "The -\b-P\bP option does not have any effect as of FreeBSD 13 and may be\n     removed in the future"
+  ],
+  "privilege_requirements": "PrivilegeLevel.USER",
+  "security_level": "SecurityLevel.CRITICAL",
+  "destructive_operations": [
+    "Recursive/force file removal",
+    "Can remove data",
+    "Can delete data"
+  ],
+  "network_operations": [],
+  "file_operations": [
+    "Can move files",
+    "Can delete files"
+  ],
+  "system_operations": [
+    "Can access devices",
+    "Can manipulate processes",
+    "Can mount filesystems"
+  ]
+}

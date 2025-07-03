@@ -1,0 +1,309 @@
+{
+  "command": "chmod",
+  "final_security_level": "SecurityLevel.MEDIUM_RISK",
+  "final_privilege_level": "PrivilegeLevel.USER",
+  "classification_timestamp": "2025-07-03T01:27:54.685030",
+  "classifier_version": "1.0.0",
+  "risk_evidence": [
+    {
+      "factor_type": "RiskFactor.COMMAND_NAME",
+      "evidence_text": "Command 'chmod' matches high risk pattern",
+      "risk_contribution": 0.7,
+      "confidence": 0.9,
+      "source": "high_risk_patterns_db",
+      "rationale": "Changes file permissions affecting security"
+    },
+    {
+      "factor_type": "RiskFactor.DESTRUCTIVE_CAPABILITY",
+      "evidence_text": "Documented destructive operation: Can delete data",
+      "risk_contribution": 0.8,
+      "confidence": 0.85,
+      "source": "man_page_destructive_operations",
+      "rationale": "Man page explicitly documents destructive capability: Can delete data"
+    },
+    {
+      "factor_type": "RiskFactor.DESTRUCTIVE_CAPABILITY",
+      "evidence_text": "Documented destructive operation: Can format data",
+      "risk_contribution": 0.8,
+      "confidence": 0.85,
+      "source": "man_page_destructive_operations",
+      "rationale": "Man page explicitly documents destructive capability: Can format data"
+    },
+    {
+      "factor_type": "RiskFactor.DESTRUCTIVE_CAPABILITY",
+      "evidence_text": "Documented destructive operation: Can remove data",
+      "risk_contribution": 0.8,
+      "confidence": 0.85,
+      "source": "man_page_destructive_operations",
+      "rationale": "Man page explicitly documents destructive capability: Can remove data"
+    },
+    {
+      "factor_type": "RiskFactor.DESTRUCTIVE_CAPABILITY",
+      "evidence_text": "Documented destructive operation: Can clear data",
+      "risk_contribution": 0.8,
+      "confidence": 0.85,
+      "source": "man_page_destructive_operations",
+      "rationale": "Man page explicitly documents destructive capability: Can clear data"
+    },
+    {
+      "factor_type": "RiskFactor.DESTRUCTIVE_CAPABILITY",
+      "evidence_text": "Documented destructive operation: Disk formatting operation",
+      "risk_contribution": 0.8,
+      "confidence": 0.85,
+      "source": "man_page_destructive_operations",
+      "rationale": "Man page explicitly documents destructive capability: Disk formatting operation"
+    },
+    {
+      "factor_type": "RiskFactor.NETWORK_ACCESS",
+      "evidence_text": "Network operation capability: Supports port",
+      "risk_contribution": 0.4,
+      "confidence": 0.8,
+      "source": "man_page_network_analysis",
+      "rationale": "Command can perform network operations: Supports port"
+    },
+    {
+      "factor_type": "RiskFactor.FILE_OPERATIONS",
+      "evidence_text": "File operation capability: Can write files",
+      "risk_contribution": 0.5,
+      "confidence": 0.85,
+      "source": "man_page_file_analysis",
+      "rationale": "Command can write files with risk level 0.5"
+    },
+    {
+      "factor_type": "RiskFactor.FILE_OPERATIONS",
+      "evidence_text": "File operation capability: Can read files",
+      "risk_contribution": 0.1,
+      "confidence": 0.85,
+      "source": "man_page_file_analysis",
+      "rationale": "Command can read files with risk level 0.1"
+    },
+    {
+      "factor_type": "RiskFactor.FILE_OPERATIONS",
+      "evidence_text": "File operation capability: Can delete files",
+      "risk_contribution": 0.8,
+      "confidence": 0.85,
+      "source": "man_page_file_analysis",
+      "rationale": "Command can delete files with risk level 0.8"
+    },
+    {
+      "factor_type": "RiskFactor.FILE_OPERATIONS",
+      "evidence_text": "File operation capability: Can modify files",
+      "risk_contribution": 0.6,
+      "confidence": 0.85,
+      "source": "man_page_file_analysis",
+      "rationale": "Command can modify files with risk level 0.6"
+    },
+    {
+      "factor_type": "RiskFactor.SYSTEM_OPERATIONS",
+      "evidence_text": "System operation: Can manipulate processes",
+      "risk_contribution": 0.7,
+      "confidence": 0.9,
+      "source": "man_page_system_analysis",
+      "rationale": "Command performs system-level operation involving process"
+    },
+    {
+      "factor_type": "RiskFactor.SYSTEM_OPERATIONS",
+      "evidence_text": "System operation: Can mount filesystems",
+      "risk_contribution": 0.8,
+      "confidence": 0.9,
+      "source": "man_page_system_analysis",
+      "rationale": "Command performs system-level operation involving mount"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: writesecurity\n                   Write an object's security information (ownership, mode,\n          ...",
+      "risk_contribution": 0.6,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: readsecurity\n                   Read an object's extended security information (ACL)...",
+      "risk_contribution": 0.6,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: delete_child\n                   Delete a contained object...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: -\b-I\bI      Removes all inherited entries from the named file(s) ACL(s)...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: # chmod +a \"User 1:allow:read\" file1\n              # ls -le\n              -rw-r--r--+ 1 juser  wheel...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: -\b-i\bi      Removes the 'inherited' bit from all entries in the named file(s)\n             ACLs...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: E\bEx\bxa\bam\bmp\bpl\ble\bes\bs\n              # ls -le\n              -rw-r--r--+ 1 juser  wheel  0 Apr 28 1...",
+      "risk_contribution": 0.6,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: -\b-N\bN      Removes the ACL from the named file(s)...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: Entries may also be deleted by index using the -a# mode...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: E\bEx\bxa\bam\bmp\bpl\ble\bes\bs\n              # ls -le\n              -rw-r--r--+ 1 juser  wheel  0 Apr 28 1...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: All entries exactly\n             matching the supplied entry will be deleted...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: See the file delete permission\n                   above...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: If the entry lists a\n             subset of rights granted by an entry, only the rights listed are\n ...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: E\bEx\bxa\bam\bmp\bpl\ble\bes\bs\n              # ls -le\n              -rw-r--r--+ 1 juser  wheel  0 Apr 28 1...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: -\b-a\ba      The -a mode is used to delete ACL entries...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: Read an object's extended security information (ACL).\n           writesecurity\n                   Wr...",
+      "risk_contribution": 0.6,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: -\b-R\bR      Change the modes of the file hierarchies rooted in the files,\n             instead of ju...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: The following permissions are applicable to all filesystem objects:\n           delete  Delete the it...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: E\bEx\bxa\bam\bmp\bpl\ble\bes\bs\n              # ls -le\n              -rw-r--r--+ 1 juser  wheel  0 Apr 28 1...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    },
+    {
+      "factor_type": "RiskFactor.SECURITY_NOTES",
+      "evidence_text": "Security note: Deletion may be granted by either this\n                   permission on an object or the delete_chil...",
+      "risk_contribution": 0.3,
+      "confidence": 0.95,
+      "source": "man_page_security_notes",
+      "rationale": "Explicit security warning in man page documentation"
+    }
+  ],
+  "security_score": 0.4723051409618577,
+  "privilege_score": 0.1,
+  "destructive_score": 0.8,
+  "security_flags": 7972,
+  "operation_flags": 0,
+  "classification_summary": "Command 'chmod' classified as medium_risk requiring user privileges. Assessment based on 33 pieces of evidence, including 9 high-risk indicators. Final security score: 0.47",
+  "security_rationale": "Medium risk (score: 0.47) due to potential for data modification",
+  "privilege_rationale": "User-level privileges sufficient (score: 0.10)",
+  "man_page_checksum": "e0fee4c9a9eddde0",
+  "data_sources": [
+    "High Risk Patterns Database",
+    "Man Page Destructive Operations Analysis",
+    "Man Page Destructive Operations Analysis",
+    "Man Page Destructive Operations Analysis",
+    "Man Page Destructive Operations Analysis",
+    "Man Page Destructive Operations Analysis",
+    "Man Page Network Operations Analysis",
+    "Man Page File Operations Analysis",
+    "Man Page System Operations Analysis",
+    "Man Page Security Notes",
+    "Man Page Keyword Analysis"
+  ],
+  "audit_metadata": {
+    "total_evidence_pieces": 33,
+    "high_risk_evidence_count": 9,
+    "evidence_sources": [
+      "High Risk Patterns Database",
+      "Man Page Keyword Analysis",
+      "Man Page Destructive Operations Analysis",
+      "Man Page Network Operations Analysis",
+      "Man Page System Operations Analysis",
+      "Man Page Security Notes",
+      "Man Page File Operations Analysis"
+    ],
+    "classifier_confidence": 0.9136363636363636
+  }
+}

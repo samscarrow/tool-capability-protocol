@@ -1,0 +1,11 @@
+{
+  "tool_name": "dd",
+  "binary_path": "/usr/bin/dd",
+  "tcp_descriptor": "1aabac6d00000000400000003730003c0a01f400f010",
+  "requested_permission": "execute_safe",
+  "allowed_args": [],
+  "forbidden_args": [],
+  "request_timestamp": "2025-07-03T01:34:25.786501",
+  "session_id": "989bf7b6",
+  "status": "pending_human_approval"
+}
