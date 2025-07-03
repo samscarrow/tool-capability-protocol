@@ -12,6 +12,11 @@ A revolutionary security-aware binary protocol for encoding complete command-lin
 ### 🔍 Real-World Case Study
 **[Infographic Formatting Case Study](docs/CASE_STUDY_INFOGRAPHIC_FORMATTING.md)** - A detailed analysis of how TCP eliminates the inefficiencies of text parsing, demonstrated through a real-world documentation formatting task that perfectly illustrates TCP's value proposition.
 
+### 🎨 Meta-Analysis Visualizations
+- **[Enhanced Interactive Case Study](docs/media/tcp-case-study-enhanced.html)** - Animated visualization of the meta-analysis with step-by-step timeline, interactive security examples, and performance comparisons
+- **[ASCII Art Case Study](docs/media/tcp-case-study-ascii.txt)** - Terminal-friendly visualization perfect for CLI environments and documentation
+- **[ASCII Display Script](docs/media/display-ascii-case-study.py)** - Python script with color coding and animation for enhanced terminal display
+
 ## 🚀 Key Innovations
 
 - **24-Byte Security Descriptors**: Complete tool safety profile in 24 bytes
