@@ -137,4 +137,4 @@ pids
 # Temporary files
 *.tmp
 *.temp
-.temporary/
+.temporary/.tcp_sync_log
