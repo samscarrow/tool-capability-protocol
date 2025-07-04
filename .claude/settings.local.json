@@ -31,7 +31,8 @@
       "Bash(ssh:*)",
       "Bash(./scripts/consortium-notifications.sh:*)",
       "Bash(./scripts/convergence-handler.sh:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "mcp__server-sequential-thinking__sequentialthinking"
     ],
     "deny": []
   }
