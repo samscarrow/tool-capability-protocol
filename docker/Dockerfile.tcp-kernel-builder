@@ -1,0 +1,79 @@
+# TCP Kernel Builder Container
+# Demonstrates viability of TCP-optimized kernel development in isolated environment
+
+FROM ubuntu:22.04
+
+# Prevent interactive prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install kernel build dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libncurses-dev \
+    bison \
+    flex \
+    libssl-dev \
+    libelf-dev \
+    bc \
+    kmod \
+    cpio \
+    initramfs-tools \
+    crash \
+    makedumpfile \
+    git \
+    wget \
+    curl \
+    python3 \
+    python3-pip \
+    qemu-system-x86 \
+    qemu-utils \
+    debootstrap \
+    rsync \
+    vim \
+    htop \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies for TCP kernel optimizer
+RUN pip3 install numpy matplotlib seaborn
+
+# Create working directory
+WORKDIR /tcp-kernel-lab
+
+# Create directories for kernel development
+RUN mkdir -p /tcp-kernel-lab/{kernel-source,tcp-configs,build-output,test-results,minimal-rootfs}
+
+# Download and prepare a stable kernel source (we'll use a smaller version for demo)
+RUN cd kernel-source && \
+    wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.1.87.tar.xz && \
+    tar -xf linux-6.1.87.tar.xz && \
+    mv linux-6.1.87 linux && \
+    rm linux-6.1.87.tar.xz
+
+# Copy TCP kernel optimizer and related files
+COPY tcp_kernel_optimizer.py /tcp-kernel-lab/
+COPY tcp_stealth_compromise_simulator.py /tcp-kernel-lab/
+COPY TCP_KERNEL_OPTIMIZATION_DESIGN.md /tcp-kernel-lab/
+COPY TCP_KERNEL_SCALE_ANALYSIS.md /tcp-kernel-lab/
+
+# Create enhanced TCP kernel optimizer for real kernel building
+COPY tcp_kernel_builder.py /tcp-kernel-lab/
+
+# Create minimal test environment scripts
+COPY scripts/ /tcp-kernel-lab/scripts/
+RUN chmod +x /tcp-kernel-lab/scripts/*.sh
+
+# Set up environment variables
+ENV KERNEL_SOURCE=/tcp-kernel-lab/kernel-source/linux
+ENV TCP_CONFIG_DIR=/tcp-kernel-lab/tcp-configs
+ENV BUILD_OUTPUT=/tcp-kernel-lab/build-output
+ENV ROOTFS_DIR=/tcp-kernel-lab/minimal-rootfs
+
+# Create entry point script
+COPY tcp-kernel-demo.sh /tcp-kernel-lab/
+RUN chmod +x /tcp-kernel-lab/tcp-kernel-demo.sh
+
+# Expose any necessary ports (for potential web interface)
+EXPOSE 8080
+
+# Default command shows the TCP kernel optimization demonstration
+CMD ["/tcp-kernel-lab/tcp-kernel-demo.sh"]
