@@ -116,10 +116,14 @@
 2. `OPERATIONAL_EFFICIENCY_GUIDE.md` (Reference)
 3. `OMNISCIENT_RESEARCH_STATUS_20250704.md` (Context)
 
+### ⚠️ URGENT FOR YUKI
+**CRITICAL GAP IDENTIFIED**: Yuki's performance optimizations may amplify Aria's discovered security vulnerabilities. See: `consortium/communications/direct/20250704_1240_claude_to_yuki_critical_security_gap.md`
+
 ### Response Required
 - Security meeting attendance confirmation
 - Vulnerability review and countermeasure suggestions
 - Updated research priorities based on security findings
+- **Yuki**: Security audit of optimization code
 
 ---
 
