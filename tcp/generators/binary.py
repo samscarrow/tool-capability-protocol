@@ -88,11 +88,12 @@ class BinaryGenerator:
     
     def _encode_performance(self, descriptor: CapabilityDescriptor) -> bytes:
         """Encode performance metrics as 8 bytes."""
-        if descriptor.performance_metrics:
-            perf = descriptor.performance_metrics
-            memory_mb = min(perf.memory_usage_mb or 10, 65535)
-            cpu_percent = min(perf.cpu_usage_percent or 10, 255)
-            throughput = min(perf.throughput_ops_per_sec or 100, 65535)
+        # Handle both 'performance' and 'performance_metrics' for compatibility
+        perf = getattr(descriptor, 'performance', None) or getattr(descriptor, 'performance_metrics', None)
+        if perf:
+            memory_mb = min(getattr(perf, 'memory_usage_mb', 10), 65535)
+            cpu_percent = min(getattr(perf, 'cpu_usage_percent', 10), 255)
+            throughput = min(getattr(perf, 'throughput_ops_per_sec', 100), 65535)
         else:
             memory_mb = 10  # Default: 10MB
             cpu_percent = 10  # Default: 10% CPU

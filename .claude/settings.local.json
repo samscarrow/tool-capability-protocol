@@ -23,7 +23,15 @@
       "Bash(./tcp_branch_sync.sh:*)",
       "Bash(git stash push:*)",
       "Bash(git checkout:*)",
-      "Bash(git stash:*)"
+      "Bash(git stash:*)",
+      "Bash(source:*)",
+      "Bash(./run-tcp-kernel-demo.sh:*)",
+      "Bash(./run-simple-demo.sh:*)",
+      "Bash(ssh sam@gentoo 'sudo arch-chroot /mnt/gentoo uname -a')",
+      "Bash(ssh:*)",
+      "Bash(./scripts/consortium-notifications.sh:*)",
+      "Bash(./scripts/convergence-handler.sh:*)",
+      "Bash(find:*)"
     ],
     "deny": []
   }
