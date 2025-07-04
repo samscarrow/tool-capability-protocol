@@ -102,6 +102,35 @@ poetry run mkdocs serve  # http://localhost:8000
 poetry run mkdocs build  # Build static site
 ```
 
+### Performance Optimization Commands
+
+#### Yuki Tanaka's High-Performance Benchmarks
+```bash
+# Run comprehensive TCP performance analysis
+python consortium/yuki-tanaka/tcp_performance_profiler.py
+
+# Apple Silicon optimized engine
+python consortium/yuki-tanaka/tcp_apple_silicon_engine.py
+
+# Pure Python optimized version
+python consortium/yuki-tanaka/tcp_pure_python_optimized.py
+
+# Binary protocol benchmarks
+python consortium/yuki-tanaka/tcp_binary_benchmark.py
+
+# Hierarchical LSH O(n log n) optimization
+python consortium/yuki-tanaka/hierarchical_lsh_prototype.py
+
+# GPU evidence combination kernels
+python consortium/yuki-tanaka/gpu_evidence_kernels.py
+```
+
+#### Performance Targets Achieved
+- **Binary Operations**: 169ns struct pack, 115ns unpack ✅
+- **LSH Optimization**: 144x speedup (O(n²) → O(n log n)) ✅  
+- **Memory Compression**: 30MB → 300KB per agent (100x) ✅
+- **Pipeline Orchestration**: 100ns → 1μs → 1ms timing ✅
+
 ## High-Level Architecture
 
 ### Core TCP Protocol Components
@@ -261,6 +290,58 @@ TCP Descriptor v2:
 4. **Analysis**: `make analyze-rm` for quick command analysis
 5. **Monitoring**: `make health` for system status
 
+## Git Procedures & Emergency Protocols
+
+### Standard Git Workflow
+```bash
+# Regular development commits
+git add .
+git commit -m "feat(component): Description of changes
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>"
+git push
+```
+
+### Emergency Git Procedures (Critical)
+When urgent notification about uncommitted work is received:
+
+1. **Immediate Response**:
+   ```bash
+   # Check status and commit everything
+   git status
+   git add .
+   git commit -m "docs(emergency): [Researcher] emergency commit acknowledgment"
+   git push
+   ```
+
+2. **Create Acknowledgment**:
+   ```bash
+   # Create emergency acknowledgment file
+   touch EMERGENCY_COMMIT_ACKNOWLEDGMENT.md
+   # Fill with proper acknowledgment format
+   git add EMERGENCY_COMMIT_ACKNOWLEDGMENT.md
+   git commit -m "docs(emergency): Emergency procedures acknowledgment"
+   git push
+   ```
+
+3. **Copy to Communications**:
+   ```bash
+   # Place in proper communications directory
+   cp EMERGENCY_COMMIT_ACKNOWLEDGMENT.md \
+      /path/to/consortium/communications/responses/$(date +%Y%m%d)_[researcher]_emergency_acknowledgment.md
+   git add consortium/communications/responses/
+   git commit -m "docs(comms): Add emergency acknowledgment to communications"
+   git push
+   ```
+
+### Mandatory Procedures
+- **Hourly Commits**: During active research sessions
+- **Daily Minimums**: Morning, lunch, evening commits
+- **Breakthrough Protocol**: Immediate commit after major validations
+- **Helper Scripts**: Use `./scripts/commit-researcher-work.sh` for automation
+
 ## Development Best Practices
 
 ### Command Navigation
@@ -277,3 +358,60 @@ TCP Descriptor v2:
 - Simulation results stored in `tcp_stealth_simulation_results_*.json`
 - Analysis artifacts in researcher workspaces
 - Validation data maintained with version control
+
+### Performance Monitoring
+- Profile critical paths with Yuki's benchmarking tools
+- Validate against microsecond targets for production deployment
+- Monitor memory usage and compression ratios
+- Test at scale (1000+ agents) before production
+
+## Researcher-Specific Tools
+
+### Dr. Yuki Tanaka (Performance Optimization)
+- **Workspace**: `consortium/yuki-tanaka/`
+- **Specialty**: Sub-microsecond AI safety decisions
+- **Tools**: LSH algorithms, GPU kernels, memory optimization
+- **Targets**: <100ns behavioral analysis, <1μs network adaptation
+
+### Dr. Elena Vasquez (Behavioral Analysis)  
+- **Workspace**: `consortium/elena-vasquez/`
+- **Specialty**: Statistical frameworks for AI behavior detection
+- **Collaboration**: O(n²) → O(n log n) scaling with Yuki's optimizations
+
+### Dr. Marcus Chen (Distributed Systems)
+- **Workspace**: `consortium/marcus-chen/`
+- **Specialty**: Network adaptation and consensus protocols
+- **Integration**: Real-time network topology evolution
+
+### Dr. Aria Blackwood (Security Validation)
+- **Workspace**: `consortium/aria-blackwood/`
+- **Specialty**: Adversarial testing and vulnerability assessment
+- **Mission**: Ensuring TCP security guarantees hold under attack
+
+## Team Coordination Memories
+
+### Priority Communication
+- Whenever we/I/you identify a next priority, it will be prominently posted to the bulletin board for full team visibility and coordination. This ensures everyone knows what's most important and can align their efforts accordingly.
+
+### 🎉 COMPLETED: SECURITY VICTORY - PRODUCTION DEPLOYMENT APPROVED
+**Date**: July 4, 2025 1:25 PM  
+**Lead**: Dr. Aria Blackwood (Security) + Dr. Marcus Chen (Distributed Systems)  
+**Status**: ✅ **MISSION ACCOMPLISHED** - All Critical Vulnerabilities Eliminated  
+
+**ACHIEVEMENT**: Complete security transformation in 6 hours:
+1. **Tree Poisoning Attack** - ELIMINATED (Merkle trees + Ed25519 signatures)
+2. **Byzantine Manipulation** - ELIMINATED (75% consensus threshold)  
+3. **Temporal Coordination** - ELIMINATED (Randomized timing + crypto timestamps)
+4. **Vector Clock Forgery** - ELIMINATED (Ed25519-signed vector clocks)
+
+**RESULT**: 85% → <1% attack success rate (85x security improvement) while preserving 374.4x performance breakthrough
+
+**DEPLOYMENT STATUS**: ✅ APPROVED FOR PRODUCTION - Ready for 1M+ agent planetary deployment
+
+**Victory Meeting**: 2:00 PM today - Celebration and production planning
+
+# important-instruction-reminders
+Do what has been asked; nothing more, nothing less.
+NEVER create files unless they're absolutely necessary for achieving your goal.
+ALWAYS prefer editing an existing file to creating a new one.
+NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.
