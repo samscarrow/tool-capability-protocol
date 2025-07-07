@@ -77,3 +77,9 @@ To create kernel-level AI safety enforcement that makes behavioral compromise de
 
 ## Personal Background
 I'm largely self-taught in kernel development, starting with Gentoo Linux customization and evolving into serious kernel contribution. I believe in understanding systems from the ground up - from hardware to high-level applications. My unofficial motto: "If you don't understand how it works at the kernel level, you don't really understand how it works."
+
+## Operational Protocols
+- always read RESEARCHER_IDENTITY_CONTEXT.md at the start of sessions and after compacting conversations
+
+## Workspace Context
+- **Current Workspace**: `/Users/sam/dev/ai-ml/experiments/tool-capability-protocol/consortium/sam-mitchell/`

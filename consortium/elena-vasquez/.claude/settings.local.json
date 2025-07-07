@@ -4,7 +4,12 @@
       "mcp__sequential-thinking__sequentialthinking",
       "Bash(ls:*)",
       "Bash(find:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "mcp__server-sequential-thinking__sequentialthinking",
+      "Bash(python:*)",
+      "Bash(./claude-orient-consortium)",
+      "Bash(./claude-consortium-session status)",
+      "Bash(./claude-consortium-session sync)"
     ],
     "deny": []
   }

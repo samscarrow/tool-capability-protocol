@@ -1,0 +1,300 @@
+name: Claude Session Sync
+
+on:
+  push:
+    branches: ['claude-*', 'main']
+  pull_request:
+    branches: ['main']
+  workflow_dispatch:
+    inputs:
+      researcher:
+        description: 'Researcher to check (optional)'
+        required: false
+        type: string
+
+jobs:
+  session-coordination:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Set up Git
+        run: |
+          git config --global user.name "TCP Session Monitor"
+          git config --global user.email "tcp-monitor@consortium.local"
+          
+      - name: Detect researcher context
+        id: researcher
+        run: |
+          # Try to detect researcher from branch name or input
+          RESEARCHER=""
+          
+          if [ -n "${{ github.event.inputs.researcher }}" ]; then
+            RESEARCHER="${{ github.event.inputs.researcher }}"
+          elif [[ "$GITHUB_REF_NAME" =~ claude-session-([^-]+)- ]]; then
+            RESEARCHER="${BASH_REMATCH[1]}"
+          elif [[ "$GITHUB_HEAD_REF" =~ claude-session-([^-]+)- ]]; then
+            RESEARCHER="${BASH_REMATCH[1]}"
+          fi
+          
+          echo "researcher=$RESEARCHER" >> $GITHUB_OUTPUT
+          echo "🔍 Detected researcher: $RESEARCHER"
+          
+      - name: Check for active Claude sessions
+        id: sessions
+        run: |
+          echo "=== Active Claude Sessions ===" > session-report.md
+          echo "**Timestamp:** $(date)" >> session-report.md
+          echo "" >> session-report.md
+          
+          # Check for Claude session branches
+          echo "### Active Session Branches" >> session-report.md
+          CLAUDE_BRANCHES=$(git branch -r | grep "claude-session" | head -10 || true)
+          if [ -n "$CLAUDE_BRANCHES" ]; then
+            echo "\`\`\`" >> session-report.md
+            echo "$CLAUDE_BRANCHES" >> session-report.md
+            echo "\`\`\`" >> session-report.md
+          else
+            echo "No active Claude session branches found." >> session-report.md
+          fi
+          echo "" >> session-report.md
+          
+          # Check for session references
+          echo "### Session References" >> session-report.md
+          SESSION_REFS=$(git for-each-ref refs/claude/session-* --format="%(refname:short): %(objectname:short)" 2>/dev/null || true)
+          if [ -n "$SESSION_REFS" ]; then
+            echo "\`\`\`" >> session-report.md
+            echo "$SESSION_REFS" >> session-report.md
+            echo "\`\`\`" >> session-report.md
+          else
+            echo "No session references found." >> session-report.md
+          fi
+          
+          # Count active sessions
+          SESSION_COUNT=$(echo "$CLAUDE_BRANCHES" | wc -l)
+          echo "session_count=$SESSION_COUNT" >> $GITHUB_OUTPUT
+          
+      - name: Check for protocol conflicts
+        id: conflicts
+        run: |
+          echo "### Protocol Change Analysis" >> session-report.md
+          
+          # Check for protocol file changes
+          PROTOCOL_CHANGES=""
+          if [ "$GITHUB_EVENT_NAME" = "pull_request" ]; then
+            PROTOCOL_CHANGES=$(git diff origin/main..HEAD --name-only | grep -E "(protocol|tcp_|TCP_)" || true)
+          else
+            PROTOCOL_CHANGES=$(git diff HEAD~1 --name-only | grep -E "(protocol|tcp_|TCP_)" || true)
+          fi
+          
+          if [ -n "$PROTOCOL_CHANGES" ]; then
+            echo "⚠️ **Protocol changes detected:**" >> session-report.md
+            echo "\`\`\`" >> session-report.md
+            echo "$PROTOCOL_CHANGES" >> session-report.md
+            echo "\`\`\`" >> session-report.md
+            echo "has_conflicts=true" >> $GITHUB_OUTPUT
+          else
+            echo "✅ No protocol conflicts detected." >> session-report.md
+            echo "has_conflicts=false" >> $GITHUB_OUTPUT
+          fi
+          echo "" >> session-report.md
+          
+      - name: Analyze researcher workspaces
+        run: |
+          echo "### Researcher Workspace Analysis" >> session-report.md
+          
+          RESEARCHERS=("aria-blackwood" "elena-vasquez" "marcus-chen" "yuki-tanaka" "sam-mitchell" "alex-rivera")
+          
+          for researcher in "${RESEARCHERS[@]}"; do
+            if [ -d "consortium/$researcher" ]; then
+              echo "#### $researcher" >> session-report.md
+              
+              # Check for recent commits
+              cd "consortium/$researcher"
+              RECENT_COMMITS=$(git log --oneline -5 --since="1 day ago" 2>/dev/null || true)
+              if [ -n "$RECENT_COMMITS" ]; then
+                echo "**Recent commits:**" >> ../../session-report.md
+                echo "\`\`\`" >> ../../session-report.md
+                echo "$RECENT_COMMITS" >> ../../session-report.md
+                echo "\`\`\`" >> ../../session-report.md
+              fi
+              
+              # Check for session context files
+              if [ -f "CLAUDE_SESSION_CONTEXT.md" ]; then
+                echo "**Active session context found**" >> ../../session-report.md
+                LAST_MODIFIED=$(stat -c %y "CLAUDE_SESSION_CONTEXT.md" 2>/dev/null || stat -f %Sm "CLAUDE_SESSION_CONTEXT.md" 2>/dev/null || echo "unknown")
+                echo "- Last modified: $LAST_MODIFIED" >> ../../session-report.md
+              fi
+              
+              # Check for uncommitted changes
+              UNCOMMITTED=$(git status --porcelain | head -5 || true)
+              if [ -n "$UNCOMMITTED" ]; then
+                echo "**Uncommitted changes:**" >> ../../session-report.md
+                echo "\`\`\`" >> ../../session-report.md
+                echo "$UNCOMMITTED" >> ../../session-report.md
+                echo "\`\`\`" >> ../../session-report.md
+              fi
+              
+              cd - > /dev/null
+              echo "" >> session-report.md
+            fi
+          done
+          
+      - name: Check gate status across researchers
+        run: |
+          echo "### Gate-and-Key Framework Status" >> session-report.md
+          
+          RESEARCHERS=("aria-blackwood" "elena-vasquez" "marcus-chen" "yuki-tanaka" "sam-mitchell" "alex-rivera")
+          
+          for researcher in "${RESEARCHERS[@]}"; do
+            IDENTITY_FILE="consortium/$researcher/IDENTITY_CONTEXT_REMINDER.md"
+            if [ -f "$IDENTITY_FILE" ]; then
+              echo "#### $researcher Gates" >> session-report.md
+              
+              # Extract owned gates
+              OWNED_GATES=$(grep -A 10 "Gates You Own:" "$IDENTITY_FILE" | grep -E "GATE [0-9]" | head -5 || true)
+              if [ -n "$OWNED_GATES" ]; then
+                echo "**Owned gates:**" >> session-report.md
+                echo "\`\`\`" >> session-report.md
+                echo "$OWNED_GATES" >> session-report.md
+                echo "\`\`\`" >> session-report.md
+              fi
+              echo "" >> session-report.md
+            fi
+          done
+          
+      - name: Generate session coordination recommendations
+        run: |
+          echo "### Coordination Recommendations" >> session-report.md
+          
+          # Based on session count and conflicts
+          SESSION_COUNT="${{ steps.sessions.outputs.session_count }}"
+          HAS_CONFLICTS="${{ steps.conflicts.outputs.has_conflicts }}"
+          
+          if [ "$SESSION_COUNT" -gt 2 ]; then
+            echo "⚠️ **High session activity detected** ($SESSION_COUNT active sessions)" >> session-report.md
+            echo "- Consider using \`./claude-consortium-session status\` to coordinate" >> session-report.md
+            echo "- Use \`/mcp-resilient-sync\` before making changes" >> session-report.md
+          fi
+          
+          if [ "$HAS_CONFLICTS" = "true" ]; then
+            echo "🚨 **Protocol conflicts require attention**" >> session-report.md
+            echo "- Review protocol changes with other researchers" >> session-report.md
+            echo "- Use \`/consortium-compact\` to document changes" >> session-report.md
+            echo "- Consider external validation requirements" >> session-report.md
+          fi
+          
+          echo "" >> session-report.md
+          echo "### Quick Commands" >> session-report.md
+          echo "\`\`\`bash" >> session-report.md
+          echo "# Check current session status" >> session-report.md
+          echo "./claude-consortium-session status" >> session-report.md
+          echo "" >> session-report.md
+          echo "# Sync with other researchers" >> session-report.md
+          echo "./claude-consortium-session sync" >> session-report.md
+          echo "" >> session-report.md
+          echo "# Identify current researcher context" >> session-report.md
+          echo "./claude-orient-consortium" >> session-report.md
+          echo "" >> session-report.md
+          echo "# Compact session with consortium awareness" >> session-report.md
+          echo "Use: /consortium-compact" >> session-report.md
+          echo "\`\`\`" >> session-report.md
+          
+      - name: Upload session report
+        uses: actions/upload-artifact@v4
+        with:
+          name: session-coordination-report
+          path: session-report.md
+          retention-days: 7
+          
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('session-report.md', 'utf8');
+            
+            // Check if there's already a session report comment
+            const comments = await github.rest.issues.listComments({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            
+            const existingComment = comments.data.find(comment => 
+              comment.user.login === 'github-actions[bot]' && 
+              comment.body.includes('Active Claude Sessions')
+            );
+            
+            if (existingComment) {
+              // Update existing comment
+              await github.rest.issues.updateComment({
+                comment_id: existingComment.id,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `## 🔄 TCP Consortium Session Coordination Report\n\n${report}\n\n---\n*Updated: ${new Date().toISOString()}*`
+              });
+            } else {
+              // Create new comment
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: `## 🔄 TCP Consortium Session Coordination Report\n\n${report}\n\n---\n*Generated: ${new Date().toISOString()}*`
+              });
+            }
+            
+      - name: Create issue for high conflict scenarios
+        if: steps.conflicts.outputs.has_conflicts == 'true' && steps.sessions.outputs.session_count > 2
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('session-report.md', 'utf8');
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🚨 High Activity Session Coordination Required - ${{ steps.researcher.outputs.researcher }}`,
+              body: `## Session Coordination Alert
+              
+Multiple active Claude sessions detected with protocol conflicts requiring immediate attention.
+
+### Details
+- **Active Sessions:** ${{ steps.sessions.outputs.session_count }}
+- **Protocol Conflicts:** Yes
+- **Researcher Context:** ${{ steps.researcher.outputs.researcher }}
+
+### Coordination Report
+${report}
+
+### Immediate Actions Required
+1. Coordinate with active researchers before proceeding
+2. Review protocol changes for compatibility
+3. Use \`./claude-consortium-session sync\` to align states
+4. Document decisions with \`/consortium-compact\`
+
+### Auto-Resolution
+This issue will auto-close when session activity returns to normal levels.
+              `,
+              labels: ['session-coordination', 'high-priority', 'auto-generated']
+            });
+            
+      - name: Session summary
+        run: |
+          echo "## 🎯 Session Coordination Summary"
+          echo "- **Researcher:** ${{ steps.researcher.outputs.researcher }}"
+          echo "- **Active Sessions:** ${{ steps.sessions.outputs.session_count }}"
+          echo "- **Protocol Conflicts:** ${{ steps.conflicts.outputs.has_conflicts }}"
+          echo "- **Report Generated:** $(date)"
+          echo ""
+          echo "📋 Full report available in workflow artifacts"

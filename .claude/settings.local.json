@@ -32,7 +32,19 @@
       "Bash(./scripts/consortium-notifications.sh:*)",
       "Bash(./scripts/convergence-handler.sh:*)",
       "Bash(find:*)",
-      "mcp__server-sequential-thinking__sequentialthinking"
+      "mcp__server-sequential-thinking__sequentialthinking",
+      "Bash(mv:*)",
+      "Bash(./sam-mitchell/infrastructure/start_conflict_monitor.sh:*)",
+      "Bash(pip3 install:*)",
+      "Bash(sqlite3:*)",
+      "Bash(curl:*)",
+      "Bash(./claude-orient-consortium)",
+      "Bash(./claude-consortium-session status)",
+      "Bash(for researcher in aria-blackwood elena-vasquez marcus-chen yuki-tanaka sam-mitchell alex-rivera)",
+      "Bash(do)",
+      "Bash(echo:*)",
+      "Bash(ln:*)",
+      "Bash(done)"
     ],
     "deny": []
   }

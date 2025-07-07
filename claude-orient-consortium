@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# claude-orient-consortium - Consortium orientation command wrapper
+# Usage: ./claude-orient-consortium
+
+# Get the directory where this script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Find TCP project root by looking for pyproject.toml
+TCP_ROOT="$SCRIPT_DIR"
+while [[ ! -f "$TCP_ROOT/pyproject.toml" ]] && [[ "$TCP_ROOT" != "/" ]]; do
+    TCP_ROOT="$(dirname "$TCP_ROOT")"
+done
+
+# Execute the actual orientation script
+exec "$TCP_ROOT/scripts/claude-orient-consortium.sh" "$@"

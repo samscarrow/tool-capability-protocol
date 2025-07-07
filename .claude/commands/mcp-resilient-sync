@@ -1,0 +1,160 @@
+/mcp-resilient-sync: MCP-aware synchronization with graceful fallback to git-based coordination when MCP services are unavailable. Performs health checks on MCP servers, handles timeout scenarios, uses git-based session locking and state sharing as fallback, integrates with consortium session management, and provides status reporting for both MCP and git coordination modes.
+
+## MCP Health Assessment
+Check MCP server availability with timeout handling:
+
+```bash
+# Test MCP server connectivity with 5-second timeout
+if timeout 5 curl -s http://localhost:3000/health 2>/dev/null | grep -q "ok"; then
+    echo "✅ MCP server available - using protocol sync"
+    MCP_MODE=true
+elif timeout 5 nc -z localhost 3000 2>/dev/null; then
+    echo "⚠️  MCP server responding but health check failed"
+    MCP_MODE=false
+else
+    echo "❌ MCP timeout - using git fallback mode"
+    MCP_MODE=false
+fi
+```
+
+## MCP-Available Mode
+When MCP is responding:
+- Use standard MCP tools for session coordination
+- Leverage mcp__sequential-thinking for complex session logic
+- Use MCP-based state sharing between researchers
+- Enable real-time coordination protocols
+
+## Git Fallback Mode  
+When MCP is unavailable or timing out:
+
+### Session Locking via Git
+```bash
+# Create git-based session lock
+SESSION_ID="claude-session-$(whoami)-$(date +%Y%m%d-%H%M%S)"
+git update-ref "refs/claude/session-$(whoami)" HEAD
+
+# Check for conflicting sessions
+git for-each-ref refs/claude/session-* --format="%(refname:short): %(objectname)"
+```
+
+### State Sharing via Git Notes
+```bash
+# Share session state via git notes
+SESSION_STATE=$(cat << EOF
+{
+  "session_id": "$SESSION_ID",
+  "researcher": "$(./claude-orient-consortium | grep 'Name:' | cut -d: -f2 | xargs)",
+  "workspace": "$(pwd)",
+  "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "protocol_version": "$(git log -1 --format=%H -- *protocol* 2>/dev/null || echo 'unknown')",
+  "active_gates": "$(grep -E 'GATE [0-9].*PROGRESS|UNLOCKED' *.md 2>/dev/null || echo 'none')"
+}
+EOF
+)
+
+# Add session state to git notes
+git notes add -m "$SESSION_STATE"
+
+# Read other researchers' session states
+git for-each-ref refs/notes/commits --format="%(contents)" | jq -r '.researcher // empty' 2>/dev/null
+```
+
+### Cross-Researcher Coordination
+```bash
+# Check for protocol conflicts across all researchers
+CONSORTIUM_ROOT="$(cd .. && pwd)"
+for researcher in aria-blackwood elena-vasquez marcus-chen yuki-tanaka sam-mitchell alex-rivera; do
+    if [ -d "$CONSORTIUM_ROOT/consortium/$researcher" ]; then
+        cd "$CONSORTIUM_ROOT/consortium/$researcher"
+        
+        # Check for uncommitted protocol changes
+        PROTOCOL_CHANGES=$(git status --porcelain | grep -E "(protocol|tcp_|TCP_)" || true)
+        if [ -n "$PROTOCOL_CHANGES" ]; then
+            echo "⚠️  Protocol changes in $researcher:"
+            echo "$PROTOCOL_CHANGES" | sed 's/^/    /'
+        fi
+        
+        # Check session activity
+        ACTIVE_SESSION=$(git for-each-ref refs/claude/session-* --format="%(refname:short)" | head -1)
+        if [ -n "$ACTIVE_SESSION" ]; then
+            echo "🔄 Active session in $researcher: $ACTIVE_SESSION"
+        fi
+    fi
+done
+```
+
+## Hybrid Coordination Strategy
+
+### Primary Mode Selection
+```bash
+if [ "$MCP_MODE" = true ]; then
+    echo "🌐 Using MCP-based coordination"
+    # Use MCP tools for real-time coordination
+    # mcp__sequential-thinking for complex session logic
+    # MCP state management for researcher coordination
+else
+    echo "📁 Using git-based fallback coordination"
+    # Use git refs for session locking
+    # Use git notes for state sharing
+    # Use file-based coordination protocols
+fi
+```
+
+### Status Reporting
+```bash
+echo "=== Session Coordination Status ==="
+echo "MCP Mode: $MCP_MODE"
+echo "Current Researcher: $(./claude-orient-consortium | grep 'Name:' | cut -d: -f2 | xargs || echo 'unknown')"
+echo "Active Sessions: $(git for-each-ref refs/claude/session-* --format="%(refname:short)" | wc -l)"
+echo "Protocol Version: $(git log -1 --format=%H -- *protocol* 2>/dev/null || echo 'none')"
+
+# Show active researchers
+echo ""
+echo "Active Researchers:"
+for researcher in aria-blackwood elena-vasquez marcus-chen yuki-tanaka sam-mitchell alex-rivera; do
+    RESEARCHER_DIR="$CONSORTIUM_ROOT/consortium/$researcher"
+    if [ -d "$RESEARCHER_DIR" ]; then
+        cd "$RESEARCHER_DIR"
+        SESSION_COUNT=$(git for-each-ref refs/claude/session-* --format="%(refname:short)" | wc -l)
+        if [ "$SESSION_COUNT" -gt 0 ]; then
+            echo "  • $researcher: $SESSION_COUNT active session(s)"
+        fi
+    fi
+done
+```
+
+## Integration Commands
+After sync, suggested next steps:
+
+### If MCP Available:
+- Use MCP tools for advanced coordination
+- Leverage sequential thinking for complex session planning
+- Enable real-time researcher collaboration
+
+### If Git Fallback:
+- Run `./claude-consortium-session status` for detailed coordination info
+- Use `./claude-consortium-session sync` to fetch other researchers' changes
+- Use `/consortium-compact` for git-aware session compacting
+
+## Error Handling
+```bash
+# Graceful degradation on errors
+set +e  # Don't exit on errors during sync
+
+# Try MCP first, fall back to git
+if ! timeout 10 mcp_sync_command 2>/dev/null; then
+    echo "MCP sync failed, using git fallback"
+    git fetch --all 2>/dev/null || echo "Git fetch failed, working offline"
+fi
+
+set -e  # Resume strict error handling
+```
+
+## Session Recovery
+If both MCP and git coordination fail:
+- Create local session checkpoint with timestamp
+- Save session state to local .claude/emergency-session-TIMESTAMP.json
+- Provide recovery commands for next session
+- Log coordination failure for debugging
+
+Output coordination status and provide appropriate next steps based on available coordination mode.

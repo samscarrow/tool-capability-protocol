@@ -93,6 +93,17 @@ poetry run tcp-wrap --help      # Wrap existing tools
 poetry run tcp-query --help     # Query tool capabilities
 poetry run tcp-discover --help  # Discover available tools
 poetry run tcp-generate --help  # Generate format outputs
+
+# Consortium-specific tools
+./claude-orient-consortium      # Identify agent position in research consortium
+./claude-orient-consortium --help  # View orientation command help
+
+# Concurrent session management
+./claude-consortium-session start   # Start coordinated session
+./claude-consortium-session status  # Check active sessions and conflicts
+./claude-consortium-session sync    # Sync with other researchers
+/consortium-compact                  # Consortium-aware session compacting
+/mcp-resilient-sync                 # MCP-resilient coordination with git fallback
 ```
 
 ### Documentation
