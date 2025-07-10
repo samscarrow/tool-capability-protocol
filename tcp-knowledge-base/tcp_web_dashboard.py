@@ -14,67 +14,71 @@ import threading
 import subprocess
 from typing import Dict, Any
 
+
 class TCPDashboardHandler(BaseHTTPRequestHandler):
     def __init__(self, progress_monitor, *args, **kwargs):
         self.progress_monitor = progress_monitor
         super().__init__(*args, **kwargs)
-    
+
     def do_GET(self):
         """Handle GET requests"""
         parsed_path = urlparse(self.path)
-        
-        if parsed_path.path == '/':
+
+        if parsed_path.path == "/":
             self.serve_dashboard()
-        elif parsed_path.path == '/api/progress':
+        elif parsed_path.path == "/api/progress":
             self.serve_progress_api()
-        elif parsed_path.path == '/api/live':
+        elif parsed_path.path == "/api/live":
             self.serve_live_data()
         else:
             self.send_error(404)
-    
+
     def serve_dashboard(self):
         """Serve main dashboard HTML"""
         html = self.generate_dashboard_html()
-        
+
         self.send_response(200)
-        self.send_header('Content-type', 'text/html')
+        self.send_header("Content-type", "text/html")
         self.end_headers()
         self.wfile.write(html.encode())
-    
+
     def serve_progress_api(self):
         """Serve progress data as JSON API"""
         report = self.progress_monitor.generate_progress_report()
-        
+
         self.send_response(200)
-        self.send_header('Content-type', 'application/json')
-        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header("Content-type", "application/json")
+        self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
         self.wfile.write(json.dumps(report, indent=2).encode())
-    
+
     def serve_live_data(self):
         """Serve live data for real-time updates"""
         progress, quality = self.progress_monitor.calculate_metrics()
-        
+
         live_data = {
             "timestamp": datetime.now().isoformat(),
-            "completion_percentage": (progress.analyzed_commands / progress.total_commands) * 100,
+            "completion_percentage": (
+                progress.analyzed_commands / progress.total_commands
+            )
+            * 100,
             "analyzed_commands": progress.analyzed_commands,
             "total_commands": progress.total_commands,
             "processing_rate": progress.processing_rate,
             "accuracy_rate": progress.accuracy_rate,
             "eta_hours": progress.eta_hours,
-            "risk_distribution": dict(quality.risk_distribution)
+            "risk_distribution": dict(quality.risk_distribution),
         }
-        
+
         self.send_response(200)
-        self.send_header('Content-type', 'application/json')
-        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header("Content-type", "application/json")
+        self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
         self.wfile.write(json.dumps(live_data).encode())
-    
+
     def generate_dashboard_html(self) -> str:
         """Generate comprehensive dashboard HTML"""
-        return '''
+        return """
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -422,29 +426,32 @@ class TCPDashboardHandler(BaseHTTPRequestHandler):
     </script>
 </body>
 </html>
-        '''
-    
+        """
+
     def log_message(self, format, *args):
         """Override to reduce logging noise"""
         pass
+
 
 class TCPWebDashboard:
     def __init__(self, progress_monitor, port=8080):
         self.progress_monitor = progress_monitor
         self.port = port
         self.server = None
-        
+
     def create_handler(self):
         """Create request handler with progress monitor"""
+
         def handler(*args, **kwargs):
             return TCPDashboardHandler(self.progress_monitor, *args, **kwargs)
+
         return handler
-    
+
     def start_server(self):
         """Start the web dashboard server"""
         handler = self.create_handler()
-        self.server = HTTPServer(('localhost', self.port), handler)
-        
+        self.server = HTTPServer(("localhost", self.port), handler)
+
         print(f"🌐 TCP Web Dashboard starting on http://localhost:{self.port}")
         print("🔬 Dashboard features:")
         print("   • Real-time progress monitoring")
@@ -455,30 +462,32 @@ class TCPWebDashboard:
         print(f"   • http://localhost:{self.port}/api/progress")
         print(f"   • http://localhost:{self.port}/api/live")
         print("🔄 Press Ctrl+C to stop")
-        
+
         try:
             self.server.serve_forever()
         except KeyboardInterrupt:
             print("\n\n🛑 Web dashboard stopped")
             self.server.shutdown()
 
+
 def main():
     import argparse
     from tcp_progress_monitor import TCPProgressMonitor
-    
+
     parser = argparse.ArgumentParser(description="TCP Web Dashboard")
     parser.add_argument("--port", type=int, default=8080, help="Web server port")
     parser.add_argument("--data-dir", default="data", help="Analysis data directory")
     parser.add_argument("--host", default="localhost", help="Server host")
-    
+
     args = parser.parse_args()
-    
+
     # Create progress monitor
     monitor = TCPProgressMonitor(args.data_dir)
-    
+
     # Create and start web dashboard
     dashboard = TCPWebDashboard(monitor, args.port)
     dashboard.start_server()
+
 
 if __name__ == "__main__":
     main()
