@@ -350,8 +350,9 @@ class BinaryCapabilityDescriptor:
         )
 
         # Calculate checksum
-        data = binary.to_bytes()[4:]  # Exclude checksum field
-        binary.checksum = _crc32(data)
+        data = binary.to_bytes()
+        data_without_checksum = data[:4] + data[8:]  # Skip checksum field (bytes 4-8)
+        binary.checksum = _crc32(data_without_checksum)
 
         return binary
 
