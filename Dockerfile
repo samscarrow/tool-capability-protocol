@@ -226,78 +226,8 @@ RUN echo '#!/bin/bash' > /tcp-security/health-check.sh && \
 
 RUN chmod +x /tcp-security/health-check.sh
 
-# Create interactive TCP shell script with echo commands
-RUN echo '#!/bin/bash' > /tcp-security/tcp-shell.sh && \
-    echo '' >> /tcp-security/tcp-shell.sh && \
-    echo 'echo "🔐 TCP Security Interactive Shell"' >> /tcp-security/tcp-shell.sh && \
-    echo 'echo "================================="' >> /tcp-security/tcp-shell.sh && \
-    echo 'echo ""' >> /tcp-security/tcp-shell.sh && \
-    echo 'echo "This is a secure TCP environment with:"' >> /tcp-security/tcp-shell.sh && \
-    echo 'echo "  • Local Ollama LLM for security analysis"' >> /tcp-security/tcp-shell.sh && \
-    echo 'echo "  • Enhanced TCP descriptors with embedded security"' >> /tcp-security/tcp-shell.sh && \
-    echo 'echo "  • Human-controlled sandbox for tool execution"' >> /tcp-security/tcp-shell.sh && \
-    echo 'echo "  • Complete privacy - all processing local"' >> /tcp-security/tcp-shell.sh && \
-    echo 'echo ""' >> /tcp-security/tcp-shell.sh && \
-    echo 'echo "Quick commands:"' >> /tcp-security/tcp-shell.sh && \
-    echo 'echo "  tcp-demo     - Run demonstration menu"' >> /tcp-security/tcp-shell.sh && \
-    echo 'echo "  tcp-health   - Check system health"' >> /tcp-security/tcp-shell.sh && \
-    echo 'echo "  tcp-ollama   - Interact with Ollama directly"' >> /tcp-security/tcp-shell.sh && \
-    echo 'echo "  tcp-analyze  - Analyze a command'\''s security"' >> /tcp-security/tcp-shell.sh && \
-    echo 'echo ""' >> /tcp-security/tcp-shell.sh && \
-    echo '' >> /tcp-security/tcp-shell.sh && \
-    echo '# Add custom aliases' >> /tcp-security/tcp-shell.sh && \
-    echo 'alias tcp-demo='\''/tcp-security/run-demo.sh'\''' >> /tcp-security/tcp-shell.sh && \
-    echo 'alias tcp-health='\''/tcp-security/health-check.sh'\''' >> /tcp-security/tcp-shell.sh && \
-    echo 'alias tcp-ollama='\''ollama'\''' >> /tcp-security/tcp-shell.sh && \
-    echo '' >> /tcp-security/tcp-shell.sh && \
-    echo '# Function to analyze a command' >> /tcp-security/tcp-shell.sh && \
-    echo 'tcp-analyze() {' >> /tcp-security/tcp-shell.sh && \
-    echo '    if [ -z "$1" ]; then' >> /tcp-security/tcp-shell.sh && \
-    echo '        echo "Usage: tcp-analyze <command>"' >> /tcp-security/tcp-shell.sh && \
-    echo '        echo "Example: tcp-analyze rm"' >> /tcp-security/tcp-shell.sh && \
-    echo '        return 1' >> /tcp-security/tcp-shell.sh && \
-    echo '    fi' >> /tcp-security/tcp-shell.sh && \
-    echo '    ' >> /tcp-security/tcp-shell.sh && \
-    echo '    echo "🔍 Analyzing command: $1"' >> /tcp-security/tcp-shell.sh && \
-    echo '    python3 -c "' >> /tcp-security/tcp-shell.sh && \
-    echo 'from tcp.enrichment.manpage_enricher import ManPageEnricher' >> /tcp-security/tcp-shell.sh && \
-    echo 'from tcp.enrichment.tcp_encoder import EnrichedTCPEncoder' >> /tcp-security/tcp-shell.sh && \
-    echo 'from tcp.enrichment.risk_assessment_auditor import TransparentRiskAssessor' >> /tcp-security/tcp-shell.sh && \
-    echo '' >> /tcp-security/tcp-shell.sh && \
-    echo 'enricher = ManPageEnricher()' >> /tcp-security/tcp-shell.sh && \
-    echo 'encoder = EnrichedTCPEncoder(enricher)' >> /tcp-security/tcp-shell.sh && \
-    echo 'assessor = TransparentRiskAssessor()' >> /tcp-security/tcp-shell.sh && \
-    echo '' >> /tcp-security/tcp-shell.sh && \
-    echo 'command = '\''\'"'\'''\''$1'\''\'"'\''\'' >> /tcp-security/tcp-shell.sh && \
-    echo 'print(f'\''\'"'\''\'📋 Processing: {command}'\''\'"'\''\')' >> /tcp-security/tcp-shell.sh && \
-    echo '' >> /tcp-security/tcp-shell.sh && \
-    echo '# Get man page data' >> /tcp-security/tcp-shell.sh && \
-    echo 'man_data = enricher.enrich_command(command)' >> /tcp-security/tcp-shell.sh && \
-    echo 'if man_data:' >> /tcp-security/tcp-shell.sh && \
-    echo '    print(f'\''\'"'\''\'✅ Security Level: {man_data.security_level.value}'\''\'"'\''\')' >> /tcp-security/tcp-shell.sh && \
-    echo '    print(f'\''\'"'\''\'✅ Privileges: {man_data.privilege_requirements.value}'\''\'"'\''\')' >> /tcp-security/tcp-shell.sh && \
-    echo '    ' >> /tcp-security/tcp-shell.sh && \
-    echo '    # Generate TCP descriptor' >> /tcp-security/tcp-shell.sh && \
-    echo '    descriptor = encoder.encode_enhanced_tcp(command)' >> /tcp-security/tcp-shell.sh && \
-    echo '    binary_data = encoder.to_binary(descriptor)' >> /tcp-security/tcp-shell.sh && \
-    echo '    ' >> /tcp-security/tcp-shell.sh && \
-    echo '    print(f'\''\'"'\''\'✅ Binary Size: {len(binary_data)} bytes'\''\'"'\''\')' >> /tcp-security/tcp-shell.sh && \
-    echo '    print(f'\''\'"'\''\'✅ Security Flags: 0x{descriptor.security_flags:08x}'\''\'"'\''\')' >> /tcp-security/tcp-shell.sh && \
-    echo '    ' >> /tcp-security/tcp-shell.sh && \
-    echo '    # Risk assessment' >> /tcp-security/tcp-shell.sh && \
-    echo '    audit = assessor.assess_command_risk(command, man_data)' >> /tcp-security/tcp-shell.sh && \
-    echo '    print(f'\''\'"'\''\'✅ Risk Score: {audit.security_score:.3f}'\''\'"'\''\')' >> /tcp-security/tcp-shell.sh && \
-    echo '    print(f'\''\'"'\''\'✅ Evidence Pieces: {len(audit.risk_evidence)}'\''\'"'\''\')' >> /tcp-security/tcp-shell.sh && \
-    echo 'else:' >> /tcp-security/tcp-shell.sh && \
-    echo '    print('\''\'"'\''\'❌ Failed to analyze command'\''\'"'\''\')' >> /tcp-security/tcp-shell.sh && \
-    echo '"' >> /tcp-security/tcp-shell.sh && \
-    echo '}' >> /tcp-security/tcp-shell.sh && \
-    echo '' >> /tcp-security/tcp-shell.sh && \
-    echo 'export -f tcp-analyze' >> /tcp-security/tcp-shell.sh && \
-    echo '' >> /tcp-security/tcp-shell.sh && \
-    echo 'echo "🚀 TCP Security Shell ready! Try '\''tcp-demo'\'' to get started."' >> /tcp-security/tcp-shell.sh && \
-    echo 'bash' >> /tcp-security/tcp-shell.sh
-
+# Copy interactive TCP shell script
+COPY scripts/tcp-shell.sh /tcp-security/tcp-shell.sh
 RUN chmod +x /tcp-security/tcp-shell.sh
 
 # Set proper ownership

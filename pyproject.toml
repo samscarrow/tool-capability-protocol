@@ -144,6 +144,7 @@ markers = [
     "unit: marks tests as unit tests",
     "network: marks tests that require network access",
     "performance: marks tests that measure performance",
+    "security: marks tests that test security features",
 ]
 
 [tool.coverage.run]
