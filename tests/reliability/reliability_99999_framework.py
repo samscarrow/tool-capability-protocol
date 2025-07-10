@@ -173,8 +173,8 @@ class ReliabilityTestFramework:
                     op_start = time.perf_counter_ns()
                     try:
                         # Encode and decode operation
-                        binary_data = self.tcp_protocol.encode_capability(descriptor)
-                        decoded = self.tcp_protocol.decode_capability(binary_data)
+                        binary_data = self.tcp_protocol.generate_binary(descriptor)
+                        decoded = self.tcp_protocol.parse_binary(binary_data)
 
                         op_end = time.perf_counter_ns()
                         user_response_times.append(op_end - op_start)
@@ -290,7 +290,7 @@ class ReliabilityTestFramework:
 
                 op_start = time.perf_counter_ns()
                 try:
-                    binary_data = self.tcp_protocol.encode_capability(descriptor)
+                    binary_data = self.tcp_protocol.generate_binary(descriptor)
                     encoded_descriptors.append(binary_data)
 
                     op_end = time.perf_counter_ns()
@@ -318,7 +318,7 @@ class ReliabilityTestFramework:
 
                 op_start = time.perf_counter_ns()
                 try:
-                    decoded = self.tcp_protocol.decode_capability(binary_data)
+                    decoded = self.tcp_protocol.parse_binary(binary_data)
 
                     op_end = time.perf_counter_ns()
                     response_times.append(op_end - op_start)
@@ -428,19 +428,19 @@ class ReliabilityTestFramework:
                             security_flags=descriptor.security_flags,
                             performance_metrics=descriptor.performance_metrics,
                         )
-                        binary_data = self.tcp_protocol.encode_capability(
+                        binary_data = self.tcp_protocol.generate_binary(
                             corrupted_desc
                         )
 
                     elif fault_type == "network_timeout":
                         # Simulate network timeout
                         time.sleep(0.01)  # 10ms delay
-                        binary_data = self.tcp_protocol.encode_capability(descriptor)
+                        binary_data = self.tcp_protocol.generate_binary(descriptor)
 
                     elif fault_type == "memory_error":
                         # Simulate memory pressure
                         large_data = [0] * 1000000  # 1M integers
-                        binary_data = self.tcp_protocol.encode_capability(descriptor)
+                        binary_data = self.tcp_protocol.generate_binary(descriptor)
                         del large_data
 
                     elif fault_type == "cpu_spike":
@@ -448,9 +448,9 @@ class ReliabilityTestFramework:
                         start_cpu = time.perf_counter()
                         while time.perf_counter() - start_cpu < 0.001:  # 1ms busy loop
                             pass
-                        binary_data = self.tcp_protocol.encode_capability(descriptor)
+                        binary_data = self.tcp_protocol.generate_binary(descriptor)
 
-                    decoded = self.tcp_protocol.decode_capability(binary_data)
+                    decoded = self.tcp_protocol.parse_binary(binary_data)
 
                     op_end = time.perf_counter_ns()
                     response_times.append(op_end - op_start)
@@ -467,8 +467,8 @@ class ReliabilityTestFramework:
                 # Normal operation
                 op_start = time.perf_counter_ns()
                 try:
-                    binary_data = self.tcp_protocol.encode_capability(descriptor)
-                    decoded = self.tcp_protocol.decode_capability(binary_data)
+                    binary_data = self.tcp_protocol.generate_binary(descriptor)
+                    decoded = self.tcp_protocol.parse_binary(binary_data)
 
                     op_end = time.perf_counter_ns()
                     response_times.append(op_end - op_start)

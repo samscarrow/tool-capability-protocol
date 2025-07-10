@@ -10,7 +10,11 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from tcp.core.descriptors import BinaryCapabilityDescriptor, CapabilityDescriptor, PerformanceMetrics
+from tcp.core.descriptors import (
+    BinaryCapabilityDescriptor,
+    CapabilityDescriptor,
+    PerformanceMetrics,
+)
 from tcp.core.protocol import ToolCapabilityProtocol
 from tcp.core.registry import CapabilityRegistry
 

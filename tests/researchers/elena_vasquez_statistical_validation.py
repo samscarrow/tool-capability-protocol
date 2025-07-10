@@ -144,7 +144,7 @@ class ElenaStatisticalValidationFramework:
             )
 
             # Get TCP binary size
-            binary_data = self.tcp_protocol.encode_capability(descriptor)
+            binary_data = self.tcp_protocol.generate_binary(descriptor)
             binary_size = len(binary_data)
 
             # Calculate compression ratio

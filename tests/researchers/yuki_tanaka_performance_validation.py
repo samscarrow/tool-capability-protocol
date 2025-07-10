@@ -156,7 +156,7 @@ class YukiPerformanceValidationFramework:
         warmup_iterations = min(1000, iterations // 10)
         for _ in range(warmup_iterations):
             descriptor = np.random.choice(test_suite)
-            self.tcp_protocol.encode_capability(descriptor)
+            self.tcp_protocol.generate_binary(descriptor)
 
         # Measurement phase with high precision timing
         start_time = time.time()
@@ -166,7 +166,7 @@ class YukiPerformanceValidationFramework:
 
             # High-precision timing
             start_ns = time.perf_counter_ns()
-            binary_data = self.tcp_protocol.encode_capability(descriptor)
+            binary_data = self.tcp_protocol.generate_binary(descriptor)
             end_ns = time.perf_counter_ns()
 
             latency_ns = end_ns - start_ns
@@ -251,7 +251,7 @@ class YukiPerformanceValidationFramework:
             # Thread-local warmup
             for _ in range(10):
                 descriptor = np.random.choice(test_suite)
-                self.tcp_protocol.encode_capability(descriptor)
+                self.tcp_protocol.generate_binary(descriptor)
 
             # Thread measurements
             for i in range(operations_per_thread):
@@ -260,7 +260,7 @@ class YukiPerformanceValidationFramework:
                 ]
 
                 start_ns = time.perf_counter_ns()
-                binary_data = self.tcp_protocol.encode_capability(descriptor)
+                binary_data = self.tcp_protocol.generate_binary(descriptor)
                 end_ns = time.perf_counter_ns()
 
                 latency_ns = end_ns - start_ns

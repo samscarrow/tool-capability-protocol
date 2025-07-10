@@ -41,14 +41,14 @@ def temp_dir() -> Generator[Path, None, None]:
 def sample_capability_descriptor() -> CapabilityDescriptor:
     """Provides standard capability descriptor for testing."""
     from tcp.core.descriptors import (
-        CommandDescriptor, 
-        FormatDescriptor, 
+        CommandDescriptor,
+        FormatDescriptor,
         FormatType,
         ParameterDescriptor,
         ParameterType,
-        PerformanceMetrics
+        PerformanceMetrics,
     )
-    
+
     return CapabilityDescriptor(
         name="grep",
         description="Search text patterns in files",
@@ -100,13 +100,14 @@ def sample_binary_descriptor() -> BinaryCapabilityDescriptor:
         max_file_size_mb=100,
         avg_processing_time_ms=436,
     )
-    
+
     # Calculate correct checksum
     import zlib
+
     data = descriptor.to_bytes()
     data_without_checksum = data[:4] + data[8:]  # Skip checksum field
     descriptor.checksum = zlib.crc32(data_without_checksum) & 0xFFFFFFFF
-    
+
     return descriptor
 
 
