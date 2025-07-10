@@ -145,6 +145,7 @@ markers = [
     "network: marks tests that require network access",
     "performance: marks tests that measure performance",
     "security: marks tests that test security features",
+    "external_validation: marks tests that require external validation",
 ]
 
 [tool.coverage.run]
