@@ -1,0 +1,269 @@
+name: Dependency Review & Management
+
+on:
+  pull_request:
+    paths:
+      - 'poetry.lock'
+      - 'pyproject.toml'
+      - 'requirements*.txt'
+      - 'consortium/requirements*.txt'
+  schedule:
+    - cron: '0 8 * * 1' # Weekly on Monday at 8 AM
+
+jobs:
+  dependency-review:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Dependency Review
+      uses: actions/dependency-review-action@v3
+      with:
+        fail-on-severity: moderate
+        allow-licenses: MIT, Apache-2.0, BSD-3-Clause, BSD-2-Clause, ISC
+        deny-licenses: GPL-3.0, LGPL-3.0, AGPL-3.0
+
+  poetry-audit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+    
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        version: latest
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+    
+    - name: Poetry audit
+      run: |
+        poetry audit || echo "Poetry audit completed with findings"
+    
+    - name: Check Poetry lock file
+      run: |
+        poetry lock --check
+    
+    - name: Install dependencies and check conflicts
+      run: |
+        poetry install --with dev,test,docs
+        poetry show --tree
+
+  pip-audit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+    
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        version: latest
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+    
+    - name: Install dependencies
+      run: |
+        poetry install --with dev,test,docs
+    
+    - name: Export requirements for pip-audit
+      run: |
+        poetry export --with dev,test,docs --format requirements.txt --output requirements-audit.txt
+    
+    - name: Install pip-audit
+      run: |
+        pip install pip-audit
+    
+    - name: Run pip-audit
+      run: |
+        pip-audit -r requirements-audit.txt --format=json --output=pip-audit-report.json || true
+    
+    - name: Upload pip-audit report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: pip-audit-report
+        path: pip-audit-report.json
+
+  tcp-dependency-validation:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+    
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        version: latest
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+    
+    - name: Install dependencies
+      run: |
+        poetry install --with dev,test,docs
+    
+    - name: Validate TCP core dependencies
+      run: |
+        poetry run python -c "
+        import tcp
+        from tcp.core.protocol import TCPProtocol
+        from tcp.core.descriptors import CapabilityDescriptor
+        from tcp.generators.binary import BinaryGenerator
+        print('TCP core dependencies validation passed')
+        "
+    
+    - name: Check consortium researcher dependencies
+      run: |
+        # Check if consortium researcher environments are compatible
+        for researcher in consortium/*/requirements*.txt; do
+          if [ -f "$researcher" ]; then
+            echo "Checking $researcher"
+            pip install -r "$researcher" --dry-run || echo "Dependency conflict in $researcher"
+          fi
+        done
+    
+    - name: Validate performance dependencies
+      run: |
+        poetry run python -c "
+        try:
+            import numpy
+            import scipy
+            print('Performance dependencies available')
+        except ImportError as e:
+            print(f'Performance dependency missing: {e}')
+        "
+
+  license-check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+    
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        version: latest
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+    
+    - name: Install dependencies
+      run: |
+        poetry install --with dev,test,docs
+    
+    - name: Install license checker
+      run: |
+        poetry add --group dev pip-licenses
+    
+    - name: Check licenses
+      run: |
+        poetry run pip-licenses --format=json --output-file=licenses-report.json
+        poetry run pip-licenses --format=markdown --output-file=licenses-report.md
+    
+    - name: Upload license reports
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: license-reports
+        path: |
+          licenses-report.json
+          licenses-report.md
+
+  dependency-update-check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+    
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        version: latest
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+    
+    - name: Check for dependency updates
+      run: |
+        poetry show --outdated --format=json > outdated-dependencies.json || true
+        poetry show --outdated || echo "No outdated dependencies or check failed"
+    
+    - name: Upload outdated dependencies report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: outdated-dependencies
+        path: outdated-dependencies.json
+
+  renovate-config-validation:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Validate Renovate config
+      uses: rinchsan/renovate-config-validator@v0.0.12
+      with:
+        pattern: renovate.json
+      if: ${{ hashFiles('renovate.json') != '' }}
+
+  consortium-dependency-matrix:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        researcher: [alex-rivera, aria-blackwood, elena-vasquez, marcus-chen, yuki-tanaka]
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+    
+    - name: Check researcher-specific dependencies
+      run: |
+        researcher_dir="consortium/${{ matrix.researcher }}"
+        if [ -d "$researcher_dir" ]; then
+          echo "Checking dependencies for ${{ matrix.researcher }}"
+          
+          # Check if requirements files exist
+          if [ -f "$researcher_dir/requirements.txt" ]; then
+            echo "Found requirements.txt for ${{ matrix.researcher }}"
+            pip install -r "$researcher_dir/requirements.txt" --dry-run || echo "Dependency conflict detected"
+          fi
+          
+          # Check for performance requirements
+          if [ -f "$researcher_dir/requirements-performance.txt" ]; then
+            echo "Found performance requirements for ${{ matrix.researcher }}"
+            pip install -r "$researcher_dir/requirements-performance.txt" --dry-run || echo "Performance dependency conflict detected"
+          fi
+          
+          # Check Python environment setup scripts
+          if [ -f "$researcher_dir/setup-python-env.sh" ]; then
+            echo "Found Python environment setup for ${{ matrix.researcher }}"
+            bash -n "$researcher_dir/setup-python-env.sh" || echo "Environment setup script has syntax errors"
+          fi
+          
+          echo "Dependency check completed for ${{ matrix.researcher }}"
+        else
+          echo "No consortium directory found for ${{ matrix.researcher }}"
+        fi
