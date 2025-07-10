@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# claude-consortium-session - Wrapper for consortium session management
+# Can be run from anywhere in the TCP project
+
+# Get the directory where this script is located (handles symlinks)
+if [[ -L "${BASH_SOURCE[0]}" ]]; then
+    # If it's a symlink, resolve it
+    SCRIPT_PATH="$(readlink "${BASH_SOURCE[0]}")"
+    # Handle relative symlinks
+    if [[ ! "$SCRIPT_PATH" =~ ^/ ]]; then
+        SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+        SCRIPT_PATH="$SCRIPT_DIR/$SCRIPT_PATH"
+    fi
+    REAL_SCRIPT_DIR="$(cd "$(dirname "$SCRIPT_PATH")" && pwd)"
+else
+    # Not a symlink
+    REAL_SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+fi
+
+# Execute the actual session manager
+exec "$REAL_SCRIPT_DIR/scripts/claude-consortium-session" "$@"

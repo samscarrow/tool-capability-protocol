@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  tcp-kernel-builder:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.tcp-kernel-builder
+    container_name: tcp-kernel-demo
+    hostname: tcp-kernel-lab
+    
+    # Resource limits for safe operation
+    mem_limit: 4g
+    cpus: '2.0'
+    
+    # Mount volumes for persistence and inspection
+    volumes:
+      - tcp-kernel-source:/tcp-kernel-lab/kernel-source
+      - tcp-kernel-builds:/tcp-kernel-lab/build-output
+      - tcp-kernel-configs:/tcp-kernel-lab/tcp-configs
+      - ./results:/tcp-kernel-lab/results  # Host directory for results
+    
+    # Environment variables
+    environment:
+      - KERNEL_SOURCE=/tcp-kernel-lab/kernel-source/linux
+      - BUILD_OUTPUT=/tcp-kernel-lab/build-output
+      - TCP_CONFIG_DIR=/tcp-kernel-lab/tcp-configs
+      - MAKEFLAGS=-j2
+      - DEBIAN_FRONTEND=noninteractive
+    
+    # Enable privileged mode for QEMU (safe in container)
+    privileged: true
+    
+    # Interactive mode for demonstration
+    stdin_open: true
+    tty: true
+    
+    # Network configuration
+    network_mode: bridge
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "python3", "--version"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Optional: Monitoring service
+  tcp-kernel-monitor:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.tcp-kernel-builder
+    container_name: tcp-kernel-monitor
+    depends_on:
+      - tcp-kernel-builder
+    
+    command: ["sh", "-c", "echo 'TCP Kernel Monitor Started' && while true; do sleep 60; done"]
+    
+    volumes:
+      - tcp-kernel-builds:/tcp-kernel-lab/build-output:ro
+    
+    mem_limit: 512m
+    cpus: '0.5'
+
+# Named volumes for persistence
+volumes:
+  tcp-kernel-source:
+    driver: local
+  tcp-kernel-builds:
+    driver: local
+  tcp-kernel-configs:
+    driver: local
+
+# Network configuration
+networks:
+  default:
+    driver: bridge

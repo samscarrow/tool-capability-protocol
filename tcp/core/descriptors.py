@@ -7,6 +7,7 @@ from typing import Dict, List, Optional, Any, Union
 from datetime import datetime
 import hashlib
 import json
+import warnings
 
 
 class ParameterType(IntEnum):
@@ -163,7 +164,7 @@ class CapabilityDescriptor:
     homepage: str = ""
     
     # Capabilities
-    commands: List[CommandDescriptor] = field(default_factory=list)
+    commands: Union[List[CommandDescriptor], Dict[str, CommandDescriptor]] = field(default_factory=list)
     input_formats: List[FormatDescriptor] = field(default_factory=list)
     output_formats: List[FormatDescriptor] = field(default_factory=list)
     processing_modes: List[ProcessingMode] = field(default_factory=list)
@@ -184,18 +185,40 @@ class CapabilityDescriptor:
     
     def __post_init__(self):
         """Post-initialization processing."""
+        # Normalize commands from Dict to List if needed
+        if isinstance(self.commands, dict):
+            warnings.warn(
+                "Dict format for commands is deprecated and will be removed in v2.0.0. "
+                "Use List[CommandDescriptor] instead. "
+                "Migration guide: https://tcp.dev/docs/migration/commands-list",
+                DeprecationWarning,
+                stacklevel=3
+            )
+            # Convert dict values to list, preserving the command descriptors
+            self.commands = list(self.commands.values())
+        
         if self.created_at is None:
             self.created_at = datetime.utcnow()
         self.updated_at = datetime.utcnow()
     
     def add_command(self, command: CommandDescriptor) -> None:
         """Add a command to the descriptor."""
-        self.commands.append(command)
+        # Ensure commands is a list after normalization
+        if isinstance(self.commands, list):
+            self.commands.append(command)
+        else:
+            # This shouldn't happen after __post_init__, but handle it defensively
+            raise TypeError("Commands must be normalized to a List before adding new commands")
         self.updated_at = datetime.utcnow()
     
     def get_command(self, name: str) -> Optional[CommandDescriptor]:
         """Get command by name."""
-        return next((c for c in self.commands if c.name == name), None)
+        # Ensure commands is a list (should be after __post_init__)
+        if isinstance(self.commands, list):
+            return next((c for c in self.commands if c.name == name), None)
+        else:
+            # This shouldn't happen after __post_init__, but handle it defensively
+            return self.commands.get(name) if isinstance(self.commands, dict) else None
     
     def supports_format(self, format_name: str) -> bool:
         """Check if tool supports a specific format."""

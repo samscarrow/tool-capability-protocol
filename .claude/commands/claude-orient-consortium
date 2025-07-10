@@ -1,0 +1,3 @@
+/claude-orient-consortium: Identify the agent's position within the TCP Research Consortium based on current working directory. Automatically detects researcher workspace (aria-blackwood, elena-vasquez, marcus-chen, yuki-tanaka, sam-mitchell, alex-rivera), loads identity context from IDENTITY_CONTEXT_REMINDER.md or CLAUDE.md files, displays researcher name/title/domain, shows owned vs. other researchers' gates, provides role-specific orientation guidance, and lists available actions for the current workspace context.
+
+Command: ./claude-orient-consortium

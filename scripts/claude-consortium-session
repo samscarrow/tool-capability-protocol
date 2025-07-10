@@ -1,0 +1,469 @@
+#!/bin/bash
+
+# claude-consortium-session - Git-based session coordination for TCP Research Consortium
+# Handles concurrent Claude sessions across multiple researcher workspaces
+
+set -euo pipefail
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
+NC='\033[0m' # No Color
+
+# Configuration
+CONSORTIUM_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SESSION_PREFIX="claude-session"
+RESEARCHERS=("aria-blackwood" "elena-vasquez" "marcus-chen" "yuki-tanaka" "sam-mitchell" "alex-rivera" "claude-sonnet")
+
+# Function to display header
+show_header() {
+    echo -e "${CYAN}╔══════════════════════════════════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${CYAN}║                    🔄 TCP Consortium Session Management                              ║${NC}"
+    echo -e "${CYAN}╚══════════════════════════════════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+}
+
+# Function to detect current researcher workspace
+detect_researcher() {
+    local cwd="$(pwd)"
+    
+    # Check if we're in a researcher workspace
+    if [[ "$cwd" =~ /consortium/([^/]+) ]]; then
+        local workspace="${BASH_REMATCH[1]}"
+        # Validate it's a known researcher
+        for researcher in "${RESEARCHERS[@]}"; do
+            if [[ "$workspace" == "$researcher" ]]; then
+                echo "$researcher"
+                return 0
+            fi
+        done
+    fi
+    
+    echo "unknown"
+}
+
+# Function to generate session ID
+generate_session_id() {
+    local researcher="$1"
+    echo "${SESSION_PREFIX}-${researcher}-$(date +%Y%m%d-%H%M%S)"
+}
+
+# Function to check for active sessions
+check_active_sessions() {
+    echo -e "${YELLOW}🔍 Checking for active Claude sessions...${NC}"
+    echo ""
+    
+    local found_sessions=0
+    
+    for researcher in "${RESEARCHERS[@]}"; do
+        local researcher_dir="$CONSORTIUM_ROOT/consortium/$researcher"
+        if [[ -d "$researcher_dir" ]]; then
+            # Check for git session refs
+            local session_refs=$(git -C "$researcher_dir" for-each-ref refs/claude/session-* --format="%(refname:short)" 2>/dev/null || true)
+            
+            if [[ -n "$session_refs" ]]; then
+                echo -e "${BLUE}📍 $researcher:${NC}"
+                echo "$session_refs" | while read -r ref; do
+                    if [[ -n "$ref" ]]; then
+                        local commit_info=$(git -C "$researcher_dir" log -1 --format="%H %s" "$ref" 2>/dev/null || echo "unknown")
+                        echo "  • $ref: $commit_info"
+                        found_sessions=$((found_sessions + 1))
+                    fi
+                done
+                echo ""
+            fi
+            
+            # Check for session lock files
+            local lock_files=$(find "$researcher_dir" -name ".claude-session-*" -mmin -30 2>/dev/null || true)
+            if [[ -n "$lock_files" ]]; then
+                echo -e "${YELLOW}🔒 Active session locks in $researcher:${NC}"
+                echo "$lock_files" | while read -r lock_file; do
+                    if [[ -n "$lock_file" ]]; then
+                        local lock_age=$(stat -f "%Sm" -t "%Y-%m-%d %H:%M:%S" "$lock_file" 2>/dev/null || echo "unknown")
+                        echo "  • $(basename "$lock_file"): $lock_age"
+                    fi
+                done
+                echo ""
+            fi
+        fi
+    done
+    
+    if [[ $found_sessions -eq 0 ]]; then
+        echo -e "${GREEN}✅ No active Claude sessions detected${NC}"
+    fi
+    
+    echo ""
+}
+
+# Function to check for protocol conflicts
+check_protocol_conflicts() {
+    echo -e "${YELLOW}⚡ Checking for protocol conflicts...${NC}"
+    echo ""
+    
+    local conflicts_found=0
+    
+    # Check for uncommitted changes to protocol-related files
+    for researcher in "${RESEARCHERS[@]}"; do
+        local researcher_dir="$CONSORTIUM_ROOT/consortium/$researcher"
+        if [[ -d "$researcher_dir/.git" ]]; then
+            cd "$researcher_dir"
+            
+            # Check for modified protocol files
+            local protocol_changes=$(git status --porcelain | grep -E "(protocol|tcp_|TCP_)" || true)
+            if [[ -n "$protocol_changes" ]]; then
+                echo -e "${RED}⚠️  Protocol changes in $researcher:${NC}"
+                echo "$protocol_changes" | sed 's/^/  /'
+                conflicts_found=$((conflicts_found + 1))
+                echo ""
+            fi
+            
+            # Check for diverged branches
+            if git rev-parse --verify origin/main >/dev/null 2>&1; then
+                local ahead=$(git rev-list --count HEAD ^origin/main 2>/dev/null || echo "0")
+                local behind=$(git rev-list --count origin/main ^HEAD 2>/dev/null || echo "0")
+                
+                if [[ "$ahead" -gt 0 ]] || [[ "$behind" -gt 0 ]]; then
+                    echo -e "${YELLOW}📈 Branch status for $researcher: +$ahead -$behind${NC}"
+                fi
+            fi
+        fi
+    done
+    
+    if [[ $conflicts_found -eq 0 ]]; then
+        echo -e "${GREEN}✅ No protocol conflicts detected${NC}"
+    fi
+    
+    echo ""
+}
+
+# Function to start a new session
+start_session() {
+    local researcher="$1"
+    local session_id="$2"
+    
+    show_header
+    echo -e "${GREEN}🚀 Starting Claude session for $researcher${NC}"
+    echo -e "${BLUE}Session ID: $session_id${NC}"
+    echo ""
+    
+    # Check for existing sessions
+    check_active_sessions
+    check_protocol_conflicts
+    
+    # Create session branch
+    local researcher_dir="$CONSORTIUM_ROOT/consortium/$researcher"
+    if [[ -d "$researcher_dir" ]]; then
+        cd "$researcher_dir"
+        
+        # Create session branch
+        echo -e "${YELLOW}📝 Creating session branch...${NC}"
+        git checkout -b "$session_id" 2>/dev/null || true
+        
+        # Create session reference
+        git update-ref "refs/claude/session-$researcher" HEAD
+        
+        # Create session lock file
+        echo "$session_id:$USER:$(date -u +%Y-%m-%dT%H:%M:%SZ)" > ".claude-session-$session_id"
+        
+        # Add session notes
+        local session_info="Claude session started: $session_id
+Researcher: $researcher
+User: $USER
+Timestamp: $(date)
+Working Directory: $(pwd)
+Git Branch: $(git branch --show-current)
+"
+        git notes add -m "$session_info" 2>/dev/null || true
+        
+        # Initialize session context file
+        cat > "CLAUDE_SESSION_CONTEXT.md" << EOF
+# Claude Session: $session_id
+## Researcher: $researcher
+## Started: $(date)
+
+### Current Focus
+[To be updated during session]
+
+### Protocol Status
+$(git log -1 --format="Protocol version: %H" -- *protocol* 2>/dev/null || echo "No protocol files tracked")
+
+### Other Active Researchers
+$(check_active_sessions | grep -E "^📍" | sed 's/📍 /- /' || echo "None detected")
+
+### Gate Responsibilities
+$(grep -E "^\*\*Gates You Own:\*\*" IDENTITY_CONTEXT_REMINDER.md -A 10 2>/dev/null | head -10 || echo "See IDENTITY_CONTEXT_REMINDER.md")
+
+### Session Commands
+- \`./claude-orient-consortium\` - Identify current researcher context
+- \`../scripts/claude-consortium-session status\` - Check other active sessions
+- \`../scripts/claude-consortium-session sync\` - Sync with other researchers
+- \`/consortium-compact\` - Compact session with consortium awareness
+EOF
+        
+        echo -e "${GREEN}✅ Session started successfully${NC}"
+        echo -e "${CYAN}📋 Session context saved to CLAUDE_SESSION_CONTEXT.md${NC}"
+        echo -e "${YELLOW}💡 Run './claude-orient-consortium' to confirm researcher identity${NC}"
+    else
+        echo -e "${RED}❌ Error: Researcher directory not found: $researcher_dir${NC}"
+        exit 1
+    fi
+}
+
+# Function to check for pending communications
+check_pending_communications() {
+    local current_researcher=$(detect_researcher)
+    local comm_dir="$CONSORTIUM_ROOT/consortium/communications/direct"
+    local pending_found=0
+    
+    if [[ "$current_researcher" != "unknown" && -d "$comm_dir" ]]; then
+        echo -e "${PURPLE}📬 Checking for pending communications...${NC}"
+        
+        # Look for files addressed to current researcher
+        local pending_files=$(find "$comm_dir" -name "*_to_${current_researcher}_*" -mtime -7 2>/dev/null | sort -r)
+        
+        if [[ -n "$pending_files" ]]; then
+            echo -e "${RED}🚨 PENDING COMMUNICATIONS FOR $current_researcher:${NC}"
+            echo ""
+            
+            echo "$pending_files" | while read -r comm_file; do
+                if [[ -n "$comm_file" ]]; then
+                    local filename=$(basename "$comm_file")
+                    local date_part=$(echo "$filename" | grep -o '^[0-9]\{8\}_[0-9]\{4\}')
+                    local from_to=$(echo "$filename" | sed 's/^[0-9]\{8\}_[0-9]\{4\}_//' | sed 's/_/ → /' | sed 's/_/ /' | sed 's/\.md$//')
+                    
+                    # Get file modification time
+                    local mod_time=$(stat -f "%Sm" -t "%m/%d %H:%M" "$comm_file" 2>/dev/null || echo "unknown")
+                    
+                    # Check if this is urgent priority
+                    if grep -q "Priority.*IMMEDIATE\|🔴.*IMMEDIATE" "$comm_file" 2>/dev/null; then
+                        echo -e "  🔴 ${RED}URGENT${NC}: $from_to ($mod_time)"
+                    else
+                        echo -e "  📬 $from_to ($mod_time)"
+                    fi
+                    
+                    # Show subject line if available
+                    local subject=$(grep "Subject:" "$comm_file" | head -1 | sed 's/.*Subject: //' 2>/dev/null)
+                    if [[ -n "$subject" ]]; then
+                        echo -e "     Subject: $subject"
+                    fi
+                    
+                    echo ""
+                    pending_found=$((pending_found + 1))
+                fi
+            done
+            
+            echo -e "${YELLOW}💡 To read a communication: cat $comm_dir/[filename]${NC}"
+            echo -e "${YELLOW}💡 Mark as read by moving to responses/ directory${NC}"
+            echo ""
+        else
+            echo -e "${GREEN}✅ No pending communications${NC}"
+        fi
+    fi
+    
+    return $pending_found
+}
+
+# Function to sync with other researchers
+sync_sessions() {
+    show_header
+    echo -e "${YELLOW}🔄 Syncing consortium state...${NC}"
+    echo ""
+    
+    # Check for pending communications first
+    check_pending_communications
+    local pending_count=$?
+    
+    # Fetch updates from all researcher repos
+    for researcher in "${RESEARCHERS[@]}"; do
+        local researcher_dir="$CONSORTIUM_ROOT/consortium/$researcher"
+        if [[ -d "$researcher_dir/.git" ]]; then
+            echo -e "${BLUE}Syncing $researcher...${NC}"
+            cd "$researcher_dir"
+            
+            # Fetch remote changes
+            git fetch origin 2>/dev/null || true
+            
+            # Check for protocol changes
+            if git diff origin/main --name-only | grep -qE "(protocol|tcp_|TCP_)" 2>/dev/null; then
+                echo -e "  ${YELLOW}⚠️  Protocol changes detected${NC}"
+            fi
+            
+            # Check for merge conflicts
+            if ! git merge-tree $(git merge-base HEAD origin/main) HEAD origin/main >/dev/null 2>&1; then
+                echo -e "  ${RED}⚠️  Potential merge conflicts${NC}"
+            fi
+            
+            echo -e "  ${GREEN}✅ Synced${NC}"
+        fi
+    done
+    
+    echo ""
+    if [[ $pending_count -gt 0 ]]; then
+        echo -e "${RED}⚠️  You have $pending_count pending communication(s) requiring attention${NC}"
+    fi
+    echo -e "${GREEN}✅ Consortium sync complete${NC}"
+}
+
+# Function to compact current session
+compact_session() {
+    local researcher=$(detect_researcher)
+    
+    if [[ "$researcher" == "unknown" ]]; then
+        echo -e "${RED}❌ Error: Cannot detect researcher workspace${NC}"
+        echo -e "${YELLOW}💡 Run from within a researcher directory (consortium/researcher-name/)${NC}"
+        exit 1
+    fi
+    
+    show_header
+    echo -e "${YELLOW}📦 Compacting session for $researcher...${NC}"
+    echo ""
+    
+    # Save current state
+    local timestamp=$(date +%Y%m%d-%H%M%S)
+    
+    # Create session summary directory
+    mkdir -p ".claude/sessions"
+    
+    # Generate session summary
+    cat > ".claude/sessions/session-$timestamp.md" << EOF
+# Session Summary - $researcher
+## Timestamp: $(date)
+## Working Directory: $(pwd)
+
+### Changes Made
+$(git diff --stat HEAD~1..HEAD 2>/dev/null || echo "No commits in this session")
+
+### Files Modified
+$(git status --porcelain | head -20)
+
+### Key Decisions
+$(grep -r "DECISION:" *.md 2>/dev/null | head -10 || echo "None recorded")
+
+### TODOs for Next Session
+$(grep -r "TODO:" *.md 2>/dev/null | head -10 || echo "None recorded")
+
+### Integration Points
+$(grep -r "INTEGRATION:" *.md 2>/dev/null | head -5 || echo "None recorded")
+
+### Gate Status
+$(grep -E "GATE [0-9].*:" *.md 2>/dev/null | head -10 || echo "Check IDENTITY_CONTEXT_REMINDER.md")
+EOF
+    
+    # Save uncommitted changes
+    if ! git diff --quiet; then
+        git stash push -m "Claude session checkpoint: $(date)"
+        echo -e "${GREEN}✅ Uncommitted changes saved to stash${NC}"
+    fi
+    
+    # Clean up session locks
+    rm -f .claude-session-* 2>/dev/null || true
+    
+    echo -e "${GREEN}✅ Session compacted successfully${NC}"
+    echo -e "${CYAN}📋 Session summary: .claude/sessions/session-$timestamp.md${NC}"
+}
+
+# Function to show session status
+show_status() {
+    show_header
+    echo -e "${CYAN}📊 TCP Consortium Session Status${NC}"
+    echo ""
+    
+    check_active_sessions
+    check_protocol_conflicts
+    
+    # Show current researcher
+    local current_researcher=$(detect_researcher)
+    echo -e "${YELLOW}🎯 Current Context:${NC}"
+    echo -e "  Researcher: $current_researcher"
+    echo -e "  Directory: $(pwd)"
+    echo -e "  Git Branch: $(git branch --show-current 2>/dev/null || echo 'not a git repo')"
+    echo ""
+    
+    # Show recent session activity
+    echo -e "${PURPLE}📝 Recent Session Activity:${NC}"
+    find "$CONSORTIUM_ROOT/consortium" -name ".claude/sessions/session-*.md" -mtime -1 2>/dev/null | \
+        sort -r | head -5 | while read -r session_file; do
+        if [[ -n "$session_file" ]]; then
+            local session_researcher=$(echo "$session_file" | grep -o 'consortium/[^/]*' | cut -d'/' -f2)
+            local session_time=$(basename "$session_file" | grep -o '[0-9]\{8\}-[0-9]\{6\}')
+            echo "  • $session_researcher: $session_time"
+        fi
+    done || echo "  No recent sessions found"
+    echo ""
+}
+
+# Function to display help
+show_help() {
+    echo "claude-consortium-session - TCP Research Consortium Session Management"
+    echo ""
+    echo "USAGE:"
+    echo "    claude-consortium-session <command> [options]"
+    echo ""
+    echo "COMMANDS:"
+    echo "    start [researcher]    Start a new Claude session (auto-detects researcher if omitted)"
+    echo "    sync                  Sync with other researchers' changes"
+    echo "    compact               Compact current session and save state"
+    echo "    status                Show active sessions and conflicts"
+    echo "    help                  Show this help message"
+    echo ""
+    echo "EXAMPLES:"
+    echo "    # Start session (auto-detect researcher from current directory)"
+    echo "    claude-consortium-session start"
+    echo ""
+    echo "    # Start session for specific researcher"
+    echo "    claude-consortium-session start elena-vasquez"
+    echo ""
+    echo "    # Check status from any location"
+    echo "    claude-consortium-session status"
+    echo ""
+    echo "    # Sync before starting work"
+    echo "    claude-consortium-session sync"
+    echo ""
+    echo "INTEGRATION:"
+    echo "    Use with /consortium-compact command for complete session management"
+    echo "    Works with existing ./claude-orient-consortium for identity confirmation"
+    echo ""
+}
+
+# Main function
+main() {
+    local command="${1:-help}"
+    
+    case "$command" in
+        start)
+            local researcher="${2:-$(detect_researcher)}"
+            if [[ "$researcher" == "unknown" ]]; then
+                echo -e "${RED}❌ Error: Cannot detect researcher. Specify researcher or run from researcher directory.${NC}"
+                echo -e "${YELLOW}💡 Usage: claude-consortium-session start [researcher-name]${NC}"
+                exit 1
+            fi
+            local session_id=$(generate_session_id "$researcher")
+            start_session "$researcher" "$session_id"
+            ;;
+        sync)
+            sync_sessions
+            ;;
+        compact)
+            compact_session
+            ;;
+        status)
+            show_status
+            ;;
+        help|--help|-h)
+            show_help
+            ;;
+        *)
+            echo -e "${RED}❌ Unknown command: $command${NC}"
+            echo ""
+            show_help
+            exit 1
+            ;;
+    esac
+}
+
+# Execute main function with all arguments
+main "$@"

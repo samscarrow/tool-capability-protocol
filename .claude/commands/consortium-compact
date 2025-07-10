@@ -1,0 +1,125 @@
+/consortium-compact: Consortium-aware session compacting that preserves researcher identity, gate responsibilities, and shared protocol state. Automatically detects current researcher workspace, captures session metadata, identifies concurrent sessions, checks for protocol conflicts, preserves researcher context and gate status, documents integration points with other researchers, prepares handoff information for next sessions, and creates session summary with external validation standards. Handles MCP timeouts gracefully with git-based fallbacks.
+
+Use /compact with consortium awareness. Perform cleanup considering:
+
+## Session Metadata Collection
+- Session ID: Generate unique identifier based on researcher and timestamp
+- Current Researcher: Auto-detect from working directory or identity context
+- Active Sessions: Find other concurrent Claude sessions in consortium
+- Protocol State: Capture current TCP protocol version and any local changes
+
+## Concurrent Session Detection  
+- Scan for active session locks across all researcher workspaces
+- Identify potential conflicts with shared protocol files
+- Check for uncommitted changes that might affect other researchers
+- Report any collaborative work dependencies
+
+## Researcher Identity Preservation
+Preserve your research context based on current workspace:
+
+### If in aria-blackwood workspace:
+- Security research focus and adversarial testing methodology
+- Gate 9 responsibilities and security validation status
+- Post-quantum cryptography research progress
+- Red team findings and vulnerability assessments
+
+### If in elena-vasquez workspace:
+- Statistical analysis frameworks and behavioral modeling work
+- Gates 1, 4, 5 responsibilities and completion status
+- Behavioral adoption validation research
+- Statistical rigor and external validation requirements
+
+### If in marcus-chen workspace:
+- Distributed systems and network architecture research
+- Byzantine consensus and hardware integration work
+- Collaboration frameworks with other researchers
+- Network topology and consensus protocol development
+
+### If in yuki-tanaka workspace:
+- Performance optimization and real-time systems work
+- Gates 2, 7 responsibilities and timing precision research
+- Hardware acceleration and FPGA prototyping
+- Apple Silicon optimization and constant-time algorithms
+
+### If in sam-mitchell workspace:
+- Infrastructure and production deployment focus
+- Gate 8 responsibilities and system architecture
+- Hardware integration and kernel development
+- Production readiness and conflict monitoring systems
+
+### If in alex-rivera workspace:
+- Quality assurance and implementation validation
+- Gates 3, 6 responsibilities and quality frameworks
+- External validation preparation and audit readiness
+- Production demonstration and hardware validation
+
+## Protocol State Preservation
+- Current TCP protocol version and compatibility status
+- Any local modifications or experimental changes
+- Breaking changes that affect other researchers
+- Integration tests and validation status
+
+## Collaborative Work Status
+- Dependencies on other researchers' gates
+- Work blocking other researchers
+- Shared protocol or framework modifications
+- Cross-researcher collaboration session notes
+
+## External Validation Context
+- Pre-registered analysis plans status
+- Independent review requirements
+- Conservative claims and statistical significance
+- Audit-ready documentation status
+
+## Session Handoff Preparation
+Create handoff documentation for next session:
+
+### Work Summary
+- Key decisions made and rationale
+- Experimental results and statistical findings
+- Code modifications and their purpose
+- Integration points established or modified
+
+### Next Session Priorities
+- Immediate tasks requiring attention
+- Dependencies on other researchers' work
+- Questions for cross-researcher collaboration
+- External validation requirements to address
+
+### Protocol Impact Assessment
+- Breaking changes: Yes/No with details
+- Requires coordination: List affected researchers
+- Tests passing: Current status
+- External review needed: Type and urgency
+
+## Git-Based Session State Capture
+If MCP is unavailable, use git-based session management:
+- Create session checkpoint with git stash
+- Update session refs in git for coordination
+- Add git notes with session summary
+- Check for conflicts with other researcher branches
+
+Output format:
+```
+## Session: [ID] | Researcher: [Name] | Workspace: [Directory]
+### Protocol Impact
+- [ ] Breaking changes: [Yes/No with details]
+- [ ] Requires coordination: [List researchers]
+- [ ] Tests passing: [Status]
+- [ ] External validation needed: [Type]
+
+### Gate Status Update
+- [List owned gates with current status]
+- [Dependencies on other researchers]
+
+### Research Progress
+- Key Findings: [Bullet points]
+- Technical Decisions: [With rationale]
+- Integration Points: [Cross-researcher dependencies]
+
+### Next Session Commands
+[Suggested commands for resuming work]
+
+### Handoff Notes
+[Critical information for next session or other researchers]
+```
