@@ -146,6 +146,7 @@ markers = [
     "performance: marks tests that measure performance",
     "security: marks tests that test security features",
     "external_validation: marks tests that require external validation",
+    "reliability_99999: marks tests for 99.999% reliability",
 ]
 
 [tool.coverage.run]
