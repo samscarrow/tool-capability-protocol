@@ -8,6 +8,10 @@ on:
   schedule:
     - cron: '0 0 * * 1' # Weekly on Monday
 
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   codeql-analysis:
     name: CodeQL Analysis
@@ -33,11 +37,15 @@ jobs:
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
+      # Only analyze on push events to main repository
+      if: github.event_name == 'push' && github.repository == 'samscarrow/tool-capability-protocol'
       with:
         category: "/language:${{matrix.language}}"
 
   dependency-scan:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
     - uses: actions/checkout@v4
     
@@ -71,6 +79,8 @@ jobs:
 
   secret-scan:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
     - uses: actions/checkout@v4
       with:
@@ -84,6 +94,8 @@ jobs:
 
   tcp-security-validation:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
     - uses: actions/checkout@v4
     
@@ -149,6 +161,9 @@ jobs:
 
   container-security:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
     steps:
     - uses: actions/checkout@v4
     
@@ -168,13 +183,25 @@ jobs:
     
     - name: Upload Trivy scan results
       uses: github/codeql-action/upload-sarif@v3
-      if: always()
+      # Only upload SARIF on push events to main repository
+      if: github.event_name == 'push' && github.repository == 'samscarrow/tool-capability-protocol'
       continue-on-error: true
       with:
         sarif_file: 'trivy-results.sarif'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Upload Trivy results as artifact
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: trivy-results
+        path: trivy-results.sarif
 
   tcp-protocol-security:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
     - uses: actions/checkout@v4
     
