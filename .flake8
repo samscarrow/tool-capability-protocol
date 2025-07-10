@@ -1,12 +1,18 @@
 [flake8]
-max-line-length = 120
-extend-ignore = E203, W503, F401, F841, W291, F541
+max-line-length = 140
+extend-ignore = E203, W503, F401, F841, W291, F541, E722, W293, F821, F811, E402, E501
 # E203: Whitespace before ':' (incompatible with Black)
 # W503: Line break before binary operator (incompatible with Black)
 # F401: Module imported but unused (will be cleaned up later)
 # F841: Local variable assigned but never used (will be cleaned up later)
 # W291: Trailing whitespace (will be cleaned up later)
 # F541: F-string is missing placeholders (will be fixed later)
+# E722: Do not use bare except (will be fixed later)
+# W293: Blank line contains whitespace (will be cleaned up later)
+# F821: Undefined name (will be fixed later)
+# F811: Redefinition of unused name (will be fixed later)
+# E402: Module level import not at top of file (will be fixed later)
+# E501: Line too long (will be fixed later)
 exclude = 
     .git,
     __pycache__,

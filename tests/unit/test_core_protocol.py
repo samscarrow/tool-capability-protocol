@@ -11,8 +11,8 @@ from unittest.mock import Mock, patch
 import pytest
 
 from tcp.core.descriptors import BinaryCapabilityDescriptor, CapabilityDescriptor
-from tcp.core.protocol import TCPProtocol
-from tcp.core.registry import TCPRegistry
+from tcp.core.protocol import ToolCapabilityProtocol
+from tcp.core.registry import CapabilityRegistry
 
 
 class TestTCPProtocol:
