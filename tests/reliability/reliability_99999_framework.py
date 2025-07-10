@@ -428,9 +428,7 @@ class ReliabilityTestFramework:
                             security_flags=descriptor.security_flags,
                             performance_metrics=descriptor.performance_metrics,
                         )
-                        binary_data = self.tcp_protocol.generate_binary(
-                            corrupted_desc
-                        )
+                        binary_data = self.tcp_protocol.generate_binary(corrupted_desc)
 
                     elif fault_type == "network_timeout":
                         # Simulate network timeout
