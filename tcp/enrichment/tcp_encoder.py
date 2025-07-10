@@ -6,19 +6,19 @@ This encoder creates TCP descriptors enriched with man page data,
 embedding security intelligence directly into the binary format.
 """
 
-import struct
 import hashlib
 import json
-from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+import struct
 from dataclasses import dataclass
 from enum import IntEnum
+from pathlib import Path
+from typing import Dict, List, Optional, Tuple
 
 from .manpage_enricher import (
-    ManPageEnricher,
     ManPageData,
-    SecurityLevel,
+    ManPageEnricher,
     PrivilegeLevel,
+    SecurityLevel,
 )
 
 

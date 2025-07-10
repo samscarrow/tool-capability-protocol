@@ -1,6 +1,7 @@
 """GraphQL schema generator for TCP descriptors."""
 
-from typing import Dict, Any, List
+from typing import Any, Dict, List
+
 from ..core.descriptors import CapabilityDescriptor, ParameterType
 
 

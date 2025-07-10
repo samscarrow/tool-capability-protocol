@@ -1,23 +1,23 @@
 """Main TCP protocol implementation."""
 
-from typing import Dict, List, Optional, Any, Union, Type
-import json
 import base64
+import json
 from pathlib import Path
+from typing import Any, Dict, List, Optional, Type, Union
 
 from .descriptors import (
-    CapabilityDescriptor,
     BinaryCapabilityDescriptor,
+    CapabilityDescriptor,
     CommandDescriptor,
-    ParameterDescriptor,
     FormatDescriptor,
-    ParameterType,
     FormatType,
-    ProcessingMode,
+    ParameterDescriptor,
+    ParameterType,
     PerformanceMetrics,
+    ProcessingMode,
 )
-from .registry import CapabilityRegistry
 from .discovery import DiscoveryService
+from .registry import CapabilityRegistry
 
 
 class ToolCapabilityProtocol:

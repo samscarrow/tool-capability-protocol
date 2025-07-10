@@ -8,15 +8,16 @@ Integrates with Elena's behavioral detection for intelligent path selection.
 """
 
 import asyncio
-import time
 import hashlib
+import heapq
+import logging
 import math
-from typing import Dict, List, Optional, Set, Tuple, Any, Union
+import time
+from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from enum import Enum, IntEnum
-import logging
-from collections import defaultdict, deque
-import heapq
+from typing import Any, Dict, List, Optional, Set, Tuple, Union
+
 import networkx as nx
 
 logger = logging.getLogger(__name__)

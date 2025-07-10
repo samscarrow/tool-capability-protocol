@@ -1,9 +1,9 @@
 """Capability registry for managing tool descriptors."""
 
-from typing import Dict, List, Optional, Set, Tuple
-from threading import RLock
 import logging
 from datetime import datetime, timedelta
+from threading import RLock
+from typing import Dict, List, Optional, Set, Tuple
 
 from .descriptors import CapabilityDescriptor
 

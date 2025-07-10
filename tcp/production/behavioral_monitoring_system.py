@@ -14,37 +14,39 @@ Real-world deployment ready with enterprise-grade safety and performance.
 """
 
 import asyncio
-import time
+import hashlib
 import json
 import logging
-import hashlib
 import threading
-from typing import Dict, List, Optional, Any, Tuple, Union
-from dataclasses import dataclass, field, asdict
-from enum import Enum
-from datetime import datetime, timedelta
+import time
 from collections import defaultdict, deque
-import numpy as np
+from dataclasses import asdict, dataclass, field
+from datetime import datetime, timedelta
+from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple, Union
 
-# Core TCP imports
-from tcp.core.descriptors import (
-    CapabilityDescriptor,
-    BinaryCapabilityDescriptor,
-    CapabilityFlags,
-)
-from tcp.core.optimized_protocol import OptimizedToolCapabilityProtocol
-from tcp.analysis.statistical_performance_engine import (
-    StatisticalPerformanceEngine,
-    OptimizationBackend,
+import numpy as np
+from consortium.elena_vasquez.behavioral_adoption_validation import (
+    CulturalTransformationEngine,
 )
 
 # Consortium integrations
 from consortium.marcus_chen.hierarchical_aggregation_protocol import (
     BehavioralDistributedProtocol,
 )
-from consortium.elena_vasquez.behavioral_adoption_validation import (
-    CulturalTransformationEngine,
+
+from tcp.analysis.statistical_performance_engine import (
+    OptimizationBackend,
+    StatisticalPerformanceEngine,
 )
+
+# Core TCP imports
+from tcp.core.descriptors import (
+    BinaryCapabilityDescriptor,
+    CapabilityDescriptor,
+    CapabilityFlags,
+)
+from tcp.core.optimized_protocol import OptimizedToolCapabilityProtocol
 
 logger = logging.getLogger(__name__)
 

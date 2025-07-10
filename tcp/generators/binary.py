@@ -1,8 +1,9 @@
 """Binary format generator for TCP descriptors."""
 
-import struct
 import hashlib
-from typing import Dict, Any, List
+import struct
+from typing import Any, Dict, List
+
 from ..core.descriptors import CapabilityDescriptor, ParameterType
 
 

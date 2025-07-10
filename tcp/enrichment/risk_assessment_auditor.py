@@ -6,16 +6,16 @@ Provides complete transparency and human auditability of all factors
 going into security risk assessment and classification decisions.
 """
 
-import json
 import hashlib
-from pathlib import Path
-from typing import Dict, List, Optional, Any, Tuple
-from dataclasses import dataclass, asdict
+import json
+from dataclasses import asdict, dataclass
 from datetime import datetime
 from enum import Enum
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple
 
-from .manpage_enricher import ManPageData, SecurityLevel, PrivilegeLevel
-from .tcp_encoder import EnrichedTCPDescriptor, SecurityFlags, OperationFlags
+from .manpage_enricher import ManPageData, PrivilegeLevel, SecurityLevel
+from .tcp_encoder import EnrichedTCPDescriptor, OperationFlags, SecurityFlags
 
 
 class RiskFactor(Enum):

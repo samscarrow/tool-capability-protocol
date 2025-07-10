@@ -13,17 +13,18 @@ import statistics
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Dict, List, Any, Optional, Callable
+from typing import Any, Callable, Dict, List, Optional
 from unittest.mock import Mock
 
 import pytest
 
+from tcp.core.descriptors import CapabilityDescriptor
+
 # Import TCP components for reliability testing
 from tcp.core.protocol import TCPProtocol
 from tcp.core.registry import TCPRegistry
-from tcp.core.descriptors import CapabilityDescriptor
 
 
 @dataclass

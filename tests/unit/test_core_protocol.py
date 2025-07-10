@@ -5,12 +5,13 @@ Comprehensive unit tests for the TCP protocol core functionality,
 ensuring 99.999% reliability and external validation readiness.
 """
 
-import pytest
 import struct
 from unittest.mock import Mock, patch
 
+import pytest
+
+from tcp.core.descriptors import BinaryCapabilityDescriptor, CapabilityDescriptor
 from tcp.core.protocol import TCPProtocol
-from tcp.core.descriptors import CapabilityDescriptor, BinaryCapabilityDescriptor
 from tcp.core.registry import TCPRegistry
 
 
@@ -303,8 +304,8 @@ class TestTCPProtocol:
         self, tcp_protocol, sample_capability_descriptor
     ):
         """Test protocol handles high concurrency for 99.999% reliability."""
-        import threading
         import queue
+        import threading
 
         results = queue.Queue()
         errors = queue.Queue()

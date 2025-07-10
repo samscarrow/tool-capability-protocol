@@ -6,17 +6,18 @@ methodology and statistical rigor requirements for TCP validation.
 """
 
 import json
-import numpy as np
-import pytest
 import statistics
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Any, Tuple, Optional
-from scipy import stats
+from typing import Any, Dict, List, Optional, Tuple
 from unittest.mock import Mock
 
-from tcp.core.protocol import TCPProtocol
+import numpy as np
+import pytest
+from scipy import stats
+
 from tcp.core.descriptors import CapabilityDescriptor
+from tcp.core.protocol import TCPProtocol
 
 
 @dataclass

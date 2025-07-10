@@ -2,19 +2,19 @@
 
 import json
 import logging
-from typing import Dict, List, Optional, Any, Union
-from pathlib import Path
 from dataclasses import asdict
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Union
 
-from .help_parser import HelpTextParser, HelpTextAnalysis
+from ..core.descriptors import CapabilityDescriptor
+from .help_parser import HelpTextAnalysis, HelpTextParser
 from .llm_extractor import (
-    LLMExtractor,
     LangChainExtractor,
+    LLMExtractor,
     LocalLLMExtractor,
     ToolCapabilities,
 )
 from .tcp_generator import TCPDescriptorGenerator
-from ..core.descriptors import CapabilityDescriptor
 
 
 class TCPGenerationPipeline:

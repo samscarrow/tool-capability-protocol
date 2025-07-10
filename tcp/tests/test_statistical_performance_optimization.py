@@ -7,32 +7,33 @@ Comprehensive test suite validating mathematical correctness and performance imp
 Establishes baselines and measures optimization effectiveness with statistical rigor.
 """
 
-import pytest
-import time
 import math
 import random
+import time
+from typing import Any, Dict, List
+from unittest.mock import MagicMock, patch
+
 import numpy as np
-from typing import List, Dict, Any
-from unittest.mock import patch, MagicMock
+import pytest
 
 # Import components under test
 from tcp.analysis.statistical_performance_engine import (
-    StatisticalPerformanceEngine,
-    RunningStatistics,
-    RingBuffer,
     OptimizationBackend,
     PerformanceStatistics,
-)
-from tcp.core.optimized_protocol import (
-    OptimizedToolCapabilityProtocol,
-    HighPerformanceCache,
-    OptimizationMetrics,
+    RingBuffer,
+    RunningStatistics,
+    StatisticalPerformanceEngine,
 )
 from tcp.core.descriptors import (
     CapabilityDescriptor,
+    CapabilityFlags,
     CommandDescriptor,
     PerformanceMetrics,
-    CapabilityFlags,
+)
+from tcp.core.optimized_protocol import (
+    HighPerformanceCache,
+    OptimizationMetrics,
+    OptimizedToolCapabilityProtocol,
 )
 
 

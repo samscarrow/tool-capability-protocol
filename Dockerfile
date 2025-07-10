@@ -45,266 +45,258 @@ COPY *.md ./
 RUN python3 -m venv /opt/tcp-venv && \
     /opt/tcp-venv/bin/pip install --upgrade pip
 
-# Create startup script with proper escaping
-RUN cat > /tcp-security/start-tcp-system.sh << 'EOF'
-#!/bin/bash
-
-echo "🐳 Starting TCP Security System in Docker"
-echo "=========================================="
-
-# Start Ollama service in background
-echo "🚀 Starting Ollama service..."
-ollama serve > /tmp/ollama.log 2>&1 &
-OLLAMA_PID=$!
-
-# Wait for Ollama to be ready
-echo "⏳ Waiting for Ollama to be ready..."
-for i in {1..30}; do
-    if curl -s http://localhost:11434/api/tags > /dev/null 2>&1; then
-        echo "✅ Ollama is ready!"
-        break
-    fi
-    if [ $i -eq 30 ]; then
-        echo "❌ Ollama failed to start in 30 seconds"
-        exit 1
-    fi
-    sleep 1
-done
-
-# Pull the default model
-echo "📥 Pulling llama3.2:latest model (this may take a while)..."
-ollama pull llama3.2:latest
-
-echo "🎯 Ollama setup complete!"
-echo ""
-echo "🔐 TCP Security System is ready!"
-echo "================================"
-echo ""
-echo "Available commands:"
-echo "  python3 tcp/local_ollama_demo.py        - Run local Ollama demonstration"
-echo "  python3 tcp/demo_complete_security_system.py - Run complete security demo"
-echo "  python3 tcp/enrichment/manpage_enricher.py  - Test man page enrichment"
-echo "  python3 tcp/security/secure_tcp_agent.py    - Test secure agent"
-echo ""
-echo "📊 System Status:"
-echo "  Ollama:    ✅ Running (PID: $OLLAMA_PID)"
-echo "  Model:     ✅ llama3.2:latest"
-echo "  TCP:       ✅ Ready"
-echo "  Ubuntu:    ✅ $(lsb_release -d | cut -f2)"
-echo ""
-echo "🏠 All processing is local - no external APIs needed!"
-echo ""
-
-# Keep container running and show logs
-echo "📋 Monitoring Ollama service..."
-echo "   (Ctrl+C to stop, then 'exit' to close container)"
-echo ""
-
-# Function to cleanup on exit
-cleanup() {
-    echo ""
-    echo "🛑 Shutting down TCP Security System..."
-    kill $OLLAMA_PID 2>/dev/null
-    echo "✅ Ollama stopped"
-    exit 0
-}
-
-# Set trap for cleanup
-trap cleanup SIGINT SIGTERM
-
-# Monitor Ollama and keep container alive
-while kill -0 $OLLAMA_PID 2>/dev/null; do
-    sleep 5
-done
-
-echo "❌ Ollama service stopped unexpectedly"
-exit 1
-EOF
+# Create startup script with echo commands
+RUN echo '#!/bin/bash' > /tcp-security/start-tcp-system.sh && \
+    echo '' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo "🐳 Starting TCP Security System in Docker"' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo "=========================================="' >> /tcp-security/start-tcp-system.sh && \
+    echo '' >> /tcp-security/start-tcp-system.sh && \
+    echo '# Start Ollama service in background' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo "🚀 Starting Ollama service..."' >> /tcp-security/start-tcp-system.sh && \
+    echo 'ollama serve > /tmp/ollama.log 2>&1 &' >> /tcp-security/start-tcp-system.sh && \
+    echo 'OLLAMA_PID=$!' >> /tcp-security/start-tcp-system.sh && \
+    echo '' >> /tcp-security/start-tcp-system.sh && \
+    echo '# Wait for Ollama to be ready' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo "⏳ Waiting for Ollama to be ready..."' >> /tcp-security/start-tcp-system.sh && \
+    echo 'for i in {1..30}; do' >> /tcp-security/start-tcp-system.sh && \
+    echo '    if curl -s http://localhost:11434/api/tags > /dev/null 2>&1; then' >> /tcp-security/start-tcp-system.sh && \
+    echo '        echo "✅ Ollama is ready!"' >> /tcp-security/start-tcp-system.sh && \
+    echo '        break' >> /tcp-security/start-tcp-system.sh && \
+    echo '    fi' >> /tcp-security/start-tcp-system.sh && \
+    echo '    if [ $i -eq 30 ]; then' >> /tcp-security/start-tcp-system.sh && \
+    echo '        echo "❌ Ollama failed to start in 30 seconds"' >> /tcp-security/start-tcp-system.sh && \
+    echo '        exit 1' >> /tcp-security/start-tcp-system.sh && \
+    echo '    fi' >> /tcp-security/start-tcp-system.sh && \
+    echo '    sleep 1' >> /tcp-security/start-tcp-system.sh && \
+    echo 'done' >> /tcp-security/start-tcp-system.sh && \
+    echo '' >> /tcp-security/start-tcp-system.sh && \
+    echo '# Pull the default model' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo "📥 Pulling llama3.2:latest model (this may take a while)..."' >> /tcp-security/start-tcp-system.sh && \
+    echo 'ollama pull llama3.2:latest' >> /tcp-security/start-tcp-system.sh && \
+    echo '' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo "🎯 Ollama setup complete!"' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo ""' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo "🔐 TCP Security System is ready!"' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo "================================"' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo ""' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo "Available commands:"' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo "  python3 tcp/local_ollama_demo.py        - Run local Ollama demonstration"' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo "  python3 tcp/demo_complete_security_system.py - Run complete security demo"' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo "  python3 tcp/enrichment/manpage_enricher.py  - Test man page enrichment"' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo "  python3 tcp/security/secure_tcp_agent.py    - Test secure agent"' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo ""' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo "📊 System Status:"' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo "  Ollama:    ✅ Running (PID: $OLLAMA_PID)"' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo "  Model:     ✅ llama3.2:latest"' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo "  TCP:       ✅ Ready"' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo "  Ubuntu:    ✅ $(lsb_release -d | cut -f2)"' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo ""' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo "🏠 All processing is local - no external APIs needed!"' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo ""' >> /tcp-security/start-tcp-system.sh && \
+    echo '' >> /tcp-security/start-tcp-system.sh && \
+    echo '# Keep container running and show logs' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo "📋 Monitoring Ollama service..."' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo "   (Ctrl+C to stop, then '\''exit'\'' to close container)"' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo ""' >> /tcp-security/start-tcp-system.sh && \
+    echo '' >> /tcp-security/start-tcp-system.sh && \
+    echo '# Function to cleanup on exit' >> /tcp-security/start-tcp-system.sh && \
+    echo 'cleanup() {' >> /tcp-security/start-tcp-system.sh && \
+    echo '    echo ""' >> /tcp-security/start-tcp-system.sh && \
+    echo '    echo "🛑 Shutting down TCP Security System..."' >> /tcp-security/start-tcp-system.sh && \
+    echo '    kill $OLLAMA_PID 2>/dev/null' >> /tcp-security/start-tcp-system.sh && \
+    echo '    echo "✅ Ollama stopped"' >> /tcp-security/start-tcp-system.sh && \
+    echo '    exit 0' >> /tcp-security/start-tcp-system.sh && \
+    echo '}' >> /tcp-security/start-tcp-system.sh && \
+    echo '' >> /tcp-security/start-tcp-system.sh && \
+    echo '# Set trap for cleanup' >> /tcp-security/start-tcp-system.sh && \
+    echo 'trap cleanup SIGINT SIGTERM' >> /tcp-security/start-tcp-system.sh && \
+    echo '' >> /tcp-security/start-tcp-system.sh && \
+    echo '# Monitor Ollama and keep container alive' >> /tcp-security/start-tcp-system.sh && \
+    echo 'while kill -0 $OLLAMA_PID 2>/dev/null; do' >> /tcp-security/start-tcp-system.sh && \
+    echo '    sleep 5' >> /tcp-security/start-tcp-system.sh && \
+    echo 'done' >> /tcp-security/start-tcp-system.sh && \
+    echo '' >> /tcp-security/start-tcp-system.sh && \
+    echo 'echo "❌ Ollama service stopped unexpectedly"' >> /tcp-security/start-tcp-system.sh && \
+    echo 'exit 1' >> /tcp-security/start-tcp-system.sh
 
 # Make startup script executable
 RUN chmod +x /tcp-security/start-tcp-system.sh
 
-# Create demo runner script
-RUN cat > /tcp-security/run-demo.sh << 'EOF'
-#!/bin/bash
-
-echo "🎬 TCP Security System Demo Runner"
-echo "=================================="
-echo ""
-echo "Which demonstration would you like to run?"
-echo ""
-echo "1) Local Ollama Demo (Privacy-first with local LLM)"
-echo "2) Complete Security System Demo (Full integration)"
-echo "3) Man Page Enrichment Test"
-echo "4) Secure Agent Test" 
-echo "5) Interactive Shell"
-echo ""
-read -p "Choose option (1-5): " choice
-
-case $choice in
-    1)
-        echo "🏠 Running Local Ollama Demo..."
-        python3 tcp/local_ollama_demo.py
-        ;;
-    2)
-        echo "🔐 Running Complete Security System Demo..."
-        python3 tcp/demo_complete_security_system.py
-        ;;
-    3)
-        echo "📚 Testing Man Page Enrichment..."
-        python3 tcp/enrichment/manpage_enricher.py
-        ;;
-    4)
-        echo "🤖 Testing Secure Agent..."
-        python3 tcp/security/secure_tcp_agent.py
-        ;;
-    5)
-        echo "🐚 Starting interactive shell..."
-        echo "Available commands:"
-        echo "  python3 tcp/local_ollama_demo.py"
-        echo "  python3 tcp/demo_complete_security_system.py"
-        echo "  ollama list"
-        echo "  ollama ps"
-        bash
-        ;;
-    *)
-        echo "❌ Invalid option. Please choose 1-5."
-        exit 1
-        ;;
-esac
-EOF
+# Create demo runner script with echo commands
+RUN echo '#!/bin/bash' > /tcp-security/run-demo.sh && \
+    echo '' >> /tcp-security/run-demo.sh && \
+    echo 'echo "🎬 TCP Security System Demo Runner"' >> /tcp-security/run-demo.sh && \
+    echo 'echo "=================================="' >> /tcp-security/run-demo.sh && \
+    echo 'echo ""' >> /tcp-security/run-demo.sh && \
+    echo 'echo "Which demonstration would you like to run?"' >> /tcp-security/run-demo.sh && \
+    echo 'echo ""' >> /tcp-security/run-demo.sh && \
+    echo 'echo "1) Local Ollama Demo (Privacy-first with local LLM)"' >> /tcp-security/run-demo.sh && \
+    echo 'echo "2) Complete Security System Demo (Full integration)"' >> /tcp-security/run-demo.sh && \
+    echo 'echo "3) Man Page Enrichment Test"' >> /tcp-security/run-demo.sh && \
+    echo 'echo "4) Secure Agent Test"' >> /tcp-security/run-demo.sh && \
+    echo 'echo "5) Interactive Shell"' >> /tcp-security/run-demo.sh && \
+    echo 'echo ""' >> /tcp-security/run-demo.sh && \
+    echo 'read -p "Choose option (1-5): " choice' >> /tcp-security/run-demo.sh && \
+    echo '' >> /tcp-security/run-demo.sh && \
+    echo 'case $choice in' >> /tcp-security/run-demo.sh && \
+    echo '    1)' >> /tcp-security/run-demo.sh && \
+    echo '        echo "🏠 Running Local Ollama Demo..."' >> /tcp-security/run-demo.sh && \
+    echo '        python3 tcp/local_ollama_demo.py' >> /tcp-security/run-demo.sh && \
+    echo '        ;;' >> /tcp-security/run-demo.sh && \
+    echo '    2)' >> /tcp-security/run-demo.sh && \
+    echo '        echo "🔐 Running Complete Security System Demo..."' >> /tcp-security/run-demo.sh && \
+    echo '        python3 tcp/demo_complete_security_system.py' >> /tcp-security/run-demo.sh && \
+    echo '        ;;' >> /tcp-security/run-demo.sh && \
+    echo '    3)' >> /tcp-security/run-demo.sh && \
+    echo '        echo "📚 Testing Man Page Enrichment..."' >> /tcp-security/run-demo.sh && \
+    echo '        python3 tcp/enrichment/manpage_enricher.py' >> /tcp-security/run-demo.sh && \
+    echo '        ;;' >> /tcp-security/run-demo.sh && \
+    echo '    4)' >> /tcp-security/run-demo.sh && \
+    echo '        echo "🤖 Testing Secure Agent..."' >> /tcp-security/run-demo.sh && \
+    echo '        python3 tcp/security/secure_tcp_agent.py' >> /tcp-security/run-demo.sh && \
+    echo '        ;;' >> /tcp-security/run-demo.sh && \
+    echo '    5)' >> /tcp-security/run-demo.sh && \
+    echo '        echo "🐚 Starting interactive shell..."' >> /tcp-security/run-demo.sh && \
+    echo '        echo "Available commands:"' >> /tcp-security/run-demo.sh && \
+    echo '        echo "  python3 tcp/local_ollama_demo.py"' >> /tcp-security/run-demo.sh && \
+    echo '        echo "  python3 tcp/demo_complete_security_system.py"' >> /tcp-security/run-demo.sh && \
+    echo '        echo "  ollama list"' >> /tcp-security/run-demo.sh && \
+    echo '        echo "  ollama ps"' >> /tcp-security/run-demo.sh && \
+    echo '        bash' >> /tcp-security/run-demo.sh && \
+    echo '        ;;' >> /tcp-security/run-demo.sh && \
+    echo '    *)' >> /tcp-security/run-demo.sh && \
+    echo '        echo "❌ Invalid option. Please choose 1-5."' >> /tcp-security/run-demo.sh && \
+    echo '        exit 1' >> /tcp-security/run-demo.sh && \
+    echo '        ;;' >> /tcp-security/run-demo.sh && \
+    echo 'esac' >> /tcp-security/run-demo.sh
 
 RUN chmod +x /tcp-security/run-demo.sh
 
-# Create health check script
-RUN cat > /tcp-security/health-check.sh << 'EOF'
-#!/bin/bash
-
-echo "🏥 TCP Security System Health Check"
-echo "==================================="
-
-# Check Ollama
-if curl -s http://localhost:11434/api/tags > /dev/null 2>&1; then
-    echo "✅ Ollama service: Running"
-    
-    # Check models
-    models=$(ollama list 2>/dev/null | grep -v "NAME" | wc -l)
-    if [ $models -gt 0 ]; then
-        echo "✅ Ollama models: $models available"
-        ollama list
-    else
-        echo "⚠️  Ollama models: None installed"
-    fi
-else
-    echo "❌ Ollama service: Not running"
-fi
-
-# Check Python
-if python3 --version > /dev/null 2>&1; then
-    echo "✅ Python: $(python3 --version)"
-else
-    echo "❌ Python: Not available"
-fi
-
-# Check TCP system files
-if [ -f "tcp/local_ollama_demo.py" ]; then
-    echo "✅ TCP system: Files present"
-else
-    echo "❌ TCP system: Files missing"
-fi
-
-# Check man pages
-if man ls > /dev/null 2>&1; then
-    echo "✅ Man pages: Available"
-else
-    echo "❌ Man pages: Not available"
-fi
-
-# System info
-echo ""
-echo "📊 System Information:"
-echo "   OS: $(lsb_release -d | cut -f2)"
-echo "   Kernel: $(uname -r)"
-echo "   Architecture: $(uname -m)"
-echo "   Memory: $(free -h | grep Mem | awk '{print $2}')"
-echo "   Disk: $(df -h / | tail -1 | awk '{print $4}') available"
-EOF
+# Create health check script with echo commands
+RUN echo '#!/bin/bash' > /tcp-security/health-check.sh && \
+    echo '' >> /tcp-security/health-check.sh && \
+    echo 'echo "🏥 TCP Security System Health Check"' >> /tcp-security/health-check.sh && \
+    echo 'echo "==================================="' >> /tcp-security/health-check.sh && \
+    echo '' >> /tcp-security/health-check.sh && \
+    echo '# Check Ollama' >> /tcp-security/health-check.sh && \
+    echo 'if curl -s http://localhost:11434/api/tags > /dev/null 2>&1; then' >> /tcp-security/health-check.sh && \
+    echo '    echo "✅ Ollama service: Running"' >> /tcp-security/health-check.sh && \
+    echo '    ' >> /tcp-security/health-check.sh && \
+    echo '    # Check models' >> /tcp-security/health-check.sh && \
+    echo '    models=$(ollama list 2>/dev/null | grep -v "NAME" | wc -l)' >> /tcp-security/health-check.sh && \
+    echo '    if [ $models -gt 0 ]; then' >> /tcp-security/health-check.sh && \
+    echo '        echo "✅ Ollama models: $models available"' >> /tcp-security/health-check.sh && \
+    echo '        ollama list' >> /tcp-security/health-check.sh && \
+    echo '    else' >> /tcp-security/health-check.sh && \
+    echo '        echo "⚠️  Ollama models: None installed"' >> /tcp-security/health-check.sh && \
+    echo '    fi' >> /tcp-security/health-check.sh && \
+    echo 'else' >> /tcp-security/health-check.sh && \
+    echo '    echo "❌ Ollama service: Not running"' >> /tcp-security/health-check.sh && \
+    echo 'fi' >> /tcp-security/health-check.sh && \
+    echo '' >> /tcp-security/health-check.sh && \
+    echo '# Check Python' >> /tcp-security/health-check.sh && \
+    echo 'if python3 --version > /dev/null 2>&1; then' >> /tcp-security/health-check.sh && \
+    echo '    echo "✅ Python: $(python3 --version)"' >> /tcp-security/health-check.sh && \
+    echo 'else' >> /tcp-security/health-check.sh && \
+    echo '    echo "❌ Python: Not available"' >> /tcp-security/health-check.sh && \
+    echo 'fi' >> /tcp-security/health-check.sh && \
+    echo '' >> /tcp-security/health-check.sh && \
+    echo '# Check TCP system files' >> /tcp-security/health-check.sh && \
+    echo 'if [ -f "tcp/local_ollama_demo.py" ]; then' >> /tcp-security/health-check.sh && \
+    echo '    echo "✅ TCP system: Files present"' >> /tcp-security/health-check.sh && \
+    echo 'else' >> /tcp-security/health-check.sh && \
+    echo '    echo "❌ TCP system: Files missing"' >> /tcp-security/health-check.sh && \
+    echo 'fi' >> /tcp-security/health-check.sh && \
+    echo '' >> /tcp-security/health-check.sh && \
+    echo '# Check man pages' >> /tcp-security/health-check.sh && \
+    echo 'if man ls > /dev/null 2>&1; then' >> /tcp-security/health-check.sh && \
+    echo '    echo "✅ Man pages: Available"' >> /tcp-security/health-check.sh && \
+    echo 'else' >> /tcp-security/health-check.sh && \
+    echo '    echo "❌ Man pages: Not available"' >> /tcp-security/health-check.sh && \
+    echo 'fi' >> /tcp-security/health-check.sh && \
+    echo '' >> /tcp-security/health-check.sh && \
+    echo '# System info' >> /tcp-security/health-check.sh && \
+    echo 'echo ""' >> /tcp-security/health-check.sh && \
+    echo 'echo "📊 System Information:"' >> /tcp-security/health-check.sh && \
+    echo 'echo "   OS: $(lsb_release -d | cut -f2)"' >> /tcp-security/health-check.sh && \
+    echo 'echo "   Kernel: $(uname -r)"' >> /tcp-security/health-check.sh && \
+    echo 'echo "   Architecture: $(uname -m)"' >> /tcp-security/health-check.sh && \
+    echo 'echo "   Memory: $(free -h | grep Mem | awk '\''\{print $2}'\''\)"' >> /tcp-security/health-check.sh && \
+    echo 'echo "   Disk: $(df -h / | tail -1 | awk '\''\{print $4}'\''\) available"' >> /tcp-security/health-check.sh
 
 RUN chmod +x /tcp-security/health-check.sh
 
-# Create interactive TCP shell script
-RUN cat > /tcp-security/tcp-shell.sh << 'EOF'
-#!/bin/bash
-
-echo "🔐 TCP Security Interactive Shell"
-echo "================================="
-echo ""
-echo "This is a secure TCP environment with:"
-echo "  • Local Ollama LLM for security analysis"
-echo "  • Enhanced TCP descriptors with embedded security"
-echo "  • Human-controlled sandbox for tool execution"
-echo "  • Complete privacy - all processing local"
-echo ""
-echo "Quick commands:"
-echo "  tcp-demo     - Run demonstration menu"
-echo "  tcp-health   - Check system health"
-echo "  tcp-ollama   - Interact with Ollama directly"
-echo "  tcp-analyze  - Analyze a command's security"
-echo ""
-
-# Add custom aliases
-alias tcp-demo='/tcp-security/run-demo.sh'
-alias tcp-health='/tcp-security/health-check.sh'
-alias tcp-ollama='ollama'
-
-# Function to analyze a command
-tcp-analyze() {
-    if [ -z "$1" ]; then
-        echo "Usage: tcp-analyze <command>"
-        echo "Example: tcp-analyze rm"
-        return 1
-    fi
-    
-    echo "🔍 Analyzing command: $1"
-    python3 -c "
-from tcp.enrichment.manpage_enricher import ManPageEnricher
-from tcp.enrichment.tcp_encoder import EnrichedTCPEncoder
-from tcp.enrichment.risk_assessment_auditor import TransparentRiskAssessor
-
-enricher = ManPageEnricher()
-encoder = EnrichedTCPEncoder(enricher)
-assessor = TransparentRiskAssessor()
-
-command = '$1'
-print(f'📋 Processing: {command}')
-
-# Get man page data
-man_data = enricher.enrich_command(command)
-if man_data:
-    print(f'✅ Security Level: {man_data.security_level.value}')
-    print(f'✅ Privileges: {man_data.privilege_requirements.value}')
-    
-    # Generate TCP descriptor
-    descriptor = encoder.encode_enhanced_tcp(command)
-    binary_data = encoder.to_binary(descriptor)
-    
-    print(f'✅ Binary Size: {len(binary_data)} bytes')
-    print(f'✅ Security Flags: 0x{descriptor.security_flags:08x}')
-    
-    # Risk assessment
-    audit = assessor.assess_command_risk(command, man_data)
-    print(f'✅ Risk Score: {audit.security_score:.3f}')
-    print(f'✅ Evidence Pieces: {len(audit.risk_evidence)}')
-else:
-    print('❌ Failed to analyze command')
-"
-}
-
-export -f tcp-analyze
-
-echo "🚀 TCP Security Shell ready! Try 'tcp-demo' to get started."
-bash
-EOF
+# Create interactive TCP shell script with echo commands
+RUN echo '#!/bin/bash' > /tcp-security/tcp-shell.sh && \
+    echo '' >> /tcp-security/tcp-shell.sh && \
+    echo 'echo "🔐 TCP Security Interactive Shell"' >> /tcp-security/tcp-shell.sh && \
+    echo 'echo "================================="' >> /tcp-security/tcp-shell.sh && \
+    echo 'echo ""' >> /tcp-security/tcp-shell.sh && \
+    echo 'echo "This is a secure TCP environment with:"' >> /tcp-security/tcp-shell.sh && \
+    echo 'echo "  • Local Ollama LLM for security analysis"' >> /tcp-security/tcp-shell.sh && \
+    echo 'echo "  • Enhanced TCP descriptors with embedded security"' >> /tcp-security/tcp-shell.sh && \
+    echo 'echo "  • Human-controlled sandbox for tool execution"' >> /tcp-security/tcp-shell.sh && \
+    echo 'echo "  • Complete privacy - all processing local"' >> /tcp-security/tcp-shell.sh && \
+    echo 'echo ""' >> /tcp-security/tcp-shell.sh && \
+    echo 'echo "Quick commands:"' >> /tcp-security/tcp-shell.sh && \
+    echo 'echo "  tcp-demo     - Run demonstration menu"' >> /tcp-security/tcp-shell.sh && \
+    echo 'echo "  tcp-health   - Check system health"' >> /tcp-security/tcp-shell.sh && \
+    echo 'echo "  tcp-ollama   - Interact with Ollama directly"' >> /tcp-security/tcp-shell.sh && \
+    echo 'echo "  tcp-analyze  - Analyze a command'\''s security"' >> /tcp-security/tcp-shell.sh && \
+    echo 'echo ""' >> /tcp-security/tcp-shell.sh && \
+    echo '' >> /tcp-security/tcp-shell.sh && \
+    echo '# Add custom aliases' >> /tcp-security/tcp-shell.sh && \
+    echo 'alias tcp-demo='\''/tcp-security/run-demo.sh'\''' >> /tcp-security/tcp-shell.sh && \
+    echo 'alias tcp-health='\''/tcp-security/health-check.sh'\''' >> /tcp-security/tcp-shell.sh && \
+    echo 'alias tcp-ollama='\''ollama'\''' >> /tcp-security/tcp-shell.sh && \
+    echo '' >> /tcp-security/tcp-shell.sh && \
+    echo '# Function to analyze a command' >> /tcp-security/tcp-shell.sh && \
+    echo 'tcp-analyze() {' >> /tcp-security/tcp-shell.sh && \
+    echo '    if [ -z "$1" ]; then' >> /tcp-security/tcp-shell.sh && \
+    echo '        echo "Usage: tcp-analyze <command>"' >> /tcp-security/tcp-shell.sh && \
+    echo '        echo "Example: tcp-analyze rm"' >> /tcp-security/tcp-shell.sh && \
+    echo '        return 1' >> /tcp-security/tcp-shell.sh && \
+    echo '    fi' >> /tcp-security/tcp-shell.sh && \
+    echo '    ' >> /tcp-security/tcp-shell.sh && \
+    echo '    echo "🔍 Analyzing command: $1"' >> /tcp-security/tcp-shell.sh && \
+    echo '    python3 -c "' >> /tcp-security/tcp-shell.sh && \
+    echo 'from tcp.enrichment.manpage_enricher import ManPageEnricher' >> /tcp-security/tcp-shell.sh && \
+    echo 'from tcp.enrichment.tcp_encoder import EnrichedTCPEncoder' >> /tcp-security/tcp-shell.sh && \
+    echo 'from tcp.enrichment.risk_assessment_auditor import TransparentRiskAssessor' >> /tcp-security/tcp-shell.sh && \
+    echo '' >> /tcp-security/tcp-shell.sh && \
+    echo 'enricher = ManPageEnricher()' >> /tcp-security/tcp-shell.sh && \
+    echo 'encoder = EnrichedTCPEncoder(enricher)' >> /tcp-security/tcp-shell.sh && \
+    echo 'assessor = TransparentRiskAssessor()' >> /tcp-security/tcp-shell.sh && \
+    echo '' >> /tcp-security/tcp-shell.sh && \
+    echo 'command = '\''\'"'\'''\''$1'\''\'"'\''\'' >> /tcp-security/tcp-shell.sh && \
+    echo 'print(f'\''\'"'\''\'📋 Processing: {command}'\''\'"'\''\')' >> /tcp-security/tcp-shell.sh && \
+    echo '' >> /tcp-security/tcp-shell.sh && \
+    echo '# Get man page data' >> /tcp-security/tcp-shell.sh && \
+    echo 'man_data = enricher.enrich_command(command)' >> /tcp-security/tcp-shell.sh && \
+    echo 'if man_data:' >> /tcp-security/tcp-shell.sh && \
+    echo '    print(f'\''\'"'\''\'✅ Security Level: {man_data.security_level.value}'\''\'"'\''\')' >> /tcp-security/tcp-shell.sh && \
+    echo '    print(f'\''\'"'\''\'✅ Privileges: {man_data.privilege_requirements.value}'\''\'"'\''\')' >> /tcp-security/tcp-shell.sh && \
+    echo '    ' >> /tcp-security/tcp-shell.sh && \
+    echo '    # Generate TCP descriptor' >> /tcp-security/tcp-shell.sh && \
+    echo '    descriptor = encoder.encode_enhanced_tcp(command)' >> /tcp-security/tcp-shell.sh && \
+    echo '    binary_data = encoder.to_binary(descriptor)' >> /tcp-security/tcp-shell.sh && \
+    echo '    ' >> /tcp-security/tcp-shell.sh && \
+    echo '    print(f'\''\'"'\''\'✅ Binary Size: {len(binary_data)} bytes'\''\'"'\''\')' >> /tcp-security/tcp-shell.sh && \
+    echo '    print(f'\''\'"'\''\'✅ Security Flags: 0x{descriptor.security_flags:08x}'\''\'"'\''\')' >> /tcp-security/tcp-shell.sh && \
+    echo '    ' >> /tcp-security/tcp-shell.sh && \
+    echo '    # Risk assessment' >> /tcp-security/tcp-shell.sh && \
+    echo '    audit = assessor.assess_command_risk(command, man_data)' >> /tcp-security/tcp-shell.sh && \
+    echo '    print(f'\''\'"'\''\'✅ Risk Score: {audit.security_score:.3f}'\''\'"'\''\')' >> /tcp-security/tcp-shell.sh && \
+    echo '    print(f'\''\'"'\''\'✅ Evidence Pieces: {len(audit.risk_evidence)}'\''\'"'\''\')' >> /tcp-security/tcp-shell.sh && \
+    echo 'else:' >> /tcp-security/tcp-shell.sh && \
+    echo '    print('\''\'"'\''\'❌ Failed to analyze command'\''\'"'\''\')' >> /tcp-security/tcp-shell.sh && \
+    echo '"' >> /tcp-security/tcp-shell.sh && \
+    echo '}' >> /tcp-security/tcp-shell.sh && \
+    echo '' >> /tcp-security/tcp-shell.sh && \
+    echo 'export -f tcp-analyze' >> /tcp-security/tcp-shell.sh && \
+    echo '' >> /tcp-security/tcp-shell.sh && \
+    echo 'echo "🚀 TCP Security Shell ready! Try '\''tcp-demo'\'' to get started."' >> /tcp-security/tcp-shell.sh && \
+    echo 'bash' >> /tcp-security/tcp-shell.sh
 
 RUN chmod +x /tcp-security/tcp-shell.sh
 

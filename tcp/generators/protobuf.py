@@ -1,6 +1,7 @@
 """Protocol Buffer schema generator for TCP descriptors."""
 
-from typing import Dict, Any
+from typing import Any, Dict
+
 from ..core.descriptors import CapabilityDescriptor, ParameterType
 
 

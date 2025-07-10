@@ -13,21 +13,21 @@ Shows how agents can inherently understand which commands are dangerous
 while maintaining human oversight and complete auditability.
 """
 
-import sys
 import json
-from pathlib import Path
-from typing import Dict, List, Any
+import sys
 from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List
 
 # Import all security components
-from enrichment.manpage_enricher import ManPageEnricher, SecurityLevel, PrivilegeLevel
-from enrichment.tcp_encoder import EnrichedTCPEncoder, SecurityFlags, OperationFlags
+from enrichment.manpage_enricher import ManPageEnricher, PrivilegeLevel, SecurityLevel
 from enrichment.risk_assessment_auditor import (
-    TransparentRiskAssessor,
     SecurityClassificationAudit,
+    TransparentRiskAssessor,
 )
-from security.sandbox_manager import TCPSandboxManager, SandboxPermission
+from enrichment.tcp_encoder import EnrichedTCPEncoder, OperationFlags, SecurityFlags
 from security.human_approval_interface import HumanApprovalInterface
+from security.sandbox_manager import SandboxPermission, TCPSandboxManager
 from security.secure_tcp_agent import SecureTCPAgent
 
 

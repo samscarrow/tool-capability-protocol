@@ -1,16 +1,16 @@
 """JSON schema generator for TCP capabilities."""
 
 import json
-from typing import Dict, Any, List, Optional
 from datetime import datetime
+from typing import Any, Dict, List, Optional
 
 from ..core.descriptors import (
     CapabilityDescriptor,
     CommandDescriptor,
-    ParameterDescriptor,
     FormatDescriptor,
-    ParameterType,
     FormatType,
+    ParameterDescriptor,
+    ParameterType,
     ProcessingMode,
 )
 

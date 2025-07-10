@@ -6,9 +6,9 @@ This system enriches TCP descriptors with comprehensive man page data,
 enabling intelligent security classification and risk assessment.
 """
 
+import json
 import re
 import subprocess
-import json
 
 # Optional web requests (fallback gracefully if not available)
 try:
@@ -19,13 +19,13 @@ except ImportError:
     HAS_REQUESTS = False
     requests = None
 import hashlib
+import logging
+import time
+from dataclasses import asdict, dataclass
+from enum import Enum
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
-from dataclasses import dataclass, asdict
-from enum import Enum
-import logging
 from urllib.parse import quote
-import time
 
 
 class SecurityLevel(Enum):

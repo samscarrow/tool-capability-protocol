@@ -8,12 +8,12 @@ through the secure sandbox system. No tool access without human oversight.
 
 import json
 import logging
-from pathlib import Path
-from typing import Dict, List, Optional, Any
 from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 
-from .sandbox_manager import TCPSandboxManager, SandboxPermission, SandboxViolation
 from .human_approval_interface import HumanApprovalInterface
+from .sandbox_manager import SandboxPermission, SandboxViolation, TCPSandboxManager
 
 
 class SecureTCPAgent:

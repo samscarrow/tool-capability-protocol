@@ -6,17 +6,17 @@ This module provides strict sandboxing for TCP tools, ensuring humans
 maintain explicit control over which tools are available to agents.
 """
 
-import os
-import json
 import hashlib
+import json
+import logging
+import os
+import shutil
 import subprocess
+import tempfile
+from dataclasses import asdict, dataclass
+from enum import Enum
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
-from dataclasses import dataclass, asdict
-from enum import Enum
-import logging
-import tempfile
-import shutil
 
 
 class SandboxPermission(Enum):

@@ -1,15 +1,15 @@
 """Core TCP protocol implementation."""
 
-from .protocol import ToolCapabilityProtocol
 from .descriptors import (
-    CapabilityDescriptor,
     BinaryCapabilityDescriptor,
+    CapabilityDescriptor,
     CommandDescriptor,
-    ParameterDescriptor,
     FormatDescriptor,
+    ParameterDescriptor,
 )
-from .registry import CapabilityRegistry
 from .discovery import DiscoveryService
+from .protocol import ToolCapabilityProtocol
+from .registry import CapabilityRegistry
 
 __all__ = [
     "ToolCapabilityProtocol",

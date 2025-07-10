@@ -6,22 +6,22 @@ supporting unit, integration, performance, and security testing with external va
 """
 
 import json
-import tempfile
-from pathlib import Path
-from typing import Any, Dict, Generator, List
-
-import pytest
-from unittest.mock import Mock, MagicMock
 
 # Import TCP components for testing
 import sys
+import tempfile
+from pathlib import Path
+from typing import Any, Dict, Generator, List
+from unittest.mock import MagicMock, Mock
+
+import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "tcp"))
 
-from tcp.core.descriptors import CapabilityDescriptor, BinaryCapabilityDescriptor
+from tcp.analysis.tcp_generator import TCPDescriptorGenerator
+from tcp.core.descriptors import BinaryCapabilityDescriptor, CapabilityDescriptor
 from tcp.core.protocol import ToolCapabilityProtocol
-from tcp.core.registry import TCPRegistry
-from tcp.analysis.tcp_generator import TCPGenerator
+from tcp.core.registry import CapabilityRegistry
 
 
 @pytest.fixture(scope="session")
@@ -99,17 +99,17 @@ def tcp_protocol() -> ToolCapabilityProtocol:
 
 
 @pytest.fixture
-def tcp_registry() -> TCPRegistry:
+def tcp_registry() -> CapabilityRegistry:
     """Provides clean TCP registry for testing."""
-    registry = TCPRegistry()
-    registry.reset()  # Ensure clean state
+    registry = CapabilityRegistry()
+    # CapabilityRegistry doesn't have a reset method, just return new instance
     return registry
 
 
 @pytest.fixture
-def tcp_generator() -> TCPGenerator:
+def tcp_generator() -> TCPDescriptorGenerator:
     """Provides TCP generator for capability testing."""
-    return TCPGenerator()
+    return TCPDescriptorGenerator()
 
 
 @pytest.fixture

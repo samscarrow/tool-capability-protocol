@@ -1,16 +1,16 @@
 """Grep adapter for Tool Capability Protocol."""
 
-import subprocess
 import re
-from typing import List, Dict, Any, Optional
+import subprocess
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 from ..core.descriptors import (
     CapabilityDescriptor,
     CommandDescriptor,
+    FormatType,
     ParameterDescriptor,
     ParameterType,
-    FormatType,
     ProcessingMode,
 )
 from ..core.protocol import ToolCapabilityProtocol

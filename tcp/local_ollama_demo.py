@@ -15,18 +15,18 @@ Uses Ollama API for local LLM processing.
 
 import json
 import subprocess
-from pathlib import Path
-from urllib.request import urlopen, Request
-from urllib.parse import urlencode
-from urllib.error import URLError, HTTPError
-from typing import Dict, List, Optional, Any
 from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+from urllib.error import HTTPError, URLError
+from urllib.parse import urlencode
+from urllib.request import Request, urlopen
 
 # Import TCP components
-from enrichment.manpage_enricher import ManPageEnricher, SecurityLevel, PrivilegeLevel
-from enrichment.tcp_encoder import EnrichedTCPEncoder, SecurityFlags
+from enrichment.manpage_enricher import ManPageEnricher, PrivilegeLevel, SecurityLevel
 from enrichment.risk_assessment_auditor import TransparentRiskAssessor
-from security.sandbox_manager import TCPSandboxManager, SandboxPermission
+from enrichment.tcp_encoder import EnrichedTCPEncoder, SecurityFlags
+from security.sandbox_manager import SandboxPermission, TCPSandboxManager
 from security.secure_tcp_agent import SecureTCPAgent
 
 

@@ -1,21 +1,21 @@
 """Tool Capability Protocol (TCP) - Universal tool capability description."""
 
-from .core.protocol import ToolCapabilityProtocol
 from .core.descriptors import (
-    CapabilityDescriptor,
     BinaryCapabilityDescriptor,
+    CapabilityDescriptor,
     CommandDescriptor,
-    ParameterDescriptor,
     FormatDescriptor,
+    ParameterDescriptor,
 )
-from .core.registry import CapabilityRegistry
 from .core.discovery import DiscoveryService
+from .core.protocol import ToolCapabilityProtocol
+from .core.registry import CapabilityRegistry
 from .generators import (
+    BinaryGenerator,
+    GraphQLGenerator,
     JSONGenerator,
     OpenAPIGenerator,
-    GraphQLGenerator,
     ProtobufGenerator,
-    BinaryGenerator,
 )
 
 __version__ = "0.1.0"

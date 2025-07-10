@@ -7,15 +7,16 @@ Mathematical foundation for real-time behavioral analysis with hardware accelera
 Maintains statistical rigor while enabling microsecond-scale performance decisions.
 """
 
-import time
-import math
-import numpy as np
-from typing import Dict, List, Optional, Tuple, Any, Union
-from dataclasses import dataclass, field
-from collections import defaultdict, deque
-from enum import Enum
-import threading
 import logging
+import math
+import threading
+import time
+from collections import defaultdict, deque
+from dataclasses import dataclass, field
+from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple, Union
+
+import numpy as np
 
 # Hardware acceleration imports (optional)
 try:

@@ -7,35 +7,35 @@ High-performance TCP protocol with statistical validation and hardware accelerat
 Maintains full backward compatibility while enabling 10-100x performance improvements.
 """
 
-import time
-import math
 import hashlib
-from typing import Dict, List, Optional, Any, Union, Type, Tuple
-from dataclasses import dataclass, field
-from collections import defaultdict
-import threading
 import logging
-
-# TCP core imports
-from .protocol import ToolCapabilityProtocol
-from .descriptors import (
-    CapabilityDescriptor,
-    BinaryCapabilityDescriptor,
-    CommandDescriptor,
-    ParameterDescriptor,
-    FormatDescriptor,
-    PerformanceMetrics,
-    CapabilityFlags,
-)
-from .registry import CapabilityRegistry
-from .discovery import DiscoveryService
+import math
+import threading
+import time
+from collections import defaultdict
+from dataclasses import dataclass, field
+from typing import Any, Dict, List, Optional, Tuple, Type, Union
 
 # Statistical performance engine
 from ..analysis.statistical_performance_engine import (
-    StatisticalPerformanceEngine,
     OptimizationBackend,
     PerformanceStatistics,
+    StatisticalPerformanceEngine,
 )
+from .descriptors import (
+    BinaryCapabilityDescriptor,
+    CapabilityDescriptor,
+    CapabilityFlags,
+    CommandDescriptor,
+    FormatDescriptor,
+    ParameterDescriptor,
+    PerformanceMetrics,
+)
+from .discovery import DiscoveryService
+
+# TCP core imports
+from .protocol import ToolCapabilityProtocol
+from .registry import CapabilityRegistry
 
 logger = logging.getLogger(__name__)
 

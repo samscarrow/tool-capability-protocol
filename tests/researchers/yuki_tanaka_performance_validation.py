@@ -6,17 +6,18 @@ sub-microsecond timing methodology and hardware-optimized benchmarking.
 """
 
 import json
-import time
 import statistics
-import numpy as np
+import time
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Any, Optional
-from concurrent.futures import ThreadPoolExecutor
+from typing import Any, Dict, List, Optional
+
+import numpy as np
 import pytest
 
-from tcp.core.protocol import TCPProtocol
 from tcp.core.descriptors import CapabilityDescriptor
+from tcp.core.protocol import TCPProtocol
 
 
 @dataclass

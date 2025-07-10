@@ -1,22 +1,22 @@
 """TCP descriptor generation from LLM-extracted capabilities."""
 
-import struct
 import hashlib
-from typing import Dict, List, Any, Optional
+import struct
 from datetime import datetime
+from typing import Any, Dict, List, Optional
 
 from ..core.descriptors import (
-    CapabilityDescriptor,
     BinaryCapabilityDescriptor,
+    CapabilityDescriptor,
     CommandDescriptor,
-    ParameterDescriptor,
     FormatDescriptor,
-    ParameterType,
     FormatType,
-    ProcessingMode,
+    ParameterDescriptor,
+    ParameterType,
     PerformanceMetrics,
+    ProcessingMode,
 )
-from .llm_extractor import ToolCapabilities, EnhancedCommand, EnhancedOption
+from .llm_extractor import EnhancedCommand, EnhancedOption, ToolCapabilities
 
 
 class TCPDescriptorGenerator:

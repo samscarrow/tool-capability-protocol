@@ -1,10 +1,10 @@
 """Tool discovery service for finding capabilities."""
 
-from typing import Dict, List, Optional, Any, Callable
 import logging
 from dataclasses import dataclass
+from typing import Any, Callable, Dict, List, Optional
 
-from .descriptors import CapabilityDescriptor, ProcessingMode, FormatType
+from .descriptors import CapabilityDescriptor, FormatType, ProcessingMode
 from .registry import CapabilityRegistry
 
 logger = logging.getLogger(__name__)

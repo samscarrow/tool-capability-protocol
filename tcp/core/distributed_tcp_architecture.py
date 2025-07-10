@@ -10,21 +10,21 @@ Core Innovation: Self-healing networks that adapt faster than attackers can comp
 """
 
 import asyncio
-import time
 import hashlib
-import struct
-from typing import Dict, List, Optional, Set, Tuple, Any, Union
-from dataclasses import dataclass, field
-from enum import IntEnum, Enum
-import logging
-from collections import defaultdict, deque
-import random
 import ipaddress
 import json
+import logging
+import random
+import struct
+import time
+from collections import defaultdict, deque
+from dataclasses import dataclass, field
+from enum import Enum, IntEnum
+from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
+from .descriptors import CapabilityDescriptor
 from .discovery import DiscoveryService
 from .registry import CapabilityRegistry
-from .descriptors import CapabilityDescriptor
 
 logger = logging.getLogger(__name__)
 

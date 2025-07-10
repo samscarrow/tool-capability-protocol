@@ -5,13 +5,13 @@ This module provides comprehensive security controls for TCP tools,
 ensuring human oversight and sandboxed execution.
 """
 
+from .human_approval_interface import HumanApprovalInterface
 from .sandbox_manager import (
-    TCPSandboxManager,
+    SandboxedTool,
     SandboxPermission,
     SandboxViolation,
-    SandboxedTool,
+    TCPSandboxManager,
 )
-from .human_approval_interface import HumanApprovalInterface
 from .secure_tcp_agent import SecureTCPAgent
 
 __all__ = [

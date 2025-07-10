@@ -1,18 +1,18 @@
 """LLM-based extraction for enhanced help text analysis."""
 
 import json
+import logging
 import re
 from abc import ABC, abstractmethod
-from typing import Dict, List, Optional, Any, Union
-from dataclasses import dataclass, asdict
-import logging
+from dataclasses import asdict, dataclass
+from typing import Any, Dict, List, Optional, Union
 
 try:
-    from langchain_core.prompts import PromptTemplate
-    from langchain_core.output_parsers import JsonOutputParser
-    from langchain_openai import ChatOpenAI
     from langchain_anthropic import ChatAnthropic
+    from langchain_core.output_parsers import JsonOutputParser
+    from langchain_core.prompts import PromptTemplate
     from langchain_ollama import OllamaLLM
+    from langchain_openai import ChatOpenAI
 
     LANGCHAIN_AVAILABLE = True
 except ImportError:
@@ -47,7 +47,7 @@ try:
 except ImportError:
     REQUESTS_AVAILABLE = False
 
-from .help_parser import HelpTextAnalysis, RawOption, RawCommand
+from .help_parser import HelpTextAnalysis, RawCommand, RawOption
 
 
 @dataclass

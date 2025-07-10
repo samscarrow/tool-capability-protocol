@@ -6,14 +6,14 @@ Provides a secure interface for humans to review and approve TCP tools
 with comprehensive security validation and audit trails.
 """
 
+import hashlib
 import json
 import os
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional
-from datetime import datetime
-import hashlib
 
-from .sandbox_manager import TCPSandboxManager, SandboxPermission, SandboxedTool
+from .sandbox_manager import SandboxedTool, SandboxPermission, TCPSandboxManager
 
 
 class HumanApprovalInterface:

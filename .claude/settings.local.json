@@ -46,7 +46,8 @@
       "Bash(ln:*)",
       "Bash(done)",
       "Bash(poetry run bandit:*)",
-      "Bash(poetry run black:*)"
+      "Bash(poetry run black:*)",
+      "Bash(poetry run isort:*)"
     ],
     "deny": []
   }
