@@ -7,7 +7,7 @@ from .pipeline import TCPGenerationPipeline
 
 __all__ = [
     "HelpTextParser",
-    "LLMExtractor", 
+    "LLMExtractor",
     "LangChainExtractor",
     "LocalLLMExtractor",
     "TCPDescriptorGenerator",

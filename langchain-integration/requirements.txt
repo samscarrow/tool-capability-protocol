@@ -1,0 +1,39 @@
+# TCP-LangChain Integration Requirements
+# Dependencies for integrating Tool Capability Protocol with LangChain agents
+
+# Core LangChain dependencies
+langchain>=0.1.0
+langchain-core>=0.1.0
+langchain-openai>=0.1.0
+
+# MCP integration
+langchain-mcp-adapters>=0.1.9
+
+# TCP MCP server dependencies (from existing TCP implementation)
+fastapi>=0.104.1
+uvicorn>=0.24.0
+pydantic>=2.5.1
+loguru>=0.7.2
+
+# HTTP client for MCP communication
+httpx>=0.27.0
+
+# Async support
+asyncio-mqtt>=0.16.0
+aiofiles>=23.2.1
+
+# Testing dependencies
+pytest>=7.4.0
+pytest-asyncio>=0.23.0
+pytest-cov>=4.1.0
+
+# Development dependencies
+black>=23.0.0
+isort>=5.12.0
+mypy>=1.5.0
+ruff>=0.1.0
+
+# Optional: For enhanced functionality
+python-dotenv>=1.0.0
+pyyaml>=6.0.1
+websockets>=13.1

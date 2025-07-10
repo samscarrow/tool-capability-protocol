@@ -1,0 +1,188 @@
+{
+  "timestamp": "2025-07-09T20:16:33.965910",
+  "summary": {
+    "commands_analyzed": 4,
+    "agreement_rate": 0.25
+  },
+  "results": {
+    "rm": {
+      "current_tcp": {
+        "command": "rm",
+        "risk_level": "CRITICAL",
+        "risk_score": 4,
+        "capabilities": [
+          "DESTRUCTIVE",
+          "NETWORK_ACCESS",
+          "SYSTEM_MODIFICATION"
+        ],
+        "capability_flags": 704,
+        "dangerous_options": [],
+        "man_page_size": 4417,
+        "synopsis": ""
+      },
+      "llm_analysis": {
+        "risk_level": "HIGH_RISK",
+        "risk_reasoning": "The rm command can permanently delete files and directories, which could lead to data loss if used improperly.",
+        "dangerous_keywords": [
+          "remove",
+          "delete",
+          "unlink",
+          "recursive",
+          "force"
+        ],
+        "capabilities": [
+          "DESTRUCTIVE"
+        ],
+        "dangerous_options": [
+          "-r",
+          "-R",
+          "--recursive",
+          "-f",
+          "--force"
+        ],
+        "ai_agent_concerns": [
+          "Accidental deletion of important files or directories could compromise system integrity or lead to data loss",
+          "Malicious use could be used to delete critical system files, rendering the system inoperable",
+          "Without proper safeguards, an AI agent could inadvertently delete data it needs to function properly"
+        ]
+      },
+      "agreement": false,
+      "man_page_size": 4417
+    },
+    "dd": {
+      "current_tcp": {
+        "command": "dd",
+        "risk_level": "CRITICAL",
+        "risk_score": 4,
+        "capabilities": [
+          "DESTRUCTIVE",
+          "NETWORK_ACCESS",
+          "FILE_MODIFICATION"
+        ],
+        "capability_flags": 448,
+        "dangerous_options": [],
+        "man_page_size": 4503,
+        "synopsis": ""
+      },
+      "llm_analysis": {
+        "risk_level": "HIGH_RISK",
+        "risk_reasoning": "The dd command can be used to overwrite and corrupt data on disks and files, potentially causing data loss or system instability if misused.",
+        "dangerous_keywords": [
+          "conv",
+          "notrunc",
+          "noerror",
+          "fsync",
+          "sync"
+        ],
+        "capabilities": [
+          "DESTRUCTIVE",
+          "FILE_SYSTEM_ACCESS"
+        ],
+        "dangerous_options": [
+          "of=/dev/sdX",
+          "if=/dev/sdX",
+          "conv=notrunc",
+          "conv=sync"
+        ],
+        "ai_agent_concerns": [
+          "Ability to overwrite critical system files or disk partitions, leading to system corruption",
+          "Potential for data loss if used incorrectly on important files or filesystems",
+          "Can be used to hide data by overwriting free space on disks",
+          "Improper use could breach data integrity and confidentiality"
+        ]
+      },
+      "agreement": false,
+      "man_page_size": 4503
+    },
+    "sudo": {
+      "current_tcp": {
+        "command": "sudo",
+        "risk_level": "CRITICAL",
+        "risk_score": 4,
+        "capabilities": [
+          "REQUIRES_ROOT",
+          "DESTRUCTIVE",
+          "NETWORK_ACCESS",
+          "FILE_MODIFICATION",
+          "SYSTEM_MODIFICATION",
+          "PRIVILEGE_ESCALATION"
+        ],
+        "capability_flags": 2016,
+        "dangerous_options": [],
+        "man_page_size": 48691,
+        "synopsis": ""
+      },
+      "llm_analysis": {
+        "risk_level": "CRITICAL",
+        "risk_reasoning": "The sudo command allows running any command with superuser or elevated privileges, which if misused, can lead to complete system compromise.",
+        "dangerous_keywords": [
+          "execute",
+          "superuser",
+          "security policy",
+          "authentication",
+          "password"
+        ],
+        "capabilities": [
+          "EXECUTE_COMMANDS",
+          "PRIVILEGE_ESCALATION",
+          "ACCESS_CONTROL"
+        ],
+        "dangerous_options": [
+          "-u",
+          "--user",
+          "-g",
+          "--group"
+        ],
+        "ai_agent_concerns": [
+          "Ability to bypass security restrictions and run arbitrary code as root/superuser",
+          "Potential to modify critical system files and configurations",
+          "Risk of unauthorized access and malicious activities if credentials are compromised"
+        ]
+      },
+      "agreement": true,
+      "man_page_size": 48691
+    },
+    "chmod": {
+      "current_tcp": {
+        "command": "chmod",
+        "risk_level": "CRITICAL",
+        "risk_score": 4,
+        "capabilities": [
+          "DESTRUCTIVE",
+          "NETWORK_ACCESS",
+          "FILE_MODIFICATION",
+          "SYSTEM_MODIFICATION",
+          "PRIVILEGE_ESCALATION"
+        ],
+        "capability_flags": 1984,
+        "dangerous_options": [],
+        "man_page_size": 8365,
+        "synopsis": ""
+      },
+      "llm_analysis": {
+        "risk_level": "HIGH_RISK",
+        "risk_reasoning": "The chmod command can grant or revoke permissions on files and directories, potentially allowing unauthorized access or unintended changes.",
+        "dangerous_keywords": [
+          "setuid",
+          "setgid",
+          "sticky bit"
+        ],
+        "capabilities": [
+          "FILE_SYSTEM_CHANGES",
+          "PRIVILEGE_ESCALATION"
+        ],
+        "dangerous_options": [
+          "--recursive",
+          "--dereference"
+        ],
+        "ai_agent_concerns": [
+          "Ability to escalate privileges by modifying setuid/setgid bits",
+          "Potential to make sensitive files world-readable/writable",
+          "Recursive changes could impact large portions of the file system"
+        ]
+      },
+      "agreement": false,
+      "man_page_size": 8365
+    }
+  }
+}

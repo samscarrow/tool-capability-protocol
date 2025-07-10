@@ -6,32 +6,32 @@ from ..core.descriptors import CapabilityDescriptor, ParameterType
 
 class ProtobufGenerator:
     """Generate Protocol Buffer definitions from TCP descriptors."""
-    
+
     def generate(self, descriptor: CapabilityDescriptor) -> str:
         """Generate protobuf schema from capability descriptor."""
         proto_parts = []
-        
+
         # Add syntax and options
         proto_parts.append('syntax = "proto3";')
-        proto_parts.append('package tcp.v1;')
-        proto_parts.append('')
-        
+        proto_parts.append("package tcp.v1;")
+        proto_parts.append("")
+
         # Add imports if needed
         proto_parts.append('import "google/protobuf/timestamp.proto";')
         proto_parts.append('import "google/protobuf/struct.proto";')
-        proto_parts.append('')
-        
+        proto_parts.append("")
+
         # Add message definitions
         proto_parts.append(self._generate_capability_message())
         proto_parts.append(self._generate_command_message())
         proto_parts.append(self._generate_parameter_message())
         proto_parts.append(self._generate_performance_message())
-        
+
         # Add service definition
         proto_parts.append(self._generate_service(descriptor))
-        
-        return '\n'.join(proto_parts)
-    
+
+        return "\n".join(proto_parts)
+
     def _generate_capability_message(self) -> str:
         """Generate main capability message."""
         return """// Tool capability descriptor
@@ -51,7 +51,7 @@ message ToolCapability {
   google.protobuf.Struct capabilities = 13;
   google.protobuf.Struct metadata = 14;
 }"""
-    
+
     def _generate_command_message(self) -> str:
         """Generate command message."""
         return """
@@ -62,7 +62,7 @@ message Command {
   repeated Parameter parameters = 3;
   google.protobuf.Struct metadata = 4;
 }"""
-    
+
     def _generate_parameter_message(self) -> str:
         """Generate parameter message."""
         return """
@@ -90,7 +90,7 @@ message Parameter {
   string pattern = 9;
   google.protobuf.Struct metadata = 10;
 }"""
-    
+
     def _generate_performance_message(self) -> str:
         """Generate performance metrics message."""
         return """
@@ -105,21 +105,25 @@ message PerformanceMetrics {
   int32 startup_time_ms = 7;
   int32 concurrent_ops_limit = 8;
 }"""
-    
+
     def _generate_service(self, descriptor: CapabilityDescriptor) -> str:
         """Generate gRPC service definition."""
         service_methods = []
-        
+
         # Add basic methods
-        service_methods.append("  rpc GetCapabilities(google.protobuf.Empty) returns (ToolCapability);")
+        service_methods.append(
+            "  rpc GetCapabilities(google.protobuf.Empty) returns (ToolCapability);"
+        )
         service_methods.append("  rpc GetCommand(GetCommandRequest) returns (Command);")
-        
+
         # Add execution methods for each command
         for command in descriptor.commands:
             method_name = f"Execute{command.name.title()}"
             request_type = f"{command.name.title()}Request"
-            service_methods.append(f"  rpc {method_name}({request_type}) returns (ExecutionResponse);")
-        
+            service_methods.append(
+                f"  rpc {method_name}({request_type}) returns (ExecutionResponse);"
+            )
+
         service_def = f"""
 // TCP service definition
 service ToolService {{
@@ -139,23 +143,23 @@ message ExecutionResponse {{
   int32 execution_time_ms = 5;
   string error = 6;
 }}"""
-        
+
         # Add request messages for each command
         for command in descriptor.commands:
             request_fields = []
             for i, param in enumerate(command.parameters, 1):
                 proto_type = self._proto_type_for_parameter(param.type)
                 request_fields.append(f"  {proto_type} {param.name} = {i};")
-            
+
             if request_fields:
                 service_def += f"""
 
 message {command.name.title()}Request {{
 {chr(10).join(request_fields)}
 }}"""
-        
+
         return service_def
-    
+
     def _proto_type_for_parameter(self, param_type: ParameterType) -> str:
         """Convert TCP parameter type to protobuf type."""
         type_map = {

@@ -15,10 +15,11 @@ from unittest.mock import Mock, MagicMock
 
 # Import TCP components for testing
 import sys
+
 sys.path.insert(0, str(Path(__file__).parent.parent / "tcp"))
 
 from tcp.core.descriptors import CapabilityDescriptor, BinaryCapabilityDescriptor
-from tcp.core.protocol import TCPProtocol  
+from tcp.core.protocol import ToolCapabilityProtocol
 from tcp.core.registry import TCPRegistry
 from tcp.analysis.tcp_generator import TCPGenerator
 
@@ -29,7 +30,7 @@ def test_data_dir() -> Path:
     return Path(__file__).parent / "fixtures"
 
 
-@pytest.fixture(scope="session") 
+@pytest.fixture(scope="session")
 def temp_dir() -> Generator[Path, None, None]:
     """Provides temporary directory for test artifacts."""
     with tempfile.TemporaryDirectory() as tmp_dir:
@@ -46,30 +47,30 @@ def sample_capability_descriptor() -> CapabilityDescriptor:
         parameters=[
             {
                 "name": "pattern",
-                "type": "string", 
+                "type": "string",
                 "required": True,
-                "description": "Regular expression pattern to search for"
+                "description": "Regular expression pattern to search for",
             },
             {
                 "name": "file",
                 "type": "string",
-                "required": True, 
-                "description": "File to search in"
+                "required": True,
+                "description": "File to search in",
             },
             {
                 "name": "ignore_case",
                 "type": "boolean",
                 "required": False,
-                "description": "Perform case-insensitive matching"
-            }
+                "description": "Perform case-insensitive matching",
+            },
         ],
         security_level="LOW_RISK",
         security_flags=["FILE_READ"],
         performance_metrics={
             "execution_time_ns": 436000,
             "memory_usage_bytes": 8192,
-            "output_size_bytes": 1024
-        }
+            "output_size_bytes": 1024,
+        },
     )
 
 
@@ -87,14 +88,14 @@ def sample_binary_descriptor() -> BinaryCapabilityDescriptor:
         output_size_bytes=1024,
         command_length=4,
         reserved=0x00,
-        checksum=0xABCD
+        checksum=0xABCD,
     )
 
 
 @pytest.fixture
-def tcp_protocol() -> TCPProtocol:
+def tcp_protocol() -> ToolCapabilityProtocol:
     """Provides configured TCP protocol instance."""
-    return TCPProtocol()
+    return ToolCapabilityProtocol()
 
 
 @pytest.fixture
@@ -120,7 +121,7 @@ def mock_llm_extractor():
         "description": "Test tool for validation",
         "parameters": [],
         "security_level": "SAFE",
-        "security_flags": []
+        "security_flags": [],
     }
     return mock
 
@@ -133,13 +134,18 @@ def performance_test_data() -> Dict[str, Any]:
         "decision_time_threshold_ns": 1000000,  # 1ms maximum
         "memory_usage_threshold_bytes": 1048576,  # 1MB maximum
         "benchmark_tools": [
-            "grep", "sed", "awk", "cat", "ls", "find", "sort", "uniq", "wc", "head"
+            "grep",
+            "sed",
+            "awk",
+            "cat",
+            "ls",
+            "find",
+            "sort",
+            "uniq",
+            "wc",
+            "head",
         ],
-        "expected_performance": {
-            "cpu_ns": 500000,
-            "gpu_ns": 250000, 
-            "fpga_ns": 100000
-        }
+        "expected_performance": {"cpu_ns": 500000, "gpu_ns": 250000, "fpga_ns": 100000},
     }
 
 
@@ -158,15 +164,15 @@ def security_test_data() -> Dict[str, Any]:
             "SYSTEM_MODIFY": 0x0010,
             "REQUIRES_SUDO": 0x0020,
             "DESTRUCTIVE": 0x0040,
-            "IRREVERSIBLE": 0x0080
+            "IRREVERSIBLE": 0x0080,
         },
         "expected_risk_levels": {
             "SAFE": 0,
             "LOW_RISK": 1,
-            "MEDIUM_RISK": 2, 
+            "MEDIUM_RISK": 2,
             "HIGH_RISK": 3,
-            "CRITICAL": 4
-        }
+            "CRITICAL": 4,
+        },
     }
 
 
@@ -177,20 +183,20 @@ def external_validation_config() -> Dict[str, Any]:
         "trail_of_bits": {
             "endpoint": "https://api.trailofbits.com/tcp-validation",
             "timeout_seconds": 30,
-            "expected_response_format": "json"
+            "expected_response_format": "json",
         },
         "academic_partners": {
             "stanford": "https://api.stanford.edu/tcp-research",
-            "mit": "https://api.mit.edu/tcp-validation", 
+            "mit": "https://api.mit.edu/tcp-validation",
             "cmu": "https://api.cmu.edu/tcp-research",
-            "berkeley": "https://api.berkeley.edu/tcp-validation"
+            "berkeley": "https://api.berkeley.edu/tcp-validation",
         },
         "commercial_labs": {
             "intel": "https://api.intel.com/tcp-benchmark",
             "aws": "https://api.aws.com/tcp-validation",
             "google": "https://api.google.com/tcp-research",
-            "microsoft": "https://api.microsoft.com/tcp-benchmark"
-        }
+            "microsoft": "https://api.microsoft.com/tcp-benchmark",
+        },
     }
 
 
@@ -202,42 +208,38 @@ def researcher_validation_frameworks() -> Dict[str, Any]:
             "statistical_significance_threshold": 0.95,
             "sample_size_minimum": 1000,
             "effect_size_threshold": 0.8,
-            "test_types": ["t_test", "chi_square", "anova", "regression"]
+            "test_types": ["t_test", "chi_square", "anova", "regression"],
         },
         "yuki_tanaka": {
             "performance_precision_ns": 100,
             "benchmark_iterations": 10000,
             "hardware_backends": ["cpu", "gpu", "fpga"],
-            "latency_targets": {
-                "cpu": 500000,
-                "gpu": 250000,
-                "fpga": 100000
-            }
+            "latency_targets": {"cpu": 500000, "gpu": 250000, "fpga": 100000},
         },
         "aria_blackwood": {
             "security_scan_tools": ["bandit", "safety", "semgrep"],
             "vulnerability_threshold": "HIGH",
             "penetration_test_scenarios": 50,
-            "post_quantum_algorithms": ["kyber", "dilithium", "falcon"]
+            "post_quantum_algorithms": ["kyber", "dilithium", "falcon"],
         },
         "marcus_chen": {
             "node_count_range": [3, 100],
             "byzantine_fault_tolerance": 0.33,
             "consensus_algorithms": ["raft", "pbft", "tendermint"],
-            "network_partition_scenarios": 20
+            "network_partition_scenarios": 20,
         },
         "alex_rivera": {
             "test_coverage_minimum": 0.95,
             "code_quality_threshold": 9.0,
             "external_validation_partners": 14,
-            "reliability_target": 0.99999
+            "reliability_target": 0.99999,
         },
         "sam_mitchell": {
             "hardware_platforms": ["x86_64", "arm64", "risc_v"],
             "deployment_environments": ["bare_metal", "container", "vm"],
             "integration_test_scenarios": 100,
-            "infrastructure_uptime_target": 0.9999
-        }
+            "infrastructure_uptime_target": 0.9999,
+        },
     }
 
 
@@ -250,36 +252,40 @@ def reliability_test_scenarios() -> List[Dict[str, Any]]:
             "description": "Test TCP under high concurrent access",
             "concurrent_users": 10000,
             "duration_seconds": 3600,
-            "expected_success_rate": 0.99999
+            "expected_success_rate": 0.99999,
         },
         {
-            "name": "memory_pressure_test", 
+            "name": "memory_pressure_test",
             "description": "Test TCP under memory pressure",
             "memory_limit_mb": 128,
             "tool_count": 100000,
-            "expected_degradation_threshold": 0.05
+            "expected_degradation_threshold": 0.05,
         },
         {
             "name": "network_partition_recovery",
             "description": "Test TCP recovery from network partitions",
             "partition_duration_seconds": 300,
             "recovery_time_threshold_seconds": 60,
-            "data_consistency_check": True
+            "data_consistency_check": True,
         },
         {
             "name": "hardware_failure_simulation",
             "description": "Test TCP behavior during hardware failures",
             "failure_types": ["cpu", "memory", "disk", "network"],
             "graceful_degradation_required": True,
-            "recovery_validation": True
+            "recovery_validation": True,
         },
         {
-            "name": "byzantine_attack_resistance", 
+            "name": "byzantine_attack_resistance",
             "description": "Test TCP resistance to Byzantine attacks",
             "malicious_node_percentage": 0.33,
-            "attack_vectors": ["data_corruption", "timing_attacks", "resource_exhaustion"],
-            "security_threshold_maintained": True
-        }
+            "attack_vectors": [
+                "data_corruption",
+                "timing_attacks",
+                "resource_exhaustion",
+            ],
+            "security_threshold_maintained": True,
+        },
     ]
 
 
@@ -288,21 +294,22 @@ def setup_test_environment(tmp_path):
     """Automatically sets up clean test environment for each test."""
     # Create temporary test directories
     (tmp_path / "test_data").mkdir(exist_ok=True)
-    (tmp_path / "test_output").mkdir(exist_ok=True) 
+    (tmp_path / "test_output").mkdir(exist_ok=True)
     (tmp_path / "test_cache").mkdir(exist_ok=True)
-    
+
     # Set environment variables for testing
     import os
+
     os.environ["TCP_TEST_MODE"] = "true"
     os.environ["TCP_TEST_DATA_DIR"] = str(tmp_path / "test_data")
     os.environ["TCP_TEST_OUTPUT_DIR"] = str(tmp_path / "test_output")
     os.environ["TCP_TEST_CACHE_DIR"] = str(tmp_path / "test_cache")
-    
+
     yield
-    
+
     # Cleanup
     os.environ.pop("TCP_TEST_MODE", None)
-    os.environ.pop("TCP_TEST_DATA_DIR", None) 
+    os.environ.pop("TCP_TEST_DATA_DIR", None)
     os.environ.pop("TCP_TEST_OUTPUT_DIR", None)
     os.environ.pop("TCP_TEST_CACHE_DIR", None)
 
@@ -311,28 +318,28 @@ def setup_test_environment(tmp_path):
 def performance_benchmark(func, iterations: int = 1000, warmup: int = 100):
     """Utility function for performance benchmarking."""
     import time
-    
+
     # Warmup
     for _ in range(warmup):
         func()
-    
+
     # Actual timing
     start_time = time.perf_counter_ns()
     for _ in range(iterations):
         func()
     end_time = time.perf_counter_ns()
-    
+
     return (end_time - start_time) / iterations
 
 
-# Security testing utilities  
+# Security testing utilities
 def security_scan_result(command: str, expected_risk: str) -> Dict[str, Any]:
     """Utility function for security testing validation."""
     return {
         "command": command,
         "expected_risk": expected_risk,
         "timestamp": "2025-07-05T22:00:00Z",
-        "scan_version": "1.0.0"
+        "scan_version": "1.0.0",
     }
 
 
@@ -343,7 +350,7 @@ def mock_external_validation_response(success: bool = True, data: Any = None):
         "success": success,
         "data": data or {},
         "timestamp": "2025-07-05T22:00:00Z",
-        "validation_id": "test-validation-12345"
+        "validation_id": "test-validation-12345",
     }
 
 
@@ -351,9 +358,9 @@ def mock_external_validation_response(success: bool = True, data: Any = None):
 # Use: @pytest.mark.external_validation
 pytestmark = [
     pytest.mark.unit,
-    pytest.mark.integration, 
+    pytest.mark.integration,
     pytest.mark.performance,
     pytest.mark.security,
     pytest.mark.external_validation,
-    pytest.mark.reliability_99999
+    pytest.mark.reliability_99999,
 ]

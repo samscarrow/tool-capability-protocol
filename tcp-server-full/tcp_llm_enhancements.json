@@ -1,0 +1,167 @@
+{
+  "enhancement_metadata": {
+    "timestamp": "2025-07-09 20:18:09.913173",
+    "commands_analyzed": 2,
+    "total_improvements": 10
+  },
+  "results": {
+    "enhanced_commands": {
+      "dd": [
+        {
+          "type": "risk_level_correction",
+          "current": "CRITICAL",
+          "suggested": "HIGH_RISK",
+          "reasoning": "The dd command has the capability to directly read and write raw data to and from files and devices, including system devices. This makes it a powerful but potentially dangerous tool if misused or used incorrectly."
+        },
+        {
+          "type": "new_safety_keywords",
+          "keywords": [
+            "conv=",
+            "of=",
+            "noerror",
+            "fsync",
+            "if=",
+            "notrunc",
+            "fdatasync"
+          ],
+          "command_context": "dd"
+        },
+        {
+          "type": "new_capability_pattern",
+          "name": "safe_file_access",
+          "pattern": "^(if|of)=(/[^/]+)+$",
+          "source_command": "dd"
+        },
+        {
+          "type": "new_capability_pattern",
+          "name": "device_access",
+          "pattern": "^(if|of)=/dev/.*",
+          "source_command": "dd"
+        },
+        {
+          "type": "context_sensitivity",
+          "risks": {
+            "if=/dev/sda": "Can read raw data from system disk, potentially causing data loss or system instability.",
+            "of=/dev/sda": "Can overwrite raw data on system disk, potentially causing data loss or system instability.",
+            "conv=notrunc": "Prevents truncating the output file, allowing existing data to be overwritten.",
+            "noerror": "Continues operation even after read errors, which could lead to data corruption.",
+            "fsync": "Forces writing of metadata to disk, which could impact system performance.",
+            "fdatasync": "Forces writing of file data to disk, which could impact system performance."
+          },
+          "command": "dd"
+        }
+      ],
+      "nmap": [
+        {
+          "type": "risk_level_correction",
+          "current": "CRITICAL",
+          "suggested": "HIGH_RISK",
+          "reasoning": "Nmap is a powerful network scanning and discovery tool that can be used for both legitimate network administration and malicious hacking activities. It allows mapping networks, finding live hosts, open ports, services, operating systems, and more. In the wrong hands, this information could enable attacks."
+        },
+        {
+          "type": "new_safety_keywords",
+          "keywords": [
+            "security auditing",
+            "port",
+            "scan",
+            "discovery"
+          ],
+          "command_context": "nmap"
+        },
+        {
+          "type": "new_capability_pattern",
+          "name": "internal_networks",
+          "pattern": "^10\\..*|^172\\.1[6-9]\\.*|^172\\.2[0-9]\\.*|^172\\.3[0-1]\\.*|^192\\.168\\..*",
+          "source_command": "nmap"
+        },
+        {
+          "type": "new_capability_pattern",
+          "name": "external_networks",
+          "pattern": "^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}/\\d{1,2}$",
+          "source_command": "nmap"
+        },
+        {
+          "type": "context_sensitivity",
+          "risks": {
+            "--script": "Allows running arbitrary scripts against targets, potentially enabling exploitation",
+            "-sI": "Idle/zombie scan can be used to hide scan source",
+            "-sO": "IP protocol scan could trigger IDS/IPS",
+            "-b": "FTP bounce scan obscures real scan source"
+          },
+          "command": "nmap"
+        }
+      ]
+    },
+    "new_safety_keywords": "set()",
+    "new_capability_patterns": {},
+    "risk_level_corrections": {},
+    "semantic_patterns": []
+  },
+  "proposed_patterns": {
+    "enhanced_safety_keywords": {
+      "CRITICAL": [
+        "destroy",
+        "erase",
+        "wipe",
+        "format",
+        "delete permanently",
+        "irreversible",
+        "data loss",
+        "cannot be undone",
+        "destructive",
+        "overwrite",
+        "unrecoverable",
+        "obliterate"
+      ],
+      "HIGH_RISK": [
+        "delete",
+        "remove",
+        "modify",
+        "change",
+        "alter",
+        "permission",
+        "root",
+        "sudo",
+        "privilege",
+        "system",
+        "configuration"
+      ],
+      "MEDIUM_RISK": [
+        "write",
+        "create",
+        "update",
+        "edit",
+        "move",
+        "rename",
+        "network",
+        "connect",
+        "download",
+        "upload"
+      ],
+      "LOW_RISK": [
+        "read",
+        "list",
+        "display",
+        "show",
+        "view",
+        "check",
+        "status",
+        "info",
+        "query"
+      ]
+    },
+    "enhanced_capability_patterns": {
+      "REQUIRES_ROOT": "(requires?\\s+root|must\\s+be\\s+root|superuser|sudo)",
+      "DESTRUCTIVE": "(destroy|delete|remove|erase|wipe|format)",
+      "NETWORK_ACCESS": "(network|internet|download|upload|remote|ssh|http)",
+      "FILE_MODIFICATION": "(write|modify|create|delete|change.*file)",
+      "SYSTEM_MODIFICATION": "(system|kernel|boot|service|daemon)",
+      "PRIVILEGE_ESCALATION": "(setuid|privilege|escalat|sudo|root)",
+      "safe_file_access": "^(if|of)=(/[^/]+)+$",
+      "device_access": "^(if|of)=/dev/.*",
+      "internal_networks": "^10\\..*|^172\\.1[6-9]\\.*|^172\\.2[0-9]\\.*|^172\\.3[0-1]\\.*|^192\\.168\\..*",
+      "external_networks": "^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}/\\d{1,2}$"
+    },
+    "risk_corrections": {}
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "deployment_name": "tcp-knowledge-growth",
+  "droplet_config": {
+    "size": "s-2vcpu-4gb",
+    "region": "nyc1",
+    "image": "ubuntu-22-04-x64"
+  },
+  "estimated_costs": {
+    "droplet_monthly": 24.0,
+    "api_calls_daily": 2.0,
+    "total_monthly": 84.0
+  },
+  "schedule": {
+    "discovery_interval": "6 hours",
+    "analysis_batch_size": 50,
+    "daily_enhancement": "02:00"
+  },
+  "monitoring": {
+    "log_retention": "30 days",
+    "backup_frequency": "daily",
+    "metrics_collection": true
+  }
+}

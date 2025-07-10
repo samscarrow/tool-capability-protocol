@@ -8,7 +8,7 @@ from .binary import BinaryGenerator
 
 __all__ = [
     "JSONGenerator",
-    "OpenAPIGenerator", 
+    "OpenAPIGenerator",
     "GraphQLGenerator",
     "ProtobufGenerator",
     "BinaryGenerator",
