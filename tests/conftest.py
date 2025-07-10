@@ -40,56 +40,74 @@ def temp_dir() -> Generator[Path, None, None]:
 @pytest.fixture
 def sample_capability_descriptor() -> CapabilityDescriptor:
     """Provides standard capability descriptor for testing."""
+    from tcp.core.descriptors import (
+        CommandDescriptor, 
+        FormatDescriptor, 
+        FormatType,
+        ParameterDescriptor,
+        ParameterType,
+        PerformanceMetrics
+    )
+    
     return CapabilityDescriptor(
         name="grep",
         description="Search text patterns in files",
         version="3.7",
-        parameters=[
-            {
-                "name": "pattern",
-                "type": "string",
-                "required": True,
-                "description": "Regular expression pattern to search for",
-            },
-            {
-                "name": "file",
-                "type": "string",
-                "required": True,
-                "description": "File to search in",
-            },
-            {
-                "name": "ignore_case",
-                "type": "boolean",
-                "required": False,
-                "description": "Perform case-insensitive matching",
-            },
+        commands=[
+            CommandDescriptor(
+                name="grep",
+                description="Search text patterns in files",
+                parameters=[
+                    ParameterDescriptor(
+                        name="pattern",
+                        type=ParameterType.STRING,
+                        required=True,
+                        description="Regular expression pattern to search for",
+                    ),
+                    ParameterDescriptor(
+                        name="file",
+                        type=ParameterType.STRING,
+                        required=True,
+                        description="File to search in",
+                    ),
+                    ParameterDescriptor(
+                        name="ignore_case",
+                        type=ParameterType.BOOLEAN,
+                        required=False,
+                        description="Perform case-insensitive matching",
+                    ),
+                ],
+            )
         ],
-        security_level="LOW_RISK",
-        security_flags=["FILE_READ"],
-        performance_metrics={
-            "execution_time_ns": 436000,
-            "memory_usage_bytes": 8192,
-            "output_size_bytes": 1024,
-        },
+        performance=PerformanceMetrics(
+            avg_processing_time_ms=436,
+            memory_usage_mb=8,
+        ),
     )
 
 
 @pytest.fixture
 def sample_binary_descriptor() -> BinaryCapabilityDescriptor:
     """Provides binary descriptor for compression testing."""
-    return BinaryCapabilityDescriptor(
-        magic_header=b"TCP\x02",
-        version_info=0x0200,
-        command_hash=0x12345678,
-        security_flags=0x0001,
-        security_level=1,
-        execution_time_ns=436000,
-        memory_usage_bytes=8192,
-        output_size_bytes=1024,
-        command_length=4,
-        reserved=0x00,
-        checksum=0xABCD,
+    # Create descriptor without checksum first
+    descriptor = BinaryCapabilityDescriptor(
+        magic=b"TCP\x01",
+        checksum=0,  # Will be calculated
+        capability_flags=0x0001,
+        command_count=1,
+        format_count=2,
+        reserved=b"\x00\x00",
+        max_file_size_mb=100,
+        avg_processing_time_ms=436,
     )
+    
+    # Calculate correct checksum
+    import zlib
+    data = descriptor.to_bytes()
+    data_without_checksum = data[:4] + data[8:]  # Skip checksum field
+    descriptor.checksum = zlib.crc32(data_without_checksum) & 0xFFFFFFFF
+    
+    return descriptor
 
 
 @pytest.fixture
