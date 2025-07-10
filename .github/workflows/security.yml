@@ -238,7 +238,7 @@ jobs:
             print(f'Security level {level.name}: OK')
         
         # Test security flags
-        flags = SecurityFlags.FILE_MODIFICATION | SecurityFlags.DESTRUCTIVE
+        flags = SecurityFlags.FILE_WRITE | SecurityFlags.DESTRUCTIVE
         print(f'Security flags validation: OK')
         
         print('TCP protocol security validation passed')
