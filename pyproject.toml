@@ -143,6 +143,7 @@ markers = [
     "integration: marks tests as integration tests",
     "unit: marks tests as unit tests",
     "network: marks tests that require network access",
+    "performance: marks tests that measure performance",
 ]
 
 [tool.coverage.run]
