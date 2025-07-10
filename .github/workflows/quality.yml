@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
     
     steps:
     - name: Checkout Repository
@@ -42,7 +42,7 @@ jobs:
         
     - name: Load cached venv
       id: cached-poetry-dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: .venv
         key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
@@ -175,7 +175,7 @@ jobs:
         "
         
     - name: Upload Performance Results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: performance-results
         path: benchmark-results.json
@@ -223,7 +223,7 @@ jobs:
           --format json --output trivy-report.json
           
     - name: Upload Security Reports
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: security-reports
         path: |
@@ -282,7 +282,7 @@ jobs:
         cp tests/fixtures/* academic-package/test-data/
         
     - name: Upload External Validation Packages
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: external-validation-packages
         path: |
@@ -342,7 +342,7 @@ jobs:
           --target=99.999
           
     - name: Upload Reliability Results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: reliability-results
         path: |
@@ -382,7 +382,7 @@ jobs:
           -v
           
     - name: Upload Researcher Results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: researcher-validation-${{ matrix.researcher }}
         path: pytest-${{ matrix.researcher }}.xml
@@ -434,7 +434,7 @@ jobs:
         echo "🚀 **PRODUCTION READY** - All quality gates passed" >> deployment-report.md
         
     - name: Upload Deployment Report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: deployment-readiness-report
         path: deployment-report.md

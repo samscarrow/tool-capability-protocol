@@ -27,12 +27,12 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
+      uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
+      uses: github/codeql-action/analyze@v3
       with:
         category: "/language:${{matrix.language}}"
 
@@ -63,7 +63,7 @@ jobs:
         poetry run safety check --json --output safety-report.json || true
     
     - name: Upload safety report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: safety-report
@@ -107,7 +107,7 @@ jobs:
       run: |
         poetry run python -c "
         from tcp.security.secure_tcp_agent import SecureTCPAgent
-        from tcp.security.sandbox_manager import SandboxManager
+        from tcp.security.sandbox_manager import TCPSandboxManager
         print('TCP Security validation passed')
         "
     
@@ -136,10 +136,11 @@ jobs:
         poetry run python -c "
         import os
         import tempfile
-        from tcp.security.sandbox_manager import SandboxManager
+        from tcp.security.sandbox_manager import TCPSandboxManager
         try:
             with tempfile.TemporaryDirectory() as tmpdir:
                 # Test sandbox isolation
+                manager = TCPSandboxManager(tmpdir)
                 print('TCP Sandbox security validation passed')
         except Exception as e:
             print(f'Sandbox validation failed: {e}')
@@ -166,7 +167,7 @@ jobs:
         output: 'trivy-results.sarif'
     
     - name: Upload Trivy scan results
-      uses: github/codeql-action/upload-sarif@v2
+      uses: github/codeql-action/upload-sarif@v3
       if: always()
       with:
         sarif_file: 'trivy-results.sarif'
@@ -195,7 +196,7 @@ jobs:
     - name: TCP Protocol Security Analysis
       run: |
         poetry run python -c "
-        from tcp.core.protocol import TCPProtocol
+        from tcp.core.protocol import ToolCapabilityProtocol
         from tcp.core.descriptors import SecurityLevel, SecurityFlags
         import struct
         

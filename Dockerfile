@@ -45,7 +45,7 @@ COPY *.md ./
 RUN python3 -m venv /opt/tcp-venv && \
     /opt/tcp-venv/bin/pip install --upgrade pip
 
-# Create startup script
+# Create startup script with proper escaping
 RUN cat > /tcp-security/start-tcp-system.sh << 'EOF'
 #!/bin/bash
 

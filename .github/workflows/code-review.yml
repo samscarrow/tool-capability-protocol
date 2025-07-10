@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8, 3.9, "3.10", "3.11", "3.12"]
+        python-version: [3.9, "3.10", "3.11", "3.12"]
     
     steps:
     - uses: actions/checkout@v4
@@ -96,7 +96,7 @@ jobs:
         poetry run bandit -r tcp/ -f json -o bandit-report.json
     
     - name: Upload bandit report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: bandit-report
@@ -126,7 +126,7 @@ jobs:
     - name: TCP Protocol Validation
       run: |
         poetry run python -c "
-        from tcp.core.protocol import TCPProtocol
+        from tcp.core.protocol import ToolCapabilityProtocol
         from tcp.core.descriptors import CapabilityDescriptor
         print('TCP Protocol validation passed')
         "
@@ -172,7 +172,7 @@ jobs:
         poetry run python performance_benchmark.py || echo "Performance benchmarks completed"
     
     - name: Upload benchmark results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: performance-benchmarks

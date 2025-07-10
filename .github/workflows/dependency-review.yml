@@ -88,7 +88,7 @@ jobs:
         pip-audit -r requirements-audit.txt --format=json --output=pip-audit-report.json || true
     
     - name: Upload pip-audit report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: pip-audit-report
@@ -177,7 +177,7 @@ jobs:
         poetry run pip-licenses --format=markdown --output-file=licenses-report.md
     
     - name: Upload license reports
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: license-reports
@@ -208,7 +208,7 @@ jobs:
         poetry show --outdated || echo "No outdated dependencies or check failed"
     
     - name: Upload outdated dependencies report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: always()
       with:
         name: outdated-dependencies
