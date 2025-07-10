@@ -51,24 +51,45 @@ class OptimizedMultiStageTCPRefinery:
         # Model selection by stage for optimal performance
         self.stage_models = {
             "parsing": "llama3.2:latest",      # Good for factual extraction
-            "safety": "llama3:8b-instruct-fp16",  # Best for security analysis
+            "safety": "llama3:latest",         # Good for security analysis 
             "logic": "mistral:latest",         # Strong reasoning capabilities
-            "encoding": "llama3:latest",       # Good for technical mapping
+            "encoding": "llama3.2:latest",     # Good for technical mapping
         }
         
-        # Known dangerous commands for rule-based override
+        # Comprehensive rule-based command classification
+        # SAFE commands - read-only operations with no destructive capability
+        self.safe_commands = {
+            'ls', 'cat', 'echo', 'pwd', 'date', 'whoami', 'id', 'uptime',
+            'df', 'free', 'ps', 'top', 'which', 'whereis', 'file', 'wc',
+            'head', 'tail', 'grep', 'awk', 'sed', 'sort', 'uniq', 'cut',
+            'less', 'more', 'find', 'locate', 'type', 'help', 'man',
+            'history', 'alias', 'env', 'printenv', 'uname', 'hostname'
+        }
+        
+        # LOW_RISK commands - minor system changes, reversible
+        self.low_risk_commands = {
+            'mkdir', 'touch', 'ln', 'symlink', 'cd', 'pushd', 'popd',
+            'export', 'unset', 'source', 'eval', 'test', 'true', 'false'
+        }
+        
+        # MEDIUM_RISK commands - system changes requiring caution
+        self.medium_risk_commands = {
+            'chmod', 'chown', 'chgrp', 'kill', 'killall', 'jobs', 'bg', 'fg',
+            'nohup', 'screen', 'tmux', 'crontab', 'at', 'batch'
+        }
+        
+        # HIGH_RISK commands - potential for significant damage
+        self.high_risk_commands = {
+            'rm', 'mv', 'cp', 'sudo', 'su', 'mount', 'umount', 'fsck',
+            'systemctl', 'service', 'iptables', 'firewall-cmd', 'passwd',
+            'usermod', 'groupmod', 'useradd', 'userdel', 'groupadd', 'groupdel'
+        }
+        
+        # CRITICAL commands - extreme danger, can destroy systems
         self.critical_commands = {
-            "dd": "CRITICAL",      # Can overwrite entire disks
-            "shred": "CRITICAL",   # Secure deletion
-            "wipefs": "CRITICAL",  # Wipe filesystem signatures
-            "mkfs": "CRITICAL",    # Format filesystem
-            "fdisk": "HIGH_RISK",  # Partition manipulation
-            "parted": "HIGH_RISK", # Partition editor
-            "rm": "HIGH_RISK",     # File deletion (especially with -rf)
-            "chmod": "MEDIUM_RISK", # Permission changes
-            "chown": "MEDIUM_RISK", # Ownership changes
-            "sudo": "HIGH_RISK",   # Privilege escalation
-            "kill": "MEDIUM_RISK", # Process termination
+            'dd', 'shred', 'wipefs', 'mkfs', 'fdisk', 'parted', 'mkswap',
+            'swapon', 'swapoff', 'reboot', 'shutdown', 'halt', 'init',
+            'poweroff', 'telinit', 'runlevel', 'format', 'deltree'
         }
         
         self.stats = {
@@ -77,6 +98,63 @@ class OptimizedMultiStageTCPRefinery:
             "model_accuracy": {},
             "risk_distribution": {}
         }
+        
+    def _get_rule_based_flags(self, command: str, risk_level: str) -> Optional[List[str]]:
+        """Get capability flags based on known command behavior patterns"""
+        # Define known capability patterns
+        
+        # Read-only commands (SAFE) - minimal flags
+        if command in self.safe_commands:
+            if command in ['ls', 'pwd', 'date', 'whoami', 'id', 'uptime']:
+                return []  # No special capabilities
+            elif command in ['cat', 'head', 'tail', 'less', 'more']:
+                return ['FILE_OPS']  # Only file reading
+            elif command in ['ps', 'top', 'free', 'df']:
+                return ['SYSTEM']  # System information only
+            else:
+                return ['FILE_OPS']  # Default safe file operations
+                
+        # Commands that modify files but are generally safe
+        elif command in self.low_risk_commands:
+            if command in ['mkdir', 'touch']:
+                return ['FILE_OPS']
+            elif command in ['export', 'unset']:
+                return ['SYSTEM']
+            else:
+                return ['FILE_OPS']
+                
+        # Commands with moderate system impact  
+        elif command in self.medium_risk_commands:
+            if command in ['chmod', 'chown', 'chgrp']:
+                return ['FILE_OPS', 'SUDO']
+            elif command in ['kill', 'killall']:
+                return ['PROCESS', 'SUDO']
+            else:
+                return ['FILE_OPS', 'SYSTEM']
+                
+        # High-risk commands
+        elif command in self.high_risk_commands:
+            if command == 'rm':
+                return ['FILE_OPS', 'DESTRUCTIVE']
+            elif command in ['mv', 'cp']:
+                return ['FILE_OPS', 'DESTRUCTIVE']
+            elif command in ['sudo', 'su']:
+                return ['SUDO', 'SYSTEM', 'PROCESS']
+            elif command in ['mount', 'umount']:
+                return ['SYSTEM', 'SUDO']
+            else:
+                return ['FILE_OPS', 'DESTRUCTIVE', 'SUDO']
+                
+        # Critical commands
+        elif command in self.critical_commands:
+            if command == 'dd':
+                return ['FILE_OPS', 'DESTRUCTIVE', 'SYSTEM']
+            elif command in ['shutdown', 'reboot', 'halt']:
+                return ['SYSTEM', 'SUDO']
+            else:
+                return ['FILE_OPS', 'DESTRUCTIVE', 'SYSTEM', 'SUDO']
+                
+        return None  # Use LLM for unknown commands
         
     def get_best_model(self, stage: str) -> str:
         """Get the best model for a specific stage"""
@@ -240,18 +318,29 @@ Be precise and factual. No safety assessment. Keep under 200 words."""
         start_time = time.time()
         model = self.get_best_model("safety")
         
-        # Check for rule-based override first
-        if command in self.critical_commands:
-            override_risk = self.critical_commands[command]
+        # Check for rule-based classification first (comprehensive)
+        rule_risk = None
+        if command in self.safe_commands:
+            rule_risk = "SAFE"
+        elif command in self.low_risk_commands:
+            rule_risk = "LOW_RISK"
+        elif command in self.medium_risk_commands:
+            rule_risk = "MEDIUM_RISK"
+        elif command in self.high_risk_commands:
+            rule_risk = "HIGH_RISK"
+        elif command in self.critical_commands:
+            rule_risk = "CRITICAL"
+        
+        if rule_risk:
             self.stats["rule_overrides"] += 1
             
             data = {
-                "risk_level": override_risk,
-                "safety_analysis": f"RULE-BASED OVERRIDE: '{command}' is known dangerous command classified as {override_risk}",
+                "risk_level": rule_risk,
+                "safety_analysis": f"RULE-BASED CLASSIFICATION: '{command}' is classified as {rule_risk} based on known behavior patterns",
                 "rule_override": True,
-                "can_destroy_data": override_risk in ["CRITICAL", "HIGH_RISK"],
-                "requires_privileges": True,
-                "security_concerns": [f"Known dangerous command: {override_risk}"]
+                "can_destroy_data": rule_risk in ["CRITICAL", "HIGH_RISK"],
+                "requires_privileges": rule_risk in ["CRITICAL", "HIGH_RISK", "MEDIUM_RISK"],
+                "security_concerns": [f"Rule-based classification: {rule_risk}"]
             }
             
             return StageResult(
@@ -456,11 +545,28 @@ Provide logical reasoning and any risk adjustments needed."""
         )
     
     def stage4_encoding_review(self, command: str, all_data: Dict[str, Any]) -> StageResult:
-        """Stage 4: Encoding review using llama3"""
+        """Stage 4: Encoding review with rule-based capability flags"""
         start_time = time.time()
         model = self.get_best_model("encoding")
         
         final_risk = all_data.get('logic', {}).get('revised_risk', 'MEDIUM_RISK')
+        
+        # Rule-based capability flag assignment
+        rule_flags = self._get_rule_based_flags(command, final_risk)
+        if rule_flags is not None:
+            data = {
+                "encoding_analysis": f"RULE-BASED FLAGS: '{command}' assigned flags based on known behavior patterns",
+                "flags_to_set": rule_flags,
+                "flag_justification": f"Rule-based assignment for {command} command"
+            }
+            
+            return StageResult(
+                stage_name="encoding_review",
+                success=True,
+                data=data,
+                processing_time_ms=int((time.time() - start_time) * 1000),
+                model_used="rule_override"
+            )
         
         prompt = f"""Map '{command}' to binary capability flags.
 

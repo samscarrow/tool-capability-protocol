@@ -169,6 +169,7 @@ jobs:
     - name: Upload Trivy scan results
       uses: github/codeql-action/upload-sarif@v3
       if: always()
+      continue-on-error: true
       with:
         sarif_file: 'trivy-results.sarif'
 
@@ -197,7 +198,8 @@ jobs:
       run: |
         poetry run python -c "
         from tcp.core.protocol import ToolCapabilityProtocol
-        from tcp.core.descriptors import SecurityLevel, SecurityFlags
+        from tcp.enrichment.manpage_enricher import SecurityLevel
+        from tcp.enrichment.tcp_encoder import SecurityFlags
         import struct
         
         # Test protocol security features
